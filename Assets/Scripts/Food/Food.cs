@@ -26,16 +26,14 @@ public class Food : MonoBehaviour
 
     private void CookComplete()
     {
-#pragma warning disable CS0252 // 의도하지 않은 참조 비교가 있을 수 있습니다. 왼쪽을 캐스팅해야 합니다.
-        if (icook == new Bake())
+        if (icook.GetType() == typeof(Bake))
             isCompleteBake = true;
-        else if (icook == new Boil())
+        else if (icook.GetType() == typeof(Boil))
             isCompleteBoil = true;
-        else if (icook == new Cut())
+        else if (icook.GetType() == typeof(Cut))
             isCompleteCut = true;
         else
             return;
-#pragma warning restore CS0252 // 의도하지 않은 참조 비교가 있을 수 있습니다. 왼쪽을 캐스팅해야 합니다.
     }
     public ICook GetICook(string type)
     {
@@ -52,13 +50,11 @@ public class Food : MonoBehaviour
     {
         ICook temp;
         temp = GetICook(type);
-#pragma warning disable CS0252 // 의도하지 않은 참조 비교가 있을 수 있습니다. 왼쪽을 캐스팅해야 합니다.
-        if ((temp == new Bake() && isControlBake) ||
-            (temp == new Boil() && isControlBoil) ||
-            (temp == new Cut() && isControlCut) ||
-            (temp == new Bake() && !isCompleteCut))
+        if ((temp.GetType() == typeof(Bake) && isControlBake) ||
+            (temp.GetType() == typeof(Boil) && isControlBoil) ||
+            (temp.GetType() == typeof(Cut) && isControlCut) ||
+            (temp.GetType() == typeof(Bake) && !isCompleteCut))
             return;
-#pragma warning restore CS0252 // 의도하지 않은 참조 비교가 있을 수 있습니다. 왼쪽을 캐스팅해야 합니다.
         icook = temp;
         Cooking();
     }
