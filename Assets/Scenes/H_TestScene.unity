@@ -458,9 +458,9 @@ MonoBehaviour:
   isCompleteCut: 0
   isCompleteBake: 0
   isCompleteBoil: 0
-  isControlCut: 0
-  isControlBake: 0
-  isControlBoil: 0
+  isControlCut: 1
+  isControlBake: 1
+  isControlBoil: 1
 --- !u!1 &1209388080
 GameObject:
   m_ObjectHideFlags: 0

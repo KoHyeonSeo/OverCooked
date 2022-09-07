@@ -53,7 +53,7 @@ public class Food : MonoBehaviour
         if ((temp.GetType() == typeof(Bake) && !isControlBake) ||
             (temp.GetType() == typeof(Boil) && !isControlBoil) ||
             (temp.GetType() == typeof(Cut) && !isControlCut) ||
-            (temp.GetType() == typeof(Bake) && isCompleteCut))
+            (temp.GetType() == typeof(Bake) && !isCompleteCut))
             return;
         icook = temp;
         Cooking();
