@@ -24,7 +24,7 @@ public class Table : MonoBehaviour
             {
                 GameObject food = Instantiate(collision.transform.GetChild(0).gameObject);
                 food.transform.parent = collision.transform;
-                food.transform.position = new Vector3(0, 0, 1);
+                food.transform.position = collision.transform.forward;
                 food.GetComponent<Rigidbody>().useGravity = false;
                 Destroy(transform.GetChild(0).gameObject);
             }
