@@ -29,4 +29,15 @@ public class PlayerMove : MonoBehaviour
 
         transform.position += Dir * currentSpeed * Time.deltaTime;
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Food"))
+        {
+            GameObject food = Instantiate(collision.transform.gameObject);
+            food.transform.parent = collision.transform;
+            food.transform.position = new Vector3(0, 0, 1);
+            food.GetComponent<Rigidbody>().useGravity = false;
+            Destroy(collision.gameObject);
+        }
+    }
 }

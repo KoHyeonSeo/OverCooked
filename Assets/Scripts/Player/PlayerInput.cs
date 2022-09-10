@@ -9,7 +9,8 @@ public class PlayerInput : MonoBehaviour
     public const string leftClickName = "Fire1";
     public const string rightClickName = "Fire3";
     public const string changeCookName = "Jump";
-    
+    public const string xMouseName = "Mouse X";
+
     /// <summary>
     /// 좌우로 이동
     /// </summary>
@@ -39,12 +40,18 @@ public class PlayerInput : MonoBehaviour
     /// Left Shift를 누르고 있으면, true (Dash)
     /// </summary>
     public bool DashButton { get; private set; }
+
+    /// <summary>
+    /// 마우스 X축 움직임값
+    /// </summary>
+    public float XMouseOut { get; private set; }
     private void Update()
     {
         #region 움직임 관련 입력
         XAxisDown = Input.GetAxisRaw(XAxisName);
         ZAxisDown = Input.GetAxisRaw(ZAxisName);
         DashButton = Input.GetKey(KeyCode.LeftShift);
+        XMouseOut = Input.GetAxis(xMouseName);
         #endregion
 
         #region 상호작용 관련 입력
