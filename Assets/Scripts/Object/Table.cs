@@ -6,14 +6,14 @@ public class Table : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Food"))
+        if (collision.collider.CompareTag("Food") && transform.childCount == 0)
         {
-            Debug.Log("¿Ü ¾Êµµ¤Ó");
             GameObject food = Instantiate(collision.gameObject);
             food.layer = LayerMask.NameToLayer("Table");
             food.transform.parent = transform;
             food.transform.position = new Vector3(0, 1, 0);
             food.GetComponent<Rigidbody>().useGravity = false;
+            food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             Destroy(collision.gameObject);
         }
         else if (collision.collider.CompareTag("Player"))

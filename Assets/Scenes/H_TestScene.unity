@@ -607,6 +607,7 @@ GameObject:
   - component: {fileID: 1187400766}
   - component: {fileID: 1187400765}
   - component: {fileID: 1187400769}
+  - component: {fileID: 1187400770}
   m_Layer: 7
   m_Name: Table
   m_TagString: Untagged
@@ -708,6 +709,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1187400770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187400764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6dbedf1c4404cf43b0b34d3bf696ad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1207789083
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +734,7 @@ GameObject:
   - component: {fileID: 1207789086}
   - component: {fileID: 1207789085}
   - component: {fileID: 1207789088}
+  - component: {fileID: 1207789089}
   m_Layer: 0
   m_Name: food
   m_TagString: Food
@@ -822,6 +836,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1207789089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207789083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6afc2ed7134f9b6428d218ab8318eaf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCompleteCut: 0
+  isCompleteBake: 0
+  isCompleteBoil: 0
+  isControlCut: 1
+  isControlBake: 1
+  isControlBoil: 1
 --- !u!1 &1209388080
 GameObject:
   m_ObjectHideFlags: 0
