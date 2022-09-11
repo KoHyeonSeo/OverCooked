@@ -31,12 +31,15 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Food"))
+        if (collision.collider.CompareTag("Food") && transform.childCount == 0)
         {
             GameObject food = Instantiate(collision.transform.gameObject);
-            food.transform.parent = collision.transform;
-            food.transform.position = transform.forward;
+            food.layer = LayerMask.NameToLayer("Player");
             food.GetComponent<Rigidbody>().useGravity = false;
+            food.transform.parent = transform;
+            food.transform.position = Vector3.up + transform.forward * 2f;
+            food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
             Destroy(collision.gameObject);
         }
     }
