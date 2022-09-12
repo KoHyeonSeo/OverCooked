@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     private PlayerInput playerInput;
     private Vector3 Dir;
+    private RaycastHit hit;
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -26,21 +27,27 @@ public class PlayerMove : MonoBehaviour
             currentSpeed = dashSpeed;
         else
             currentSpeed = moveSpeed;
-
+        //방향키 방향쪽으로 바라봄
+        //transform.LookAt(transform.position + Dir);
         transform.position += Dir * currentSpeed * Time.deltaTime;
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Food") && transform.childCount == 0)
+        
+        Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
+        if (playerInput.LeftClickDown)
         {
-            GameObject food = Instantiate(collision.transform.gameObject);
-            food.layer = LayerMask.NameToLayer("Player");
-            food.GetComponent<Rigidbody>().useGravity = false;
-            food.transform.parent = transform;
-            food.transform.position = Vector3.up + transform.forward * 2f;
-            food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 1f))
+            {
+                if (hit.transform.CompareTag("Food") && transform.childCount == 0)
+                {
+                    GameObject food = Instantiate(hit.transform.gameObject);
+                    food.layer = LayerMask.NameToLayer("Player");
+                    food.GetComponent<Rigidbody>().useGravity = false;
+                    food.transform.parent = transform;
+                    food.transform.position = Vector3.up*0.5f + transform.forward * 2f;
+                    food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
-            Destroy(collision.gameObject);
+                    Destroy(hit.transform.gameObject);
+                }
+            }
         }
     }
 }
