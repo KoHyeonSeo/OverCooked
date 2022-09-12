@@ -7,7 +7,7 @@ public class PlayerInput : MonoBehaviour
     public const string XAxisName = "Horizontal";
     public const string ZAxisName = "Vertical";
     public const string leftClickName = "Fire1";
-    public const string rightClickName = "Fire3";
+    public const string rightClickName = "Fire2";
     public const string interactName = "Jump";
 
     /// <summary>

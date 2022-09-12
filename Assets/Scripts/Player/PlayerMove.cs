@@ -12,6 +12,10 @@ public class PlayerMove : MonoBehaviour
     [Header("현재 속도 확인")]
     public float currentSpeed;
 
+    [Space]
+    [Header("조작 설정")]
+    [SerializeField] private float throwPower = 1000f;
+
     private PlayerInput playerInput;
     private Vector3 Dir;
     private RaycastHit hit;
@@ -31,6 +35,7 @@ public class PlayerMove : MonoBehaviour
         //transform.LookAt(transform.position + Dir);
         transform.position += Dir * currentSpeed * Time.deltaTime;
         
+        //바닥에 있는 음식 잡기
         Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red);
         if (playerInput.LeftClickDown)
         {
@@ -42,12 +47,26 @@ public class PlayerMove : MonoBehaviour
                     food.layer = LayerMask.NameToLayer("Player");
                     food.GetComponent<Rigidbody>().useGravity = false;
                     food.transform.parent = transform;
-                    food.transform.position = Vector3.up*0.5f + transform.forward * 2f;
+                    food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                    food.transform.localPosition = Vector3.up * 0.5f + transform.forward * 1.5f;
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
                     Destroy(hit.transform.gameObject);
                 }
             }
         }
+
+        //음식 던지기 (음식이 있는 경우에만)
+        if (playerInput.RightClickDown && transform.childCount > 0)
+        {
+            Debug.Log("던져");
+            Transform food = transform.GetChild(0);
+            food.gameObject.layer = LayerMask.NameToLayer("Default");
+            food.parent = null;
+            food.GetComponent<Rigidbody>().useGravity = true;
+            food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            food.GetComponent<Rigidbody>().AddForce((transform.forward+transform.up) * throwPower, ForceMode.Impulse);
+        }
+
     }
 }
