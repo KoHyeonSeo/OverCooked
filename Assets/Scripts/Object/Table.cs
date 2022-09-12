@@ -9,6 +9,7 @@ public class Table : MonoBehaviour
     RaycastHit hit2;
     RaycastHit hit3;
     RaycastHit hit4;
+    RaycastHit hit5;
     private void Start()
     {
         if(GameManager.instance.Player)
@@ -41,6 +42,12 @@ public class Table : MonoBehaviour
         {
             Debug.Log("hit4");
             HitRay(hit4);
+        }
+        Debug.DrawLine(transform.position, transform.position + transform.up, Color.magenta);
+        if (Physics.Raycast(transform.position, transform.position + transform.up, out hit5, 1))
+        {
+            Debug.Log("hit5");
+            HitRay(hit5);
         }
     }
     private void HitRay(RaycastHit hit)
