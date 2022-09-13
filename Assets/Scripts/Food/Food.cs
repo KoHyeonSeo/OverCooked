@@ -14,9 +14,9 @@ public class Food : MonoBehaviour
 
     [Space]
     [Header("Control ¸ñ·Ï")]
-    public bool isControlCut = false;
-    public bool isControlBake = false;
-    public bool isControlBoil = false;
+    public bool isControlCut = true;
+    public bool isControlBake = true;
+    public bool isControlBoil = true;
 
     public void Cooking()
     {
@@ -50,9 +50,9 @@ public class Food : MonoBehaviour
     {
         ICook temp;
         temp = GetICook(type);
-        if ((temp.GetType() == typeof(Bake) && isControlBake) ||
-            (temp.GetType() == typeof(Boil) && isControlBoil) ||
-            (temp.GetType() == typeof(Cut) && isControlCut) ||
+        if ((temp.GetType() == typeof(Bake) && !isControlBake) ||
+            (temp.GetType() == typeof(Boil) && !isControlBoil) ||
+            (temp.GetType() == typeof(Cut) && !isControlCut) ||
             (temp.GetType() == typeof(Bake) && !isCompleteCut))
             return;
         icook = temp;
