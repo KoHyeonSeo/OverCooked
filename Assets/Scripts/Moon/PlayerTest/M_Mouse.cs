@@ -6,6 +6,7 @@ public class M_Mouse : MonoBehaviour
 {
     Vector3 mouseWorldPos;
     public GameObject hitObject;
+    //GameObject hitObject;
     float startY;
 
     void Start()

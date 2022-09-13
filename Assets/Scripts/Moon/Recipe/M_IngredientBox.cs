@@ -22,5 +22,10 @@ public class M_IngredientBox : MonoBehaviour
     public void CreateIngredient()
     {
         ingredient = Instantiate(ingredientPrefab, transform.position, Quaternion.identity);
+        //박스 클릭하면 재료 생성
+        if (Input.GetMouseButtonDown(0))
+        {
+            ingredient = Instantiate(ingredientPrefab);
+        }
     }
 }
