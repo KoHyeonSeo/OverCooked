@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IngredientManager : MonoBehaviour
+public class RecipeObject : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
