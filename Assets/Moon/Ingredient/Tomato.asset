@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Tomato
   m_EditorClassIdentifier: 
   name: Tomato
-  cookLevel: []
+  cookLevel:
+  - {fileID: 7379298137264050568, guid: c806327db6943c14b97fba1e8ca511e5, type: 3}
+  - {fileID: 8627845184034328532, guid: b9e14fff80596954f83dd8af500a3813, type: 3}
   isPossibleCut: 1
   isPossibleBake: 0
   isCut: 0

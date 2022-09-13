@@ -220,6 +220,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &229381414 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7379298137264050568, guid: c806327db6943c14b97fba1e8ca511e5, type: 3}
+  m_PrefabInstance: {fileID: 7379298137459868846}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &258102671
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,6 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f047542b2f09ea4b8d9747302c1aa25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitObject: {fileID: 0}
 --- !u!4 &349876051
 Transform:
   m_ObjectHideFlags: 0
@@ -1378,6 +1384,7 @@ GameObject:
   - component: {fileID: 1642625599}
   - component: {fileID: 1642625598}
   - component: {fileID: 1642625597}
+  - component: {fileID: 1642625601}
   m_Layer: 0
   m_Name: MeatBox
   m_TagString: Untagged
@@ -1463,6 +1470,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1642625601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642625596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0816d165ea1161d448840f05f5dc09ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientPrefab: {fileID: 0}
+  ingredient: {fileID: 0}
 --- !u!1 &1849005996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1475,6 +1496,7 @@ GameObject:
   - component: {fileID: 1849005999}
   - component: {fileID: 1849005998}
   - component: {fileID: 1849005997}
+  - component: {fileID: 1849006001}
   m_Layer: 0
   m_Name: TomatoBox
   m_TagString: Untagged
@@ -1560,6 +1582,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1849006001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849005996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0816d165ea1161d448840f05f5dc09ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientPrefab: {fileID: 229381414}
+  ingredient: {fileID: 0}
 --- !u!1 &2062683875
 GameObject:
   m_ObjectHideFlags: 0
