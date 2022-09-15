@@ -7,9 +7,8 @@ public class IngredientObject : ScriptableObject
 {
     public string name; //재료 이름
     public GameObject[] cookLevel; //단계별 모델링
+    public Sprite recipeIcon; //레시피용 아이콘
     public bool isPossibleCut;
     public bool isPossibleBake;
-    public bool isCut;
-    public bool isBake;
-    public bool isReady;
+   
 }

@@ -7,5 +7,7 @@ public class RecipeObject : ScriptableObject
 {
     public string name; //요리 이름
     public GameObject[] cookLevel; //단계별 모델링
-    public IngredientObject[] ingredient; //재료
+    public Sprite recipeSprite; //완성 음식 모델링
+    public IngredientObject[] ingredients; //재료
+    public Sprite[] ingredientSprites; //재료 이미지
 }
