@@ -16,8 +16,6 @@ MonoBehaviour:
   cookLevel:
   - {fileID: 7379298137264050568, guid: c806327db6943c14b97fba1e8ca511e5, type: 3}
   - {fileID: 8627845184034328532, guid: b9e14fff80596954f83dd8af500a3813, type: 3}
+  recipeIcon: {fileID: 21300000, guid: b93c3c94bd2e95047b39d22a1540325c, type: 3}
   isPossibleCut: 1
   isPossibleBake: 0
-  isCut: 0
-  isBake: 0
-  isReady: 0

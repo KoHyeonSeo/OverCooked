@@ -5,7 +5,7 @@ using UnityEngine;
 public class M_IngredientBox : MonoBehaviour
 {
     public GameObject ingredientPrefab;
-    public GameObject ingredient;
+    //public GameObject ingredient;
 
     void Start()
     {
@@ -21,11 +21,11 @@ public class M_IngredientBox : MonoBehaviour
     //재료 생성
     public void CreateIngredient()
     {
-        ingredient = Instantiate(ingredientPrefab, transform.position, Quaternion.identity);
+        /*ingredient = Instantiate(ingredientPrefab, transform.position, Quaternion.identity);
         //박스 클릭하면 재료 생성
         if (Input.GetMouseButtonDown(0))
         {
-            ingredient = Instantiate(ingredientPrefab);
-        }
+            GameObject ingredient = Instantiate(ingredientPrefab, transform.position, Quaternion.identity);
+        }*/
     }
 }
