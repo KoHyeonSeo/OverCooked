@@ -14,7 +14,7 @@ public class PlayerState : MonoBehaviour
         Die
     }
     public State curState = State.Idle;
-    private State saveState = State.Grab;
+    private State saveState = State.Idle;
     private Animator animator;
     private void Start()
     {
