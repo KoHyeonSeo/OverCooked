@@ -56,7 +56,9 @@ public class Table : MonoBehaviour
     private void HitRayUP(RaycastHit hit)
     {
         //던져서 올라갈 경우, 무조건 올라가도록
-        if (hit.transform.CompareTag("Food") && transform.childCount == 0)
+        if (hit.transform.CompareTag("Food") &&
+            hit.transform.gameObject.layer == LayerMask.NameToLayer("Default") &&
+            transform.childCount == 0)
         {
             GameObject food = Instantiate(hit.transform.gameObject);
             //layer를 Table로하여 Table과 닿지 않게끔
@@ -72,7 +74,7 @@ public class Table : MonoBehaviour
             food.transform.localPosition = new Vector3(0, 1, 0);
             food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             food.GetComponent<Rigidbody>().useGravity = false;
-            
+
             //기존의 것은 지우기
             Destroy(hit.transform.gameObject);
         }
