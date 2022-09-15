@@ -96,11 +96,4 @@ public class PlayerMove : MonoBehaviour
             food.GetComponent<Rigidbody>().AddForce((transform.forward+transform.up) * throwPower, ForceMode.Impulse);
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("DeadZone"))
-        {
-            playerState.curState = PlayerState.State.Die;
-        }
-    }
 }
