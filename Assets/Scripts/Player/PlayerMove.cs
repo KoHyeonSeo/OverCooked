@@ -17,11 +17,13 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float throwPower = 1000f;
 
     private PlayerInput playerInput;
+    private PlayerState playerState;
     private Vector3 Dir;
     private RaycastHit hit;
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerState = GetComponent<PlayerState>();
     }
     private void Update()
     {
@@ -31,11 +33,16 @@ public class PlayerMove : MonoBehaviour
             currentSpeed = dashSpeed;
         else
             currentSpeed = moveSpeed;
+
         //방향키 방향쪽으로 바라봄
         transform.LookAt(transform.position + Dir);
         transform.position += Dir * currentSpeed * Time.deltaTime;
 
-        Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y / 2, transform.position.z), transform.forward);
+        //음식을 집고 있을 경우 Grab 상태로 전이
+        if (transform.childCount > 1 && playerState.curState != PlayerState.State.Grab)
+            playerState.curState = PlayerState.State.Grab;
+
+        Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y / 2, transform.position.z) + transform.forward / 2, transform.forward);
         //바닥에 있는 음식 잡기
         Debug.DrawRay(ray.origin, ray.direction, Color.red);
         if (playerInput.LeftClickDown)
@@ -43,7 +50,7 @@ public class PlayerMove : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 1f))
             {
                 //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
-                if (hit.transform.CompareTag("Food") && transform.childCount == 0)
+                if (hit.transform.CompareTag("Food") && transform.childCount == 1)
                 {
                     GameObject food = Instantiate(hit.transform.gameObject);
                     //이름 뒤 (clone) 제거
@@ -58,7 +65,7 @@ public class PlayerMove : MonoBehaviour
                     //물리 처리 & 위치 조정
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                     food.GetComponent<Rigidbody>().isKinematic = true;
-                    food.transform.localPosition = new Vector3(0, -0.3f, 0) + transform.forward * 1.5f;
+                    food.transform.localPosition = new Vector3(0, -0.3f, 0) + transform.forward * 1f;
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
                     Destroy(hit.transform.gameObject);
@@ -67,10 +74,13 @@ public class PlayerMove : MonoBehaviour
         }
 
         //음식 던지기 (음식이 있는 경우에만)
-        if (playerInput.RightClickDown && transform.childCount > 0)
+        if (playerInput.RightClickDown && transform.childCount > 1)
         {
+            //던지는 모션으로 변경
+            playerState.curState = PlayerState.State.Throw;
+
             Debug.Log("던져");
-            Transform food = transform.GetChild(0);
+            Transform food = transform.GetChild(1);
             //이름 뒤 (Clone) 문자열 제거
             string[] names = food.name.Split('(');
             food.name = names[0];
@@ -85,6 +95,12 @@ public class PlayerMove : MonoBehaviour
             //플레이어가 바라보는 방향의 위쪽으로 던짐
             food.GetComponent<Rigidbody>().AddForce((transform.forward+transform.up) * throwPower, ForceMode.Impulse);
         }
-
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("DeadZone"))
+        {
+            playerState.curState = PlayerState.State.Die;
+        }
     }
 }

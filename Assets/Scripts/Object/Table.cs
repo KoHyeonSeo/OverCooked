@@ -85,8 +85,8 @@ public class Table : MonoBehaviour
             //1. 플레이어는 자식이 있어야한다(재료를 가지고 있는 상태)
             //2. 플레이어의 자식이 table의 ray를 맞은 아이여야한다.
             //3. 플레이어는 좌클릭을 해야한다. (놓기키를 눌러야한다.)
-            if (player.transform.childCount != 0
-                && player.transform.GetChild(0) == hit.transform
+            if (player.transform.childCount != 1
+                && player.transform.GetChild(1) == hit.transform
                 && player.GetComponent<PlayerInput>().LeftClickDown)
             {
                 GameObject food = Instantiate(hit.transform.gameObject);
@@ -110,7 +110,7 @@ public class Table : MonoBehaviour
         }
         else if (hit.transform.CompareTag("Player"))
         {
-            if (transform.childCount == 0 || (hit.transform.childCount != 0 && hit.transform.GetChild(0).CompareTag("Food")))
+            if (transform.childCount == 0 || (hit.transform.childCount != 1 && hit.transform.GetChild(1).CompareTag("Food")))
             {
                 return;
             }
@@ -129,7 +129,7 @@ public class Table : MonoBehaviour
                     food.transform.parent = hit.transform;
                     //물리처리 및 위치조정
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                    food.transform.localPosition = new Vector3(0, -0.3f, 0) + transform.forward * 1.5f;
+                    food.transform.localPosition = new Vector3(0, -0.3f, 0) + transform.forward * 1f;
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     food.GetComponent<Rigidbody>().useGravity = false;
                     //기존의 것은 지운다.

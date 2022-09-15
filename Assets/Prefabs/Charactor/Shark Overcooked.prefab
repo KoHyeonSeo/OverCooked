@@ -630,7 +630,7 @@ GameObject:
   - component: {fileID: 339220551}
   m_Layer: 0
   m_Name: Shark Overcooked
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -644,7 +644,7 @@ Transform:
   m_GameObject: {fileID: 2563885999173791508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.52, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.26315796, y: 0.26315796, z: 0.26315796}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1621452732286851199}
