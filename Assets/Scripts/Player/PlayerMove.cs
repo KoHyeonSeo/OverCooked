@@ -20,8 +20,10 @@ public class PlayerMove : MonoBehaviour
     private PlayerState playerState;
     private Vector3 Dir;
     private RaycastHit hit;
+    private Vector3 startPosition;
     private void Start()
     {
+        startPosition = transform.position + new Vector3(0, 2, 0);
         playerInput = GetComponent<PlayerInput>();
         playerState = GetComponent<PlayerState>();
     }
@@ -95,5 +97,10 @@ public class PlayerMove : MonoBehaviour
             //플레이어가 바라보는 방향의 위쪽으로 던짐
             food.GetComponent<Rigidbody>().AddForce((transform.forward+transform.up) * throwPower, ForceMode.Impulse);
         }
+    }
+    public void OnBirth()
+    {
+        playerState.curState = PlayerState.State.Idle;
+        transform.position = startPosition;
     }
 }

@@ -5,6 +5,23 @@ using UnityEngine.Playables;
 
 public class DeadZone : MonoBehaviour
 {
+    public float waitTime = 2f;
+    private bool playerDead = false;
+    private Transform player;
+    private float curTime = 0;
+    private void Update()
+    {
+        if (playerDead)
+        {
+            curTime += Time.deltaTime;
+            if (curTime > waitTime)
+            {
+                player.GetComponent<PlayerMove>().OnBirth();
+                playerDead = false;
+                curTime = 0;
+            }
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
@@ -15,7 +32,8 @@ public class DeadZone : MonoBehaviour
         {
 
             other.GetComponent<PlayerState>().curState = PlayerState.State.Die;
-            //다시 부활해야함
+            player = other.transform;
+            playerDead = true;
         }
     }
 }
