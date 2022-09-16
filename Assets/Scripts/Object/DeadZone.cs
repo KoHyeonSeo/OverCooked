@@ -30,7 +30,6 @@ public class DeadZone : MonoBehaviour
         }
         else
         {
-
             other.GetComponent<PlayerState>().curState = PlayerState.State.Die;
             player = other.transform;
             playerDead = true;
