@@ -6473,6 +6473,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5240347791975796695, guid: bdaeac11870877647885bbcb705813ab, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 5240347791975796696, guid: bdaeac11870877647885bbcb705813ab, type: 3}
       propertyPath: m_Name
       value: Shark_Player
@@ -28063,8 +28067,8 @@ Transform:
   m_GameObject: {fileID: 2050299393}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.62, y: 1.44, z: 7.0202847}
-  m_LocalScale: {x: 0.49, y: 0.49, z: 0.49}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6

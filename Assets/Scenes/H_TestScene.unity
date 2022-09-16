@@ -1621,6 +1621,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box_Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6741391651393755795, guid: c7a66edb6e9cfce429b042116f3e3845, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6741391651393755883, guid: c7a66edb6e9cfce429b042116f3e3845, type: 3}
       propertyPath: m_RootOrder
       value: 11

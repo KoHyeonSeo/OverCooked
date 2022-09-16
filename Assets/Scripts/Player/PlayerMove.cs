@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour
         if (transform.childCount > 1 && playerState.curState != PlayerState.State.Grab)
             playerState.curState = PlayerState.State.Grab;
 
-        Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y / 2, transform.position.z) + transform.forward / 2, transform.forward);
+        Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y / 2, transform.position.z), transform.forward);
         //바닥에 있는 음식 잡기
         Debug.DrawRay(ray.origin, ray.direction, Color.red);
         if (playerInput.LeftClickDown)
@@ -67,7 +67,7 @@ public class PlayerMove : MonoBehaviour
                     //물리 처리 & 위치 조정
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                     food.GetComponent<Rigidbody>().isKinematic = true;
-                    food.transform.localPosition = new Vector3(0, -0.3f, 0) + transform.forward * 1f;
+                    food.transform.localPosition = transform.forward * 1.5f;
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
                     Destroy(hit.transform.gameObject);
