@@ -77,7 +77,12 @@ public class PlayerMove : MonoBehaviour
         //음식 내려놓기
         else if (playerInput.LeftClickDown && transform.childCount > 1)
         {
-            Throw(100);
+            if (Physics.Raycast(ray, out hit, 1f))
+            {
+                //Table에 닿지 않았다면
+                if(hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
+                    Throw(100);
+            }
         }
 
         //음식 던지기 (음식이 있는 경우에만)
