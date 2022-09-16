@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-        Dir = playerInput.XAxisDown * Vector3.right + playerInput.ZAxisDown * Vector3.forward;
+        Dir = playerInput.XAxisDown * -Vector3.right + playerInput.ZAxisDown * Vector3.forward;
 
         if (playerInput.DashButton)
             currentSpeed = dashSpeed;
@@ -59,7 +59,7 @@ public class PlayerMove : MonoBehaviour
                     string[] names = food.name.Split('(');
                     food.name = names[0];
                     //Player와 충돌 방지
-                    food.layer = LayerMask.NameToLayer("Player");
+                    food.layer = LayerMask.NameToLayer("Food");
                     //재료가 계속해서 떨어지는 것을 방지 -> 중력 off
                     food.GetComponent<Rigidbody>().useGravity = false;
                     //재료의 부모를 Player로 삼음

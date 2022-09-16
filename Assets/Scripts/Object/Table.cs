@@ -125,8 +125,8 @@ public class Table : MonoBehaviour
                     //Clone 글자 지우기
                     string[] names = food.name.Split('(');
                     food.name = names[0];
-                    //layer를 Player로 변경하여 Player와 충돌처리가 안되도록
-                    food.layer = LayerMask.NameToLayer("Player");
+                    //layer를 Food로 변경하여 Player와 충돌처리가 안되도록
+                    food.layer = LayerMask.NameToLayer("Food");
                     //food의 부모를 Player로 바꾼다.
                     food.transform.parent = hit.transform;
                     //물리처리 및 위치조정
