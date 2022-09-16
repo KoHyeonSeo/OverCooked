@@ -10,9 +10,10 @@ public class OrderSheetManager : MonoBehaviour
     public GameObject orderSheetPrefab;
     public List<GameObject> orderSheetList = new List<GameObject>(); //주문서 리스트
     public GameObject orderSheetPanel;
+    int orderCount = 0;
 
     public static OrderSheetManager instance;
-    int orderCount = 0;
+    
     private void Awake()
     {
         instance = this;
@@ -20,43 +21,47 @@ public class OrderSheetManager : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("CreateOrderSheet", 1f, 1f);
-        //CreateOrderSheet();
-        //Destroy(gameObject, 100);
+        //15초마다 주문서 생성
+        InvokeRepeating("CreateOrderSheet", 0f, 15f);
     }
 
     void Update()
     {
         
     }
+
     //주문서 생성
     void CreateOrderSheet()
     {
+        //주문 5개 까지만 받음
         if (orderCount >= 5)
             return;
-        //레시피들 중 랜덤으로 주문서 생성
+        //주문서 개수 증가
         orderCount++;
+        //레시피들 중 랜덤으로 주문서 생성, 주문서 리스트에 추가
         GameObject orderSheet = Instantiate(orderSheetPrefab);
         int random = UnityEngine.Random.Range(0, recipes.Length);
         orderSheet.GetComponent<OrderSheet>().recipe = recipes[random];
         orderSheetList.Add(orderSheet);
-        //콘텐츠 하위에 배치
+        //주문서 판넬에 배치
         orderSheet.transform.SetParent(orderSheetPanel.transform);
+        //시작위치는 화면 밖
         orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(1920, 0, 0);
         orderSheet.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        //print(orderSheet.GetComponent<RectTransform>().position);
         StartCoroutine(IeMoveOrderSheet(orderSheet));
     }
 
     //주문서 이동
     IEnumerator IeMoveOrderSheet(GameObject orderSheet)
     {
-        float xTargetPos = 0;
-        float xPos = orderSheet.GetComponent<RectTransform>().position.x;
+        float xTargetPos = 0; //여기까지 이동해야 함
+        float xPos = orderSheet.GetComponent<RectTransform>().position.x; //현재 주문서의 위치
         for (int i = 0; i < orderSheetList.Count - 1; i++)
         {
+            //현재 리스트에 담긴 주문서 넓이만큼 간격 두고 이동하기 위해 계산
             xTargetPos += 10 + orderSheetList[i].GetComponent<RectTransform>().rect.width * 0.5f;
         }
+        //주문서 이동
         while (xTargetPos <= xPos)
         {
             xPos = Mathf.Lerp(xPos, xTargetPos, 0.1f);
@@ -75,6 +80,7 @@ public class OrderSheetManager : MonoBehaviour
             //접시의 재료 개수와 주문서 레시피의 재료 개수가 다르면 다음 주문서로
             if (plate.ingredientList.Count != recipe.ingredients.Length)
             {
+                //얼마나 차이 나는지 프린트
                 print(plate.ingredientList.Count + ", " + recipe.ingredients.Length);
                 continue;
             }
@@ -93,6 +99,7 @@ public class OrderSheetManager : MonoBehaviour
                 }
             }
             print("리스트에 있는 음식");
+
         }
     }
 }
