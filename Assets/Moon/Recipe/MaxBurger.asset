@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dadfc5e918431834cb1f69184019d664, type: 3}
   m_Name: MaxBurger
   m_EditorClassIdentifier: 
-  name: MaxBurger
+  recipeName: 
   cookLevel: []
-  ingredient:
+  recipeSprite: {fileID: 0}
+  ingredients:
   - {fileID: 11400000, guid: 090746b53eff5974eb085fddaaad4e1b, type: 2}
-  - {fileID: 11400000, guid: 998e65665c73d2f4e9f13a8327b3f7b7, type: 2}
   - {fileID: 11400000, guid: 8b9e20d60a9b45c46abc2cadd14a304c, type: 2}
+  - {fileID: 11400000, guid: 998e65665c73d2f4e9f13a8327b3f7b7, type: 2}
   - {fileID: 11400000, guid: 59c31a23594fd4746b044e3df7e421a5, type: 2}
+  ingredientSprites: []

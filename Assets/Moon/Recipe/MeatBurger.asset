@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dadfc5e918431834cb1f69184019d664, type: 3}
   m_Name: MeatBurger
   m_EditorClassIdentifier: 
-  name: Burger0
+  recipeName: 
   cookLevel: []
-  ingredient:
-  - {fileID: 11400000, guid: 090746b53eff5974eb085fddaaad4e1b, type: 2}
+  recipeSprite: {fileID: 0}
+  ingredients:
   - {fileID: 11400000, guid: 998e65665c73d2f4e9f13a8327b3f7b7, type: 2}
+  - {fileID: 11400000, guid: 090746b53eff5974eb085fddaaad4e1b, type: 2}
+  ingredientSprites: []

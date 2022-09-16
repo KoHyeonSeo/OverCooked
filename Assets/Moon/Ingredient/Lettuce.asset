@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1405fe985559740a1587cd42e9981c, type: 3}
   m_Name: Lettuce
   m_EditorClassIdentifier: 
-  name: Lettuce
+  ingredientName: 
   cookLevel: []
+  recipeIcon: {fileID: 21300000, guid: 22f0982023077844d82056356b7022fe, type: 3}
   isPossibleCut: 1
   isPossibleBake: 0
-  isCut: 0
-  isBake: 0
-  isReady: 0
