@@ -48,6 +48,5 @@ public class CutBox : MonoBehaviour
             getObject.transform.position = objectPosition.position;
             getObject.transform.parent = transform;
         }
-
     }
 }

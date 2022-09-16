@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Plate : MonoBehaviour
 {
+    public List<GameObject> ingredientModels = new List<GameObject>();
     public List<IngredientObject> ingredientList = new List<IngredientObject>();
     //public IngredientObject[] ingredients = new IngredientObject[10];
     public Text ingredientName;
@@ -30,8 +31,10 @@ public class Plate : MonoBehaviour
             return;
         if (CheckIngredientReady(ingredient.GetComponent<IngredientDisplay>()))
         {
+            print(ingredient.GetComponent<IngredientDisplay>().ingredientObject.name);
             ingredientList.Add(ingredient.GetComponent<IngredientDisplay>().ingredientObject);
             ingredientName.text = ingredientName.text + ingredientList[count].name + "\n";
+            Destroy(ingredient);
             count++;
         }
     }
@@ -46,8 +49,10 @@ public class Plate : MonoBehaviour
         }
         if (ingredient.ingredientObject.isPossibleBake && !ingredient.isBake)
         {
+            print("false: " + ingredient.ingredientObject.isPossibleBake + ", " + !ingredient.isBake);
             return false;
         }
+        print("Chack: ready");
         return true;
     }
 }

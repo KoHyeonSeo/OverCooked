@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3340701904661468209}
   - component: {fileID: 3340701904661468208}
+  - component: {fileID: 6564667882559131876}
   m_Layer: 0
   m_Name: Tomato_Ingredient
   m_TagString: Untagged
@@ -46,3 +47,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientObject: {fileID: 11400000, guid: 59c31a23594fd4746b044e3df7e421a5, type: 2}
   curObject: {fileID: 0}
+  isRaw: 0
+  isCut: 0
+  isBake: 0
+  isReady: 0
+--- !u!65 &6564667882559131876
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340701904661468211}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

@@ -30,12 +30,35 @@ public class M_Mouse : MonoBehaviour
                     if (hit.transform.name == "Plane")
                         return;
                     hitObject = hit.transform.gameObject;
-                    if (hitObject.transform.parent)
+                    
+                    if (hitObject.transform.GetComponent<IngredientDisplay>())
                     {
-                        
-                        hitObject = hitObject.transform.parent.gameObject;
+                        //hitObject = hitObject.transform.parent.gameObject;
                     }
-                        
+                    print(hitObject.name);
+                    if (hitObject.transform.parent && hitObject.transform.parent.GetComponent<M_Box>())
+                    {
+                        print("dfdfdf");
+                        hitObject.transform.parent.GetComponent<M_Box>().getObject = null;
+                        hitObject.transform.parent = null;
+                    }
+                    else if (hitObject.transform.parent && hitObject.transform.parent.GetComponent<CutBox>())
+                    {
+                        hitObject.transform.parent.GetComponent<CutBox>().getObject = null;
+                        hitObject.transform.parent = null;
+                    }
+                    else if (hitObject.transform.parent && hitObject.transform.parent.GetComponent<FireBox>())
+                    {
+                        hitObject.transform.parent.GetComponent<FireBox>().getObject = null;
+                        hitObject.transform.parent = null;
+                    }
+                    else if (hitObject.transform.parent && hitObject.transform.parent.GetComponent<FryingPan>())
+                    {
+                        hitObject.transform.parent.GetComponent<FryingPan>().getObject = null;
+                        hitObject.transform.parent = null;
+                    }
+                    //재료는 모델링에 콜라이더가 있어서 
+
                     //재료 상자 클릭하면 재료 생성
                     if (hitObject.GetComponent<M_IngredientBox>())
                     {
@@ -52,7 +75,6 @@ public class M_Mouse : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     print(hit.transform.name);
-                    //만약 재료를 든 상태에서
                     if (hit.transform.GetComponent<Plate>())
                     {
                         if (hitObject.GetComponent<IngredientDisplay>())
@@ -86,6 +108,27 @@ public class M_Mouse : MonoBehaviour
                             hitObject = null;
                         }
                     }
+                    else if (hit.transform.GetComponent<FryingPan>())
+                    {
+                        if (hit.transform.GetComponent<FryingPan>().getObject)
+                            print("프라이팬 위에: " + hit.transform.GetComponent<FryingPan>().getObject);
+                        //프라이팬 위에 아무것도 없으면서 현재 들고 있는 오브젝트가 썰린 재료라면
+                        if (!hit.transform.GetComponent<FryingPan>().getObject && hitObject.GetComponent<IngredientDisplay>() && hitObject.GetComponent<IngredientDisplay>().isCut)
+                        {
+                            print("후라이팬에 닿");
+                            hit.transform.GetComponent<FryingPan>().SetObject(hitObject);
+                            hitObject = null;
+                        }
+                    }
+                    else if (hit.transform.GetComponent<FireBox>())
+                    {
+                        //프라이팬 위에 아무것도 없으면서 현재 들고 있는 오브젝트가 재료라면
+                        if (!hit.transform.GetComponent<FireBox>().getObject && hitObject.GetComponent<FryingPan>())
+                        {
+                            hit.transform.GetComponent<FireBox>().SetObject(hitObject);
+                            hitObject = null;
+                        }
+                    }
                     else if (hit.transform.parent && hit.transform.parent.GetComponent<M_Box>())
                     {
                         print("dfdfdf");
@@ -93,13 +136,19 @@ public class M_Mouse : MonoBehaviour
                         hit.transform.parent.GetComponent<M_Box>().getObject = null;
                         hit.transform.parent = null;
                     }
-                    //아니면 그냥 그곳에 두기
-                    else
+                    else if (hit.transform.name == "Plane")
                     {
                         mouseWorldPos.y = startY;
                         hitObject.transform.position = mouseWorldPos;
                         hitObject = null;
                     }
+                    //아니면 그냥 그곳에 두기
+                    /*else
+                    {
+                        mouseWorldPos.y = startY;
+                        hitObject.transform.position = mouseWorldPos;
+                        hitObject = null;
+                    }*/
                 }
             }
         }
