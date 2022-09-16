@@ -30,9 +30,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6741391651393755795}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.5789995, y: 1.58, z: -23.28}
-  m_LocalScale: {x: 1.52, y: 1.52, z: 1.52}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6486452851077306770}
@@ -99,10 +99,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.47235867
-  m_Height: 2.2103689
+  m_Radius: 0.3131721
+  m_Height: 1.2992039
   m_Direction: 1
-  m_Center: {x: -0.0032104943, y: 0.26098207, z: -0.040563785}
+  m_Center: {x: 0.010415554, y: -0.05365491, z: 0.9433267}
 --- !u!54 &6741391651393755799
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   moveSpeed: 5
   dashSpeed: 10
   currentSpeed: 0
-  throwPower: 1000
+  throwPower: 800
 --- !u!114 &6741391651393755794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,16 +176,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2131929527633966746, guid: e53c2c334aaf22e4b9272cbfcc309bce, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2131929527633966746, guid: e53c2c334aaf22e4b9272cbfcc309bce, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2131929527633966746, guid: e53c2c334aaf22e4b9272cbfcc309bce, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2131929527633966746, guid: e53c2c334aaf22e4b9272cbfcc309bce, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2131929527633966746, guid: e53c2c334aaf22e4b9272cbfcc309bce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8092106
+      value: -0.683
       objectReference: {fileID: 0}
     - target: {fileID: 2131929527633966746, guid: e53c2c334aaf22e4b9272cbfcc309bce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.93
       objectReference: {fileID: 0}
     - target: {fileID: 2131929527633966746, guid: e53c2c334aaf22e4b9272cbfcc309bce, type: 3}
       propertyPath: m_LocalRotation.w
