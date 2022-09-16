@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 1553288078034013843}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 7.5789995, y: 3.059, z: -53.04}
-  m_LocalScale: {x: 1.52, y: 1.52, z: 1.52}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4829591500035908171}
@@ -99,10 +99,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.8281603
+  m_Height: 3.0961318
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.030629158, y: 0.5480659, z: 0}
 --- !u!54 &1553288078034013847
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   moveSpeed: 5
   dashSpeed: 10
   currentSpeed: 0
-  throwPower: 1000
+  throwPower: 800
 --- !u!114 &1553288078034013840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +274,18 @@ PrefabInstance:
     - target: {fileID: 6235309168239699541, guid: bde05958bbacfd94db0d5f6132c8d020, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6235309168239699541, guid: bde05958bbacfd94db0d5f6132c8d020, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 6235309168239699541, guid: bde05958bbacfd94db0d5f6132c8d020, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 6235309168239699541, guid: bde05958bbacfd94db0d5f6132c8d020, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 6235309168239699541, guid: bde05958bbacfd94db0d5f6132c8d020, type: 3}
       propertyPath: m_LocalPosition.x

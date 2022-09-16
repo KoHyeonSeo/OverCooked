@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-        Dir = playerInput.XAxisDown * -Vector3.right + playerInput.ZAxisDown * Vector3.forward;
+        Dir = playerInput.XAxisDown * Vector3.right + playerInput.ZAxisDown * Vector3.forward;
 
         if (playerInput.DashButton)
             currentSpeed = dashSpeed;
@@ -62,12 +62,12 @@ public class PlayerMove : MonoBehaviour
                     food.layer = LayerMask.NameToLayer("Food");
                     //재료가 계속해서 떨어지는 것을 방지 -> 중력 off
                     food.GetComponent<Rigidbody>().useGravity = false;
+                    food.GetComponent<Rigidbody>().isKinematic = true;
                     //재료의 부모를 Player로 삼음
                     food.transform.parent = transform;
                     //물리 처리 & 위치 조정
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                    food.GetComponent<Rigidbody>().isKinematic = true;
-                    food.transform.localPosition = transform.forward * 1.5f;
+                    food.transform.localPosition = new Vector3(0, -0.5f, 0.5f);
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
                     Destroy(hit.transform.gameObject);

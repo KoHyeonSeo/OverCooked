@@ -131,7 +131,7 @@ public class Table : MonoBehaviour
                     food.transform.parent = hit.transform;
                     //물리처리 및 위치조정
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                    food.transform.localPosition = new Vector3(0, -0.3f, 0) + transform.forward * 1f;
+                    food.transform.localPosition = new Vector3(0, -0.5f, 0.5f);
                     food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     food.GetComponent<Rigidbody>().useGravity = false;
                     //기존의 것은 지운다.
