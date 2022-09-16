@@ -38,7 +38,7 @@ public class OrderSheet : MonoBehaviour
         for (int i = 0; i < recipe.ingredients.Length; i++)
         {
             GameObject rBG = Instantiate(recipeBG);
-            rBG.transform.parent = recipeContentGroup.transform;
+            rBG.transform.SetParent(recipeContentGroup.transform);
             rBG.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             rBG.transform.GetChild(0).GetComponent<Image>().sprite = recipe.ingredients[i].recipeIcon;
         }

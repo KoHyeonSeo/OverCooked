@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1405fe985559740a1587cd42e9981c, type: 3}
   m_Name: Bread
   m_EditorClassIdentifier: 
-  name: Bread
+  ingredientName: 
   cookLevel: []
+  recipeIcon: {fileID: 21300000, guid: 483bb25ab04dfb74e907fbcb30c0b87d, type: 3}
   isPossibleCut: 0
   isPossibleBake: 0
-  isCut: 0
-  isBake: 0
-  isReady: 0
