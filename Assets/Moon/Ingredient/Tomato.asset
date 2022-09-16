@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1405fe985559740a1587cd42e9981c, type: 3}
   m_Name: Tomato
   m_EditorClassIdentifier: 
-  name: Tomato
+  ingredientName: Tomato
   cookLevel:
   - {fileID: 7379298137264050568, guid: c806327db6943c14b97fba1e8ca511e5, type: 3}
   - {fileID: 8627845184034328532, guid: b9e14fff80596954f83dd8af500a3813, type: 3}

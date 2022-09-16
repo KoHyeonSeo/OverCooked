@@ -576,6 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fddd4122680efd2459a8c9cb511eeea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ingredientModels: []
   ingredientList: []
   ingredientName: {fileID: 700518524}
   recipes:
@@ -1908,6 +1909,7 @@ GameObject:
   - component: {fileID: 1342613811}
   - component: {fileID: 1342613810}
   - component: {fileID: 1342613809}
+  - component: {fileID: 1342613813}
   m_Layer: 0
   m_Name: FireBox
   m_TagString: Untagged
@@ -1995,6 +1997,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1342613813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342613808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25d2bfb1619e5f143b55133b9aa40cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 1618060399}
+  objectPosition: {fileID: 1861419066}
 --- !u!1 &1384410116
 GameObject:
   m_ObjectHideFlags: 0
@@ -2297,6 +2313,7 @@ GameObject:
   - component: {fileID: 1618060403}
   - component: {fileID: 1618060402}
   - component: {fileID: 1618060401}
+  - component: {fileID: 1618060404}
   m_Layer: 0
   m_Name: FryingPan
   m_TagString: Untagged
@@ -2383,6 +2400,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618060399}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1618060404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618060399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c2bad01233cb548a1b903c9dd4f39c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 0}
+  objectPosition: {fileID: 1635090241}
 --- !u!1 &1635090240
 GameObject:
   m_ObjectHideFlags: 0
