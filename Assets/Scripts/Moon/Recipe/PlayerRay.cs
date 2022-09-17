@@ -37,7 +37,7 @@ public class PlayerRay : MonoBehaviour
         RayHit();
         if (interactiveObject)
         {
-            if (/*Input.GetKeyDown(KeyCode.E))*/GetComponent<PlayerInput>().LeftClickDown)
+            if (Input.GetKeyDown(KeyCode.E))//GetComponent<PlayerInput>().LeftClickDown)
             {
                 if (interactiveObject.GetComponent<M_IngredientBox>())
                 {
