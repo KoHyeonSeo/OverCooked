@@ -95,7 +95,7 @@ public class Table : MonoBehaviour
                 if (hit.transform.gameObject.GetComponent<PlayerInput>().LeftClickDown)
                 {
                     player.GetComponent<PlayerCreateNew>().
-                        CreatesNewObject(transform.GetChild(tableChild).gameObject, "Food", true, hit.transform, new Vector3(0, -0.5f, 0.5f));
+                        CreatesNewObject(transform.GetChild(tableChild).gameObject, "Grab", true, hit.transform, new Vector3(0, -0.5f, 0.5f));
                   
                 }
             }

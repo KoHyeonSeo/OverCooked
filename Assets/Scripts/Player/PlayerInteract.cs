@@ -7,12 +7,23 @@ public class PlayerInteract : MonoBehaviour
     [Header("조작 설정")]
     [SerializeField] private float throwPower = 1000f;
 
+    [Header("현재 Interact 상태")]
+    public InteractState curInteractState = InteractState.None;
+
     private PlayerState playerState;
     private PlayerInput playerInput;
     private Vector3 Dir;
     private RaycastHit hit;
     private Vector3 startPosition;
     private PlayerCreateNew createNew;
+    
+    public enum InteractState
+    {
+        None,
+        Grab,
+        FireDistinguish
+    }
+
     private void Start()
     {
         startPosition = transform.position + new Vector3(0, 2, 0);
@@ -36,12 +47,17 @@ public class PlayerInteract : MonoBehaviour
                 //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
                 if (hit.transform.CompareTag("Food") && transform.childCount == 1)
                 {
-                    createNew.CreatesNewObject(hit.transform.gameObject, "Food", true, transform, new Vector3(0, -0.5f, 0.5f));
-
+                    curInteractState = InteractState.Grab;
+                    createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.5f, 0.5f));
+                }
+                else if(hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
+                {
+                    curInteractState = InteractState.FireDistinguish;
+                    createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.5f, 0.5f));
                 }
             }
         }
-        //음식 내려놓기
+        //내려놓기
         else if (playerInput.LeftClickDown && transform.childCount > 1)
         {
             if (Physics.Raycast(ray, out hit, 1f))
@@ -52,15 +68,26 @@ public class PlayerInteract : MonoBehaviour
             }
         }
 
-        //음식 던지기 (음식이 있는 경우에만)
+        //던지기 (잡은 오브젝트가 있는 경우에만)
         if (playerInput.RightClickDown && transform.childCount > 1)
         {
             Throw(throwPower);
         }
 
+        //소화기 분사 
+        if(playerInput.FireExtinguisher && curInteractState == InteractState.FireDistinguish)
+        {
+            if (transform?.GetChild(1))
+            {
+                //transform.GetChild(1).GetComponent<FireExtinguisher>()
+            }
+        }
     }
     private void Throw(float power)
     {
+        //현재 잡는걸 놓았기에 None으로 상태 변경
+        curInteractState = InteractState.None;
+
         //던지는 모션으로 변경
         playerState.curState = PlayerState.State.Throw;
         Transform food = transform.GetChild(1);
