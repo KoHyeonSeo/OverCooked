@@ -13,6 +13,8 @@ public class FireExtinguisher : MonoBehaviour
     }
     private void Update()
     {
+        if(!player)
+            player = GameManager.instance.Player;
         if (player.GetComponent<PlayerInteract>().curInteractState == PlayerInteract.InteractState.FireDistinguish
             && player.GetComponent<PlayerInput>().FireExtinguisher)
         {
