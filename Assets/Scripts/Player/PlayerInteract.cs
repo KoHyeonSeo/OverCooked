@@ -53,7 +53,7 @@ public class PlayerInteract : MonoBehaviour
                 else if(hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
                 {
                     curInteractState = InteractState.FireDistinguish;
-                    createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.5f, 0.5f));
+                    createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
                 }
             }
         }
@@ -75,11 +75,19 @@ public class PlayerInteract : MonoBehaviour
         }
 
         //소화기 분사 
-        if(playerInput.FireExtinguisher && curInteractState == InteractState.FireDistinguish)
+        if(curInteractState == InteractState.FireDistinguish)
         {
             if (transform?.GetChild(1))
             {
-                //transform.GetChild(1).GetComponent<FireExtinguisher>()
+                if (playerInput.FireExtinguisher)
+                {
+                    transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(true);
+                }
+                else
+                {
+                    transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(false);
+                }
+                
             }
         }
     }
