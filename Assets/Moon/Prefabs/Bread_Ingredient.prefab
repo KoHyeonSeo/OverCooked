@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &504508968258116117
+--- !u!1 &882543627547586119
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 504508968258116119}
-  - component: {fileID: 504508968258116118}
-  - component: {fileID: 8234423162323672770}
-  - component: {fileID: 7627919500331043344}
+  - component: {fileID: 882543627547586115}
+  - component: {fileID: 882543627547586116}
+  - component: {fileID: 882543627547586117}
+  - component: {fileID: 882543627547586118}
   m_Layer: 0
-  m_Name: Meat_Ingredient
+  m_Name: Bread_Ingredient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &504508968258116119
+--- !u!4 &882543627547586115
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 504508968258116117}
+  m_GameObject: {fileID: 882543627547586119}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -34,44 +34,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &504508968258116118
+--- !u!114 &882543627547586116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 504508968258116117}
+  m_GameObject: {fileID: 882543627547586119}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a82ba3447e27bea40b338e42f24991de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientObject: {fileID: 11400000, guid: 998e65665c73d2f4e9f13a8327b3f7b7, type: 2}
+  ingredientObject: {fileID: 11400000, guid: 090746b53eff5974eb085fddaaad4e1b, type: 2}
   curObject: {fileID: 0}
   isRaw: 0
   isCut: 0
   isBake: 0
   isReady: 0
---- !u!65 &8234423162323672770
+--- !u!65 &882543627547586117
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 504508968258116117}
+  m_GameObject: {fileID: 882543627547586119}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7627919500331043344
+--- !u!54 &882543627547586118
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 504508968258116117}
+  m_GameObject: {fileID: 882543627547586119}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientName: Meat
   cookLevel:
-  - {fileID: 4366210449096407959, guid: e8f849305414152419e77e29c1bc2d6c, type: 3}
+  - {fileID: 5163104833719264227, guid: 9542c6c558510a14ca83cd9bd06ffb51, type: 3}
   - {fileID: 2771864314630846459, guid: 1b28f7bd4a488464fa296ef9cf56b94f, type: 3}
   - {fileID: 7593623459112943794, guid: 41694c9ca64a3c445afa512a1620b45f, type: 3}
   recipeIcon: {fileID: 21300000, guid: 9bf25d9fd086df14cb1315b2cd10d436, type: 3}
