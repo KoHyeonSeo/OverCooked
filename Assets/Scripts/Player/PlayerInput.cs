@@ -46,7 +46,7 @@ public class PlayerInput : MonoBehaviour
     public bool DashButton { get; private set; }
 
     /// <summary>
-    /// R 키를 누르고 있으면, true (소화기 분사)
+    /// Left Ctrl 키를 누르고 있으면, true (소화기 분사)
     /// </summary>
     public bool FireExtinguisher { get; private set; }
 
@@ -64,7 +64,7 @@ public class PlayerInput : MonoBehaviour
             LeftClickDown = Input.GetButtonDown(leftClickName);
             RightClickDown = Input.GetButtonDown(rightClickName);
             Interact = Input.GetButtonDown(interactName);
-            FireExtinguisher = Input.GetKey(KeyCode.R);
+            FireExtinguisher = Input.GetKey(KeyCode.LeftControl);
             #endregion
         }
     }
