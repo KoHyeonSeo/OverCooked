@@ -49,11 +49,6 @@ public class M_IngredientBox : MonoBehaviour
         }*/
     }
 
-    void OnDestroy()
-    {
-        Debug.Log("Test Destroy");
-    }
-
     //재료 생성
     public void CreateIngredient()
     {

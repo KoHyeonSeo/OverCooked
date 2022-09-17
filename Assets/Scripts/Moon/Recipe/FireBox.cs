@@ -17,10 +17,10 @@ public class FireBox : MonoBehaviour
     void Update()
     {
         //오브젝트가 프라이팬이고 프라이팬에 음식이 있으면 시간이 흐름
-        if (getObject && getObject.GetComponent<FryingPan>() && getObject.GetComponent<FryingPan>().getObject)
+        if (getObject /*&& getObject.GetComponent<FryingPan>() && getObject.GetComponent<FryingPan>().getObject*/)
         {
-            
-            GameObject fryObject = getObject.GetComponent<FryingPan>().getObject;
+            //GameObject fryObject = getObject.GetComponent<FryingPan>().getObject;
+            GameObject fryObject = getObject;
             if (fryObject && fryObject.GetComponent<IngredientDisplay>())
             {
                 if (fryObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleBake && !fryObject.GetComponent<IngredientDisplay>().isBake)
@@ -42,8 +42,11 @@ public class FireBox : MonoBehaviour
 
     void ChangeStateBake()
     {
-        print("구움: " + getObject.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().ingredientObject.name);
-        getObject.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = true;
+        /*print("구움: " + getObject.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().ingredientObject.name);
+        getObject.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = true;*/
+        print("구움: " + getObject.GetComponent<IngredientDisplay>().name);
+        getObject.GetComponent<IngredientDisplay>().CookLevelUp();
+        getObject.GetComponent<IngredientDisplay>().isBake = true;
         time = 0;
     }
 
@@ -57,9 +60,11 @@ public class FireBox : MonoBehaviour
         //박스 위에 오브젝트가 없으면 받은 오브젝트 셋팅
         if (!getObject)
         {
+            obj.transform.parent = transform;
+            obj.transform.localPosition = new Vector3(0, 1, 0);
             getObject = obj;
-            getObject.transform.position = objectPosition.position;
-            getObject.transform.parent = transform;
+            //getObject.transform.position = objectPosition.position;
+            //getObject.transform.parent = transform;
         }
 
     }

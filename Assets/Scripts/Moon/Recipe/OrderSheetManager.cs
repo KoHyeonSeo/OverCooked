@@ -97,9 +97,19 @@ public class OrderSheetManager : MonoBehaviour
                     print("잘못된 음식");
                     Destroy(plate.transform.gameObject);
                 }
+                if (j == recipe.ingredients.Length - 1)
+                {
+                    print("리스트에 있는 음식");
+                    Destroy(plate.transform.gameObject);
+                    StageManager.instance.CoinPlus(8);
+                    orderSheetList.RemoveAt(i);
+                    CreateOrderSheet();
+                    break;
+                }
             }
-            print("리스트에 있는 음식");
-
+            if (i == orderSheetList.Count - 1)
+                Destroy(plate.transform.gameObject);
         }
+        Destroy(plate.transform.gameObject);
     }
 }
