@@ -39,20 +39,24 @@ public class PlayerInteract : MonoBehaviour
         Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y / 2, transform.position.z), transform.forward);
         //바닥에 있는 음식 잡기
         Debug.DrawRay(ray.origin, ray.direction, Color.red);
-        if (playerInput.LeftClickDown && transform.childCount == 1)
+        if (Physics.Raycast(ray, out hit, 1f))
         {
-            if (Physics.Raycast(ray, out hit, 1f))
+            PointObject = hit.transform.gameObject;
+
+            if (playerInput.LeftClickDown && transform.childCount == 1)
             {
                 //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
                 if (hit.transform.CompareTag("Food") && transform.childCount == 1)
                 {
                     curInteractState = InteractState.Grab;
-                    createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.5f, 0.5f));
+                    GameObject create = createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.5f, 0.5f));
+                    GrabbingObjectInfo = create;
                 }
-                else if(hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
+                else if (hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
                 {
                     curInteractState = InteractState.FireDistinguish;
-                    createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+                    GameObject create = createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+                    GrabbingObjectInfo = create;
                 }
             }
         }
@@ -90,8 +94,20 @@ public class PlayerInteract : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// 들고 있는 오브젝트 GameObject형 반환 들고 있는 것이 없다면 null
+    /// </summary>
+    public GameObject GrabbingObjectInfo { get; private set; }
+
+    /// <summary>
+    /// 가리키고 있는 오브젝트 GameObject형 반환, 가리키고 있는 것이 없다면 null
+    /// </summary>
+    public GameObject PointObject { get; private set; } 
     private void Throw(float power)
     {
+        //잡고 있는 물체 null;
+        GrabbingObjectInfo = null;
+
         //현재 잡는걸 놓았기에 None으로 상태 변경
         curInteractState = InteractState.None;
 
