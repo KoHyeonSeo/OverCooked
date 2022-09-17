@@ -9,7 +9,12 @@ public class PlayerInput : MonoBehaviour
     public const string leftClickName = "Fire1";
     public const string rightClickName = "Fire2";
     public const string interactName = "Jump";
-
+    
+    /// <summary>
+    /// 플레이어 입력 제어 변수
+    /// </summary>
+    public bool playerControl = false;
+    
     /// <summary>
     /// 좌우로 이동
     /// </summary>
@@ -40,18 +45,27 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     public bool DashButton { get; private set; }
 
+    /// <summary>
+    /// R 키를 누르고 있으면, true (소화기 분사)
+    /// </summary>
+    public bool FireExtinguisher { get; private set; }
+
     private void Update()
     {
-        #region 움직임 관련 입력
-        XAxisDown = Input.GetAxisRaw(XAxisName);
-        ZAxisDown = Input.GetAxisRaw(ZAxisName);
-        DashButton = Input.GetKey(KeyCode.LeftShift);
-        #endregion
+        if (!playerControl)
+        {
+            #region 움직임 관련 입력
+            XAxisDown = Input.GetAxisRaw(XAxisName);
+            ZAxisDown = Input.GetAxisRaw(ZAxisName);
+            DashButton = Input.GetKey(KeyCode.LeftShift);
+            #endregion
 
-        #region 상호작용 관련 입력
-        LeftClickDown = Input.GetButtonDown(leftClickName);
-        RightClickDown = Input.GetButtonDown(rightClickName);
-        Interact = Input.GetButtonDown(interactName);
-        #endregion
+            #region 상호작용 관련 입력
+            LeftClickDown = Input.GetButtonDown(leftClickName);
+            RightClickDown = Input.GetButtonDown(rightClickName);
+            Interact = Input.GetButtonDown(interactName);
+            FireExtinguisher = Input.GetKey(KeyCode.R);
+            #endregion
+        }
     }
 }
