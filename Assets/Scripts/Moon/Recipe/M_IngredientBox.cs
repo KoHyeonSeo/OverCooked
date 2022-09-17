@@ -9,11 +9,11 @@ public class M_IngredientBox : MonoBehaviour
     bool isPlayerExit;
 
     void Start()
-    {
+    {/*
         if (GameManager.instance.Player)
         {
             player = GameManager.instance.Player;
-        }
+        }*/
     }
 
     // Update is called once per frame
@@ -49,6 +49,11 @@ public class M_IngredientBox : MonoBehaviour
         }*/
     }
 
+    void OnDestroy()
+    {
+        Debug.Log("Test Destroy");
+    }
+
     //재료 생성
     public void CreateIngredient()
     {
@@ -60,25 +65,4 @@ public class M_IngredientBox : MonoBehaviour
         }*/
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            isPlayerExit = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-
-        if (other.tag == "Player")
-        {
-            isPlayerExit = false;
-        }
-    }
 }
