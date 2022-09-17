@@ -61,23 +61,9 @@ public class Table : MonoBehaviour
             hit.transform.gameObject.layer == LayerMask.NameToLayer("Default") &&
             transform.childCount == tableChild)
         {
-            GameObject food = Instantiate(hit.transform.gameObject);
-            //layer를 Table로하여 Table과 닿지 않게끔
-            food.layer = LayerMask.NameToLayer("Table");
-            //이름의 Clone을 지운다.
-            string[] names = food.name.Split('(');
-            food.name = names[0];
-            //Food를 Table의 자식으로 설정
-            food.transform.parent = transform;
-            //물리처리 & 위치 조정
-            food.GetComponent<Rigidbody>().isKinematic = true;
-            food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            food.transform.localPosition = new Vector3(0, 1, 0);
-            food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            food.GetComponent<Rigidbody>().useGravity = false;
-
-            //기존의 것은 지우기
-            Destroy(hit.transform.gameObject);
+            player.GetComponent<PlayerCreateNew>().
+                CreatesNewObject(hit.transform.gameObject, "Table", true, transform, new Vector3(0, 1, 0));
+       
         }
     }
     private void HitRay(RaycastHit hit)
@@ -92,23 +78,9 @@ public class Table : MonoBehaviour
                 && player.transform.GetChild(1) == hit.transform
                 && player.GetComponent<PlayerInput>().LeftClickDown)
             {
-                GameObject food = Instantiate(hit.transform.gameObject);
-                //layer를 Table로하여 Table과 닿지 않게끔
-                food.layer = LayerMask.NameToLayer("Table");
-                //이름의 Clone을 지운다.
-                string[] names = food.name.Split('(');
-                food.name = names[0];
-                //재료의 부모를 Table로 삼는다.
-                food.transform.parent = transform;
-                //물리처리 & 위치 조정
-                food.GetComponent<Rigidbody>().isKinematic = true;
-                food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                food.transform.localPosition = new Vector3(0, 1, 0);
-                food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                food.GetComponent<Rigidbody>().useGravity = false;
+                player.GetComponent<PlayerCreateNew>().
+                    CreatesNewObject(hit.transform.gameObject, "Table", true, transform, new Vector3(0, 1, 0));
 
-                //기존의 것은 지우기
-                Destroy(hit.transform.gameObject);
             }
         }
         else if (hit.transform.CompareTag("Player"))
@@ -122,21 +94,9 @@ public class Table : MonoBehaviour
                 //우클릭하여 집기
                 if (hit.transform.gameObject.GetComponent<PlayerInput>().LeftClickDown)
                 {
-                    GameObject food = Instantiate(transform.GetChild(tableChild).gameObject);
-                    //Clone 글자 지우기
-                    string[] names = food.name.Split('(');
-                    food.name = names[0];
-                    //layer를 Food로 변경하여 Player와 충돌처리가 안되도록
-                    food.layer = LayerMask.NameToLayer("Food");
-                    //food의 부모를 Player로 바꾼다.
-                    food.transform.parent = hit.transform;
-                    //물리처리 및 위치조정
-                    food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                    food.transform.localPosition = new Vector3(0, -0.5f, 0.5f);
-                    food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                    food.GetComponent<Rigidbody>().useGravity = false;
-                    //기존의 것은 지운다.
-                    Destroy(transform.GetChild(tableChild).gameObject);
+                    player.GetComponent<PlayerCreateNew>().
+                        CreatesNewObject(transform.GetChild(tableChild).gameObject, "Food", true, hit.transform, new Vector3(0, -0.5f, 0.5f));
+                  
                 }
             }
         }

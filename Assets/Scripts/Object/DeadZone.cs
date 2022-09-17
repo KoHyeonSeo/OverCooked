@@ -31,8 +31,8 @@ public class DeadZone : MonoBehaviour
         else
         {
             other.GetComponent<PlayerState>().curState = PlayerState.State.Die;
-            if (player.transform.childCount > 1)
-                player.transform.GetChild(1).parent = null;
+            if (other.transform.childCount > 1)
+                other.transform.GetChild(1).parent = null;
             player = other.transform;
             playerDead = true;
         }

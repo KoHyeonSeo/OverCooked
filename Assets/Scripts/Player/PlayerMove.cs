@@ -21,11 +21,13 @@ public class PlayerMove : MonoBehaviour
     private Vector3 Dir;
     private RaycastHit hit;
     private Vector3 startPosition;
+    private PlayerCreateNew createNew;
     private void Start()
     {
         startPosition = transform.position + new Vector3(0, 2, 0);
         playerInput = GetComponent<PlayerInput>();
         playerState = GetComponent<PlayerState>();
+        createNew = GetComponent<PlayerCreateNew>();
     }
     private void Update()
     {
@@ -54,23 +56,8 @@ public class PlayerMove : MonoBehaviour
                 //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
                 if (hit.transform.CompareTag("Food") && transform.childCount == 1)
                 {
-                    GameObject food = Instantiate(hit.transform.gameObject);
-                    //이름 뒤 (clone) 제거
-                    string[] names = food.name.Split('(');
-                    food.name = names[0];
-                    //Player와 충돌 방지
-                    food.layer = LayerMask.NameToLayer("Food");
-                    //재료가 계속해서 떨어지는 것을 방지 -> 중력 off
-                    food.GetComponent<Rigidbody>().useGravity = false;
-                    food.GetComponent<Rigidbody>().isKinematic = true;
-                    //재료의 부모를 Player로 삼음
-                    food.transform.parent = transform;
-                    //물리 처리 & 위치 조정
-                    food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                    food.transform.localPosition = new Vector3(0, -0.5f, 0.5f);
-                    food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-
-                    Destroy(hit.transform.gameObject);
+                    createNew.CreatesNewObject(hit.transform.gameObject, "Food" ,true, transform, new Vector3(0, -0.5f, 0.5f));
+       
                 }
             }
         }
@@ -96,16 +83,15 @@ public class PlayerMove : MonoBehaviour
     {
         //던지는 모션으로 변경
         playerState.curState = PlayerState.State.Throw;
-
         Transform food = transform.GetChild(1);
-        //이름 뒤 (Clone) 문자열 제거
+
         string[] names = food.name.Split('(');
         food.name = names[0];
-        //던지는 순간 layer 변경
+
         food.gameObject.layer = LayerMask.NameToLayer("Default");
-        //player의 자식에서 벗어남
+
         food.parent = null;
-        //물리처리
+
         food.GetComponent<Rigidbody>().isKinematic = false;
         food.GetComponent<Rigidbody>().useGravity = true;
         food.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
