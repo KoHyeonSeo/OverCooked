@@ -97,7 +97,6 @@ public class PlayerMove : MonoBehaviour
         //던지는 모션으로 변경
         playerState.curState = PlayerState.State.Throw;
 
-        Debug.Log("던져");
         Transform food = transform.GetChild(1);
         //이름 뒤 (Clone) 문자열 제거
         string[] names = food.name.Split('(');
