@@ -13,15 +13,14 @@ public class PlayerRay : MonoBehaviour
 
     void Start()
     {
-        objectPosition.position = new Vector3(0, 1, 0);
+        //objectPosition.position = new Vector3(0, 1, 0);
     }
 
     void Update()
     {
         if (getObject)
         {
-            print(getObject.transform.position);
-            //getObject.transform.position = objectPosition.position;
+            
         }
         CheckRay();
     }
@@ -30,7 +29,7 @@ public class PlayerRay : MonoBehaviour
     {
         if (getObject)
         {
-            ///getObject.layer = 10;
+            getObject.layer = 10;
         }
         if (interactiveObject)
         {
@@ -65,11 +64,18 @@ public class PlayerRay : MonoBehaviour
         ray = new Ray(transform.position, transform.forward);
         Debug.DrawRay(transform.position, transform.forward, Color.blue);
         RayHit();
-        if (Input.GetKeyDown(KeyCode.R))//GetComponent<PlayerInput>().LeftClickDown)
+        if (Input.GetKeyDown(KeyCode.E))//GetComponent<PlayerInput>().LeftClickDown)
         {
             if (interactiveObject)
             {
-                if (interactiveObject.GetComponent<M_IngredientBox>())
+                if (interactiveObject.name.Contains("ServiceDesk"))
+                {
+                    if (getObject.GetComponent<Plate>())
+                    {
+                        OrderSheetManager.instance.CheckOrderSheet(getObject.GetComponent<Plate>());
+                    }
+                }
+                else if (interactiveObject.GetComponent<M_IngredientBox>())
                 {
                     InteractiveIngredientBox();
                 }
@@ -80,6 +86,14 @@ public class PlayerRay : MonoBehaviour
                 else if (interactiveObject.GetComponent<M_Box>())
                 {
                     InteractiveTable();
+                }
+                else if (interactiveObject.GetComponent<FireBox>())
+                {
+                    InteractiveFireTable();
+                }
+                else if (interactiveObject.tag == "Food")
+                {
+                    SetGetObject(interactiveObject);
                 }
             }
             else
@@ -102,6 +116,7 @@ public class PlayerRay : MonoBehaviour
         if (getObject)
         {
             interactiveObject.GetComponent<M_Box>().SetObject(getObject);
+            getObject = null;
         }
         //들고있는게 없을 때
         else
@@ -125,12 +140,9 @@ public class PlayerRay : MonoBehaviour
         //재료 생성 후 getObject에 넣어쥼
         else
         {
-            print("2222");
-            Time.timeScale = 0.9f;
             /*GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
                     GetComponent<PlayerCreateNew>().CreatesNewObject(ingredient, "Grab");*/
             GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
-            
             //ingredient.transform.parent = transform;
             //ingredient.transform.localPosition = new Vector3(0, -.5f, .5f);
             //ingredient.transform.position = objectPosition.position;
@@ -146,12 +158,23 @@ public class PlayerRay : MonoBehaviour
         //뭔가 들고 있을 때
         if (getObject)
         {
-
+            if (getObject.GetComponent<IngredientDisplay>())
+            {
+                if(getObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleBake)
+                {
+                    interactiveObject.GetComponent<FireBox>().SetObject(getObject);
+                    getObject = null;
+                }
+            }
         }
         //들고있는게 없을 때
         else
         {
-
+            if (interactiveObject.GetComponent<FireBox>().getObject)
+            {
+                SetGetObject(interactiveObject.GetComponent<FireBox>().getObject);
+                interactiveObject.GetComponent<FireBox>().getObject = null;
+            }
         }
     }
 
@@ -202,8 +225,9 @@ public class PlayerRay : MonoBehaviour
 
     void SetGetObject(GameObject obj)
     {
+        
+        obj.transform.parent = transform;
+        obj.transform.position = objectPosition.position;
         getObject = obj;
-        getObject.transform.parent = transform;
-        getObject.transform.position = objectPosition.position;
     }
 }

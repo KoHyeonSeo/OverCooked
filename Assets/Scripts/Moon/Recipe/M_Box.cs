@@ -32,11 +32,24 @@ public class M_Box : MonoBehaviour
     public void SetObject(GameObject obj)
     {
         //박스 위에 오브젝트가 없으면 받은 오브젝트 셋팅
-        if (!getObject)
+        if (!getObject) 
         {
+            obj.transform.parent = transform;
+            obj.transform.localPosition = new Vector3(0, 1, 0);
+            //getObject.transform.position = objectPosition.position;
+            
             getObject = obj;
-            getObject.transform.position = objectPosition.position;
-            getObject.transform.parent = transform;
+        }
+        else
+        {
+            if (obj.tag == "Food" && getObject.GetComponent<Plate>())
+            {
+                getObject.GetComponent<Plate>().GetIngredient(obj);
+            }
+            else if (obj.GetComponent<Plate>() && getObject.GetComponent<IngredientDisplay>())
+            {
+                obj.GetComponent<Plate>().GetIngredient(getObject);
+            }
         }
         
     }

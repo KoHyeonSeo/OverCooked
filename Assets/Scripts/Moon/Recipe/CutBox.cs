@@ -48,6 +48,7 @@ public class CutBox : MonoBehaviour
     {
         print("Àß¸²: " + getObject.GetComponent<IngredientDisplay>().ingredientObject.name);
         getObject.GetComponent<IngredientDisplay>().isCut = true;
+        getObject.GetComponent<IngredientDisplay>().CookLevelUp(); 
         time = 0;
         cutGauge.SetActive(false);
     }

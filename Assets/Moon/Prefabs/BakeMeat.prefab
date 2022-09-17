@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7593623459112943799}
   - component: {fileID: 7593623459112943796}
   - component: {fileID: 7593623459112943797}
+  - component: {fileID: 228259202037198913}
   m_Layer: 0
   m_Name: BakeMeat
   m_TagString: Untagged
@@ -95,5 +96,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 4.7581186, z: 1}
+  m_Center: {x: 0, y: 1.8790585, z: 0}
+--- !u!54 &228259202037198913
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593623459112943794}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
