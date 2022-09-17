@@ -7429,43 +7429,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shark_Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5240347791975796697, guid: bdaeac11870877647885bbcb705813ab, type: 3}
-      propertyPath: throwPower
-      value: 1000
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdaeac11870877647885bbcb705813ab, type: 3}
---- !u!1 &5240347791647323679 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5240347791975796696, guid: bdaeac11870877647885bbcb705813ab, type: 3}
-  m_PrefabInstance: {fileID: 5240347791647323678}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5240347791647323680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5240347791647323679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0e6240eeb8cb8b4287c395767de03aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5240347791647323681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5240347791647323679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e66b8fd7b5b6c024baa546365459b9e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwPower: 1000
-  curInteractState: 0
 --- !u!1001 &6741391650840584491
 PrefabInstance:
   m_ObjectHideFlags: 0
