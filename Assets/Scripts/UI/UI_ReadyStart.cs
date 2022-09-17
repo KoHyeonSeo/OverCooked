@@ -12,12 +12,18 @@ public class UI_ReadyStart : MonoBehaviour
 
     private float curTime = 0;
     GameObject player;
+
+    /// <summary>
+    /// 준비 됐다면 알리는 프로퍼티
+    /// </summary>
+    public bool IsReady { get; private set; }  
     private void Start()
     {
         readyUI.SetActive(false);
         startUI.SetActive(false);
         if (GameManager.instance.Player)
             player = GameManager.instance.Player;
+        IsReady = false;
     }
     private void Update()
     {
@@ -51,6 +57,7 @@ public class UI_ReadyStart : MonoBehaviour
 
             readyUI.SetActive(false);
             startUI.SetActive(false);
+            IsReady = true;
         }
     }
 

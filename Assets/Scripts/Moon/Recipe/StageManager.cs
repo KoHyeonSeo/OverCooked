@@ -12,8 +12,12 @@ public class StageManager : MonoBehaviour
     public Text curCoinText;
     public int curTime; //현재 시간
     public Text curTimeText;
+    public UI_ReadyStart readyStart;
+    public GameObject timeOver;
 
     public static StageManager instance;
+
+    private bool isOnce = false;
 
     private void Awake()
     {
@@ -27,18 +31,22 @@ public class StageManager : MonoBehaviour
             GameObject plate = Instantiate(platePrefab);
             platePositionTable[i].GetComponent<M_Box>().SetObject(plate);
         }
-        StartCoroutine(IeTimer());
-        
+        timeOver.SetActive(false);
+
     }
 
     void Update()
     {
-        
+        if (readyStart.IsReady && !isOnce)
+        {
+            isOnce = true;
+            StartCoroutine(IeTimer());
+        }
     }
 
     IEnumerator IeTimer()
     {
-        while (curTime > 1)
+        while (curTime >= 1)
         {
             yield return new WaitForSecondsRealtime(1f);
             curTime -= 1;
@@ -51,6 +59,7 @@ public class StageManager : MonoBehaviour
             else
                 curTimeText.text += "" + m;
         }
+        timeOver.SetActive(true);
     }
 
     public void CoinPlus(int i)
