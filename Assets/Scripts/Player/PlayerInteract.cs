@@ -12,7 +12,6 @@ public class PlayerInteract : MonoBehaviour
 
     private PlayerState playerState;
     private PlayerInput playerInput;
-    private Vector3 Dir;
     private RaycastHit hit;
     private Vector3 startPosition;
     private PlayerCreateNew createNew;
