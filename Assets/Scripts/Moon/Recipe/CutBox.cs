@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CutBox : MonoBehaviour
 {
@@ -8,9 +9,14 @@ public class CutBox : MonoBehaviour
     public Transform objectPosition;
     float cutTime = 2;
     float time = 0;
+    public bool isPlayerExit;
+    public GameObject cutGauge;
+    public Image cutGaugeImage;
+
     void Start()
     {
-        
+        cutGaugeImage.GetComponent<Image>().fillAmount = time / cutTime;
+        cutGauge.SetActive(false);
     }
 
     void Update()
@@ -21,7 +27,13 @@ public class CutBox : MonoBehaviour
         {
             if (getObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleCut && !getObject.GetComponent<IngredientDisplay>().isCut)
             {
-                time += Time.deltaTime;
+                if (isPlayerExit)
+                {
+                    cutGauge.SetActive(true);
+                    time += Time.deltaTime;
+                    cutGaugeImage.GetComponent<Image>().fillAmount = time / cutTime;
+                }
+                    
                 if (cutTime < time)
                 {
                     //상태를 자른걸로 변환
@@ -37,6 +49,7 @@ public class CutBox : MonoBehaviour
         print("잘림: " + getObject.GetComponent<IngredientDisplay>().ingredientObject.name);
         getObject.GetComponent<IngredientDisplay>().isCut = true;
         time = 0;
+        cutGauge.SetActive(false);
     }
 
     public void SetObject(GameObject obj)
