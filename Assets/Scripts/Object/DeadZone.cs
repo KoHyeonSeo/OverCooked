@@ -16,7 +16,7 @@ public class DeadZone : MonoBehaviour
             curTime += Time.deltaTime;
             if (curTime > waitTime)
             {
-                player.GetComponent<PlayerMove>().OnBirth();
+                player.GetComponent<PlayerInteract>().OnBirth();
                 playerDead = false;
                 curTime = 0;
             }
