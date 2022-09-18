@@ -9,27 +9,30 @@ public class PlayerRay : MonoBehaviour
     public GameObject interactiveObject;
     public GameObject getObject;
     public GameObject cutTable;
-    public Transform objectPosition;
+    Vector3 objectPosition;
 
     void Start()
     {
         //objectPosition.position = new Vector3(0, 1, 0);
+        objectPosition = new Vector3(0f, -0.2f ,0.6f);
     }
 
     void Update()
     {
-        if (getObject)
-        {
-            
-        }
         CheckRay();
     }
 
     void CheckRay()
     {
+        getObject = GetComponent<PlayerInteract>().GrabbingObjectInfo;
+        interactiveObject = GetComponent<PlayerInteract>().PointObject;
         if (getObject)
         {
             getObject.layer = 10;
+        }
+        else
+        {
+            
         }
         if (interactiveObject)
         {
@@ -48,14 +51,16 @@ public class PlayerRay : MonoBehaviour
         }
         else
         {
+            
             if (cutTable)
             {
                 cutTable.GetComponent<CutBox>().isPlayerExit = false;
                 cutTable = null;
             }
         }
+        
 
-        ray = new Ray(transform.position, transform.right);
+        /*ray = new Ray(transform.position, transform.right);
         Debug.DrawRay(transform.position, transform.right, Color.blue);
         RayHit();
         ray = new Ray(transform.position, transform.right * -1);
@@ -63,8 +68,8 @@ public class PlayerRay : MonoBehaviour
         RayHit();
         ray = new Ray(transform.position, transform.forward);
         Debug.DrawRay(transform.position, transform.forward, Color.blue);
-        RayHit();
-        if (Input.GetKeyDown(KeyCode.E) || GetComponent<PlayerInput>().LeftClickDown)
+        RayHit();*/
+        if (/*Input.GetKeyDown(KeyCode.E) || */GetComponent<PlayerInput>().LeftClickDown)
         {
             if (interactiveObject)
             {
@@ -142,14 +147,15 @@ public class PlayerRay : MonoBehaviour
         {
             /*GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
                     GetComponent<PlayerCreateNew>().CreatesNewObject(ingredient, "Grab");*/
-            GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
+
             //ingredient.transform.parent = transform;
             //ingredient.transform.localPosition = new Vector3(0, -.5f, .5f);
             //ingredient.transform.position = objectPosition.position;
+
+            /*GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
             string[] names = ingredient.name.Split('(');
             ingredient.name = names[0];
-            SetGetObject(ingredient);
-            //getObject = ingredient;
+            SetGetObject(ingredient);*/
         }
     }
 
@@ -227,7 +233,7 @@ public class PlayerRay : MonoBehaviour
     {
         
         obj.transform.parent = transform;
-        obj.transform.position = objectPosition.position;
+        obj.transform.position = objectPosition;
         getObject = obj;
     }
 }

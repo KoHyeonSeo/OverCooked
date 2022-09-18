@@ -21,6 +21,10 @@ public class CutBox : MonoBehaviour
 
     void Update()
     {
+        if (GetComponent<Table>() && GetComponent<Table>().transform.childCount == 3)
+        {
+            getObject = GetComponent<Table>().transform.GetChild(2).gameObject;
+        }
         
         //도마위에 올라온 오브젝트가 음식이면서 자르지 않은 상태라면 시간이 흐름
         if (getObject && getObject.GetComponent<IngredientDisplay>()/*&&Player가 앞에 있으면*/)
