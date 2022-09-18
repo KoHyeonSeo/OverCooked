@@ -10,38 +10,62 @@ public class BlockEditor : EditorWindow
     {
         BlockEditor editor = (BlockEditor)GetWindow(typeof(BlockEditor));
     }
+
+    Vector2 scrollPosition;
     private void OnGUI()
     {
         GUILayout.Label("Interact Object", EditorStyles.boldLabel);
-        if(GUILayout.Button("Basic Table"))
+        Object resource_table = Resources.Load<GameObject>("Table");
+        GUILayout.BeginHorizontal();
+        GUILayout.BeginScrollView
+            (scrollPosition,
+            GUILayout.MinWidth(100),
+            GUILayout.MaxWidth(300),
+            GUILayout.MinHeight(220),
+            GUILayout.MaxHeight(700));
+
+        GUILayout.Label("Table");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_table)))
         {
-            GameObject resource = Resources.Load<GameObject>("Table");
-            GameObject instantiate = Instantiate(resource);
+            EditorGUIUtility.PingObject(resource_table);
+            GameObject instantiate = Instantiate(resource_table as GameObject);
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
         }
-        else if (GUILayout.Button("Trash Can"))
+
+        GUILayout.Label("Trash Can");
+        Object resource_trash = Resources.Load<GameObject>("Trash Can");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_trash)))
         {
-            GameObject resource = Resources.Load<GameObject>("Trash Can");
-            GameObject instantiate = Instantiate(resource);
+            EditorGUIUtility.PingObject(resource_trash);
+            GameObject instantiate = Instantiate(resource_trash as GameObject);
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
         }
-        else if (GUILayout.Button("Fire Extinguisher"))
+
+        GUILayout.Label("Fire Extinguisher");
+        Object resource_FireExtinguisher = Resources.Load<GameObject>("FireExtinguisher");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_FireExtinguisher)))
         {
-            GameObject resource = Resources.Load<GameObject>("FireExtinguisher");
-            GameObject instantiate = Instantiate(resource);
+            EditorGUIUtility.PingObject(resource_FireExtinguisher);
+            GameObject instantiate = Instantiate(resource_FireExtinguisher as GameObject);
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
         }
-        
-        GUILayout.Label("Other", EditorStyles.boldLabel);
-        if (GUILayout.Button("Dead Zone"))
+
+        GUILayout.Label("Other", EditorStyles.boldLabel); 
+
+        GUILayout.Label("Deadzone");
+        Object resource_DeadZone = Resources.Load<GameObject>("Deadzone");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_DeadZone)))
         {
-            GameObject resource = Resources.Load<GameObject>("Deadzone");
-            GameObject instantiate = Instantiate(resource);
+            EditorGUIUtility.PingObject(resource_DeadZone);
+            GameObject instantiate = Instantiate(resource_DeadZone as GameObject);
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
         }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndScrollView();
+        GUILayout.EndHorizontal();
     }
 }
