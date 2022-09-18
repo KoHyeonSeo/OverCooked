@@ -38,7 +38,7 @@ public class OrderSheet : MonoBehaviour
             //print(gauge / recipe.ingredients.Length * 30);
         }
         //OrderSheetManager.instance.orderSheetList.Remove(gameObject);
-        OrderSheetManager.instance.StartCoroutine("IeDeleteOrderSheet",gameObject);
+        DestroyOrder();
         Destroy(gameObject);
     }
 
@@ -55,5 +55,10 @@ public class OrderSheet : MonoBehaviour
             rBG.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             rBG.transform.GetChild(0).GetComponent<Image>().sprite = recipe.ingredients[i].recipeIcon;
         }
+    }
+
+    public void DestroyOrder()
+    {
+        OrderSheetManager.instance.StartCoroutine("IeDeleteOrderSheet", gameObject);
     }
 }
