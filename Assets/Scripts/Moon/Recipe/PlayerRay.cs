@@ -64,7 +64,7 @@ public class PlayerRay : MonoBehaviour
         ray = new Ray(transform.position, transform.forward);
         Debug.DrawRay(transform.position, transform.forward, Color.blue);
         RayHit();
-        if (Input.GetKeyDown(KeyCode.E))//GetComponent<PlayerInput>().LeftClickDown)
+        if (Input.GetKeyDown(KeyCode.E) || GetComponent<PlayerInput>().LeftClickDown)
         {
             if (interactiveObject)
             {
