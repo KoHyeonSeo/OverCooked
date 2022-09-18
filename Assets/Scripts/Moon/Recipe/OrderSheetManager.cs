@@ -27,12 +27,12 @@ public class OrderSheetManager : MonoBehaviour
 
     void Update()
     {
-        
     }
 
     //주문서 생성
-    void CreateOrderSheet()
+    public void CreateOrderSheet()
     {
+        orderCount = orderSheetList.Count;
         //주문 5개 까지만 받음
         if (orderCount >= 5)
             return;
@@ -65,7 +65,8 @@ public class OrderSheetManager : MonoBehaviour
         while (xTargetPos <= xPos)
         {
             xPos = Mathf.Lerp(xPos, xTargetPos, 0.1f);
-            orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(xPos, 0, 0);
+            if (orderSheet)
+                orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(xPos, 0, 0);
             yield return new WaitForSeconds(0.01f);
         }
     }
@@ -111,5 +112,10 @@ public class OrderSheetManager : MonoBehaviour
                 Destroy(plate.transform.gameObject);
         }
         Destroy(plate.transform.gameObject);
+    }
+
+    void CreateDirtyPlate()
+    {
+        
     }
 }

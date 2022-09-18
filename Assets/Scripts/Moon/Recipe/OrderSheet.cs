@@ -16,17 +16,35 @@ public class OrderSheet : MonoBehaviour
     public GameObject orderBG; //주문서 배경 이미지
     public GameObject recipeBG; //레시피 재료 배경이미지
     public GameObject recipeContentGroup; //재료 이미지 그룹
+    public Image timeGauge;
+    public float gauge = 100;
 
     void Start()
     {
         //orderSheetSprite = GetComponent<Sprite>();
         //orderSheetSprite = recipe.recipeSprite;
         CreateRecipeContents();
+        gauge = recipe.ingredients.Length * 30;
+        StartCoroutine(IeTimer());
     }
 
     void Update()
     {
         
+    }
+
+    IEnumerator IeTimer()
+    {
+        for (int i = 0; i < recipe.ingredients.Length * 30; i++)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            gauge--;
+            timeGauge.GetComponent<Image>().fillAmount = gauge / (recipe.ingredients.Length * 30);
+            print(gauge / recipe.ingredients.Length * 30);
+        }
+        OrderSheetManager.instance.orderSheetList.Remove(gameObject);
+        OrderSheetManager.instance.CreateOrderSheet();
+        Destroy(gameObject);
     }
 
     //레시피 정보 얻어와서 주문서 표시

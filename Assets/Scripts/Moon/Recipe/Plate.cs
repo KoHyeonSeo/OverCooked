@@ -12,7 +12,7 @@ public class Plate : MonoBehaviour
     int count = 0; //현재 담긴 재료 수
     public RecipeObject[] recipes; //이건 인스펙터에서 넣기
     //GameObject[] curIngredients;
-
+    public bool isdirty;
     void Start()
     {
         ingredientName.text = "";
