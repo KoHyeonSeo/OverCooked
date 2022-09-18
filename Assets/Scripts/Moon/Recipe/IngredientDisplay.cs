@@ -38,10 +38,10 @@ public class IngredientDisplay : MonoBehaviour
         if (cookLevel < maxCookLevel)
             cookLevel++;
         Destroy(curObject);
-        curObject = player.GetComponent<PlayerCreateNew>().CreatesNewObject(ingredientObject.cookLevel[cookLevel], "Default", true, transform, new Vector3(0, 0, 0), true);
-        //curObject = Instantiate(ingredientObject.cookLevel[cookLevel]);
-        //curObject.transform.position = transform.position;
-        //curObject.transform.parent = transform;
+        //curObject = player.GetComponent<PlayerCreateNew>().CreatesNewObject(ingredientObject.cookLevel[cookLevel], "Default", true, transform, new Vector3(0, 0, 0), true);
+        curObject = Instantiate(ingredientObject.cookLevel[cookLevel]);
+        curObject.transform.position = transform.position;
+        curObject.transform.parent = transform;
     }
 
     void Update()
