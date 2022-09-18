@@ -79,6 +79,16 @@ public class OrderSheetManager : MonoBehaviour
         }
     }
 
+    public void DeleteOrderSheet(GameObject orderSheet)
+    {
+        int orderSheetNum = orderSheetList.IndexOf(orderSheet);
+        OrderSheetManager.instance.orderSheetList.Remove(orderSheet);
+        for (int i = orderSheetNum; i < orderSheetList.Count; i++)
+        {
+            IeMoveOrderSheet(orderSheet);
+        }
+    }
+
     //주문서랑 접시 비교
     public void CheckOrderSheet(Plate plate)
     {
