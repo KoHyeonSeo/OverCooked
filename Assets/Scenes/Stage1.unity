@@ -24461,7 +24461,7 @@ MonoBehaviour:
   targetCoin: 280000006400000018010000
   curCoin: 0
   curCoinText: {fileID: 862639024}
-  curTime: 240
+  curTime: 50
   curTimeText: {fileID: 2084970362}
   readyStart: {fileID: 1115280493}
   timeOver: {fileID: 2027482322}

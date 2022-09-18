@@ -12,15 +12,21 @@ public class CutBox : MonoBehaviour
     public bool isPlayerExit;
     public GameObject cutGauge;
     public Image cutGaugeImage;
+    private GameObject player;
 
     void Start()
     {
         cutGaugeImage.GetComponent<Image>().fillAmount = time / cutTime;
         cutGauge.SetActive(false);
+        if (GameManager.instance.Player)
+            player = GameManager.instance.Player;
     }
 
     void Update()
     {
+        if(!player)
+            player = GameManager.instance.Player;
+
         if (GetComponent<Table>() && GetComponent<Table>().transform.childCount == 3)
         {
             getObject = GetComponent<Table>().transform.GetChild(2).gameObject;
@@ -31,6 +37,7 @@ public class CutBox : MonoBehaviour
         {
             if (getObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleCut && !getObject.GetComponent<IngredientDisplay>().isCut)
             {
+                player.GetComponent<PlayerState>().curState = PlayerState.State.Chop;
                 if (isPlayerExit)
                 {
                     cutGauge.SetActive(true);
@@ -50,6 +57,8 @@ public class CutBox : MonoBehaviour
 
     void ChangeStateCut()
     {
+        player.GetComponent<PlayerState>().curState = PlayerState.State.Idle;
+
         print("Àß¸²: " + getObject.GetComponent<IngredientDisplay>().ingredientObject.name);
         getObject.GetComponent<IngredientDisplay>().isCut = true;
         getObject.GetComponent<IngredientDisplay>().CookLevelUp(); 
