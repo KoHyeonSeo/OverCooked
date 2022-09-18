@@ -7,6 +7,7 @@ public class M_Box : MonoBehaviour
     public GameObject getObject;
     public Transform objectPosition;
     public PlayerInput playerInput;
+
     void Start()
     {
         /*if (GameManager.instance.Player)
