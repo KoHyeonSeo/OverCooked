@@ -30,14 +30,15 @@ public class UI_ReadyStart : MonoBehaviour
         if (!player)
             player = GameManager.instance.Player;
 
+        print(player);
         curTime += Time.deltaTime;
-
         if (curTime < startTime)
         {
             //플레이어들 활동 제어
             player.GetComponent<PlayerInput>().playerControl = true;
 
             readyUI.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(readyUI.GetComponent<RectTransform>().anchoredPosition, Vector2.zero, Time.deltaTime * speed);
+
             readyUI.SetActive(true);
             startUI.SetActive(false);
         }

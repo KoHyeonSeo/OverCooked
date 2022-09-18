@@ -359,6 +359,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Mora_V\xEDctor_Overcooked"
       objectReference: {fileID: 0}
+    - target: {fileID: 6756406643620691183, guid: bde05958bbacfd94db0d5f6132c8d020, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7658355927837466917, guid: bde05958bbacfd94db0d5f6132c8d020, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0

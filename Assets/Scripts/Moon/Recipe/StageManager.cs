@@ -38,6 +38,10 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            curTime = 5;
+        }
         if (readyStart.IsReady && !isOnce)
         {
             transform.GetChild(0).gameObject.SetActive(true);
