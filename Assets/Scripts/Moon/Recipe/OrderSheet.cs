@@ -18,27 +18,27 @@ public class OrderSheet : MonoBehaviour
     public GameObject recipeContentGroup; //재료 이미지 그룹
     public Image timeGauge;
     public float gauge = 100;
-
+    public int ingredientTime = 3;
     void Start()
     {
         //orderSheetSprite = GetComponent<Sprite>();
         //orderSheetSprite = recipe.recipeSprite;
         CreateRecipeContents();
-        gauge = recipe.ingredients.Length * 30;
+        gauge = recipe.ingredients.Length * ingredientTime;
         StartCoroutine(IeTimer());
     }
 
     IEnumerator IeTimer()
     {
-        for (int i = 0; i < recipe.ingredients.Length * 30; i++)
+        for (int i = 0; i < recipe.ingredients.Length * ingredientTime; i++)
         {
             yield return new WaitForSecondsRealtime(1f);
             gauge--;
-            timeGauge.GetComponent<Image>().fillAmount = gauge / (recipe.ingredients.Length * 30);
+            timeGauge.GetComponent<Image>().fillAmount = gauge / (recipe.ingredients.Length * ingredientTime);
             //print(gauge / recipe.ingredients.Length * 30);
         }
         //OrderSheetManager.instance.orderSheetList.Remove(gameObject);
-        OrderSheetManager.instance.DeleteOrderSheet(gameObject);
+        OrderSheetManager.instance.StartCoroutine("IeDeleteOrderSheet",gameObject);
         Destroy(gameObject);
     }
 

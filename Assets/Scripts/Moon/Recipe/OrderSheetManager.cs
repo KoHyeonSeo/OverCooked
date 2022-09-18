@@ -27,7 +27,7 @@ public class OrderSheetManager : MonoBehaviour
 
     void Update()
     {
-
+        
         if (readyStart.IsReady && !isOnce)
         {
             isOnce = true;
@@ -70,22 +70,50 @@ public class OrderSheetManager : MonoBehaviour
             xTargetPos += 10 + orderSheetList[i].GetComponent<RectTransform>().rect.width * 0.5f;
         }
         //주문서 이동
-        while (xTargetPos <= xPos)
+        while (xTargetPos < xPos)
         {
+            if (xTargetPos + 1> xPos)
+            {
+                xPos = xTargetPos;
+                break;
+            }
             xPos = Mathf.Lerp(xPos, xTargetPos, 0.1f);
             if (orderSheet)
                 orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(xPos, 0, 0);
             yield return new WaitForSeconds(0.01f);
         }
+        print("주문서 생성 끝");
     }
 
-    public void DeleteOrderSheet(GameObject orderSheet)
+    public IEnumerator IeDeleteOrderSheet(GameObject orderSheet)
     {
+        print("삭제");
         int orderSheetNum = orderSheetList.IndexOf(orderSheet);
-        OrderSheetManager.instance.orderSheetList.Remove(orderSheet);
+        orderSheetList.Remove(orderSheet);
         for (int i = orderSheetNum; i < orderSheetList.Count; i++)
         {
-            IeMoveOrderSheet(orderSheet);
+            float xTargetPos = 0; //여기까지 이동해야 함
+            float xPos = orderSheetList[i].GetComponent<RectTransform>().position.x; //현재 주문서의 위치
+            for (int j = 0; j < i; j++)
+            {
+                //현재 리스트에 담긴 주문서 넓이만큼 간격 두고 이동하기 위해 계산
+                xTargetPos += 10 + orderSheetList[i - 1].GetComponent<RectTransform>().rect.width * 0.5f;
+            }
+            orderSheetList[i].GetComponent<RectTransform>().localPosition = new Vector3(xTargetPos, 0, 0);
+            /*while (xTargetPos < xPos)
+            {
+                if (xTargetPos + 1 > xPos)
+                {
+                    xPos = xTargetPos;
+                    break;
+                }
+                xPos = Mathf.Lerp(xPos, xTargetPos, 0.1f);
+                if (orderSheetList[i])
+                    orderSheetList[i].GetComponent<RectTransform>().localPosition = new Vector3(xPos, 0, 0);
+                yield return new WaitForSeconds(0.01f);
+            }*/
+            yield return null;
+            print("줄이기 끝");
         }
     }
 
