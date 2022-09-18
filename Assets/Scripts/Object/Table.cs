@@ -75,7 +75,8 @@ public class Table : MonoBehaviour
             //2. 플레이어의 자식이 table의 ray를 맞은 아이여야한다.
             //3. 플레이어는 좌클릭을 해야한다. (놓기키를 눌러야한다.)
             if (player.transform.childCount != 1
-                && player.transform.GetChild(1) == hit.transform
+                && player.transform.GetChild(1).transform.gameObject.GetInstanceID()
+                == hit.transform.gameObject.GetInstanceID()
                 && player.GetComponent<PlayerInput>().LeftClickDown)
             {
                 player.GetComponent<PlayerCreateNew>().

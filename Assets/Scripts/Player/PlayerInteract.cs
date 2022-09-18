@@ -37,12 +37,12 @@ public class PlayerInteract : MonoBehaviour
             playerState.curState = PlayerState.State.Grab;
 
         Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y / 2, transform.position.z), transform.forward);
+        LayerMask layer = 1 << LayerMask.NameToLayer("Grab");
         //바닥에 있는 음식 잡기
         Debug.DrawRay(ray.origin, ray.direction, Color.red);
-        if (Physics.Raycast(ray, out hit, 1f))
+        if (Physics.Raycast(ray, out hit, 1f, ~layer))
         {
             PointObject = hit.transform.gameObject;
-
         }
         if (hit.transform != null)
         {
