@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FireExtinguisher : MonoBehaviour
 {
-    [SerializeField] private float extinguisher = 5f;
+    [SerializeField] private float extinguisher = 8f;
     GameObject player;
     private RaycastHit hit;
 
@@ -30,7 +30,7 @@ public class FireExtinguisher : MonoBehaviour
                 {
                     if (hit.transform.GetComponent<FireBox>().isFire)
                     {
-                        hit.transform.GetComponent<FireBox>().FireSuppression((int)(extinguisher * Time.deltaTime));
+                        hit.transform.GetComponent<FireBox>().FireSuppression((extinguisher * Time.deltaTime));
                     }
                 }
             }

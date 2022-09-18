@@ -12,7 +12,7 @@ public class FireBox : MonoBehaviour
     float time = 0;
     public GameObject fireEffectPrefab;
     public GameObject fireEffect;
-    public int fireGauge;
+    public float fireGauge;
     public bool isFire;
     public GameObject bakeGauge;
     public Image bakeGaugeImage;
@@ -27,6 +27,7 @@ public class FireBox : MonoBehaviour
     {
         if (isFire && fireGauge <= 0)
         {
+            fireGauge = 0;
             print("²¨Áü");
             Destroy(fireEffect);
             isFire = false;
@@ -94,7 +95,7 @@ public class FireBox : MonoBehaviour
         print("ºÒ ³²");
     }
 
-    public void FireSuppression(int i)
+    public void FireSuppression(float i)
     {
         fireGauge -= i;
     }
