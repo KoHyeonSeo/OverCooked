@@ -13,7 +13,7 @@ public class FireBox : MonoBehaviour
     public GameObject fireEffectPrefab;
     public GameObject fireEffect;
     public int fireGauge;
-    bool isFire;
+    public bool isFire;
     public GameObject bakeGauge;
     public Image bakeGaugeImage;
 

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class FireExtinguisher : MonoBehaviour
 {
+    [SerializeField] private float extinguisher = 5f;
     GameObject player;
     private RaycastHit hit;
+
     private void Start()
     {
         if (GameManager.instance.Player)
@@ -24,7 +26,13 @@ public class FireExtinguisher : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.magenta);
             if (Physics.Raycast(ray, out hit, 5))
             {
-                Debug.Log(hit.transform.gameObject);
+                if (hit.transform.name.Contains("FireTable"))
+                {
+                    if (hit.transform.GetComponent<FireBox>().isFire)
+                    {
+                        hit.transform.GetComponent<FireBox>().FireSuppression((int)(extinguisher * Time.deltaTime));
+                    }
+                }
             }
         }
     }
