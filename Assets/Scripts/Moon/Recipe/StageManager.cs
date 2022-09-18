@@ -26,6 +26,7 @@ public class StageManager : MonoBehaviour
 
     void Start()
     {
+        transform.GetChild(0).gameObject.SetActive(false);
         for (int i = 0; i < platePositionTable.Length; i++)
         {
             GameObject plate = Instantiate(platePrefab);
@@ -39,6 +40,7 @@ public class StageManager : MonoBehaviour
     {
         if (readyStart.IsReady && !isOnce)
         {
+            transform.GetChild(0).gameObject.SetActive(true);
             isOnce = true;
             StartCoroutine(IeTimer());
         }
