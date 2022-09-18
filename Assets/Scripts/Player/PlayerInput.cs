@@ -67,5 +67,16 @@ public class PlayerInput : MonoBehaviour
             FireExtinguisher = Input.GetKey(KeyCode.LeftControl);
             #endregion
         }
+        else
+        {
+            XAxisDown = 0;
+            ZAxisDown = 0;
+            DashButton = false;
+
+            LeftClickDown = false;
+            RightClickDown = false;
+            Interact = false;
+            FireExtinguisher = false;
+        }
     }
 }

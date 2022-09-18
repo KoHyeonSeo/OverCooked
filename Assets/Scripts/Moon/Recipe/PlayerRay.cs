@@ -232,9 +232,9 @@ public class PlayerRay : MonoBehaviour
 
     void SetGetObject(GameObject obj)
     {
-        //obj.transform.parent = transform;
         createNew.PlayerHaving(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-        obj.transform.position = objectPosition;
+        //obj.transform.parent = transform;
+        //obj.transform.position = objectPosition;
         getObject = obj;
     }
 }
