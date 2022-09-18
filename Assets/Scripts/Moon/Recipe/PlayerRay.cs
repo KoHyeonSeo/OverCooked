@@ -98,7 +98,7 @@ public class PlayerRay : MonoBehaviour
                 }
                 else if (interactiveObject.tag == "Food")
                 {
-                    SetGetObject(interactiveObject);
+                    //SetGetObject(interactiveObject);
                 }
             }
             else
