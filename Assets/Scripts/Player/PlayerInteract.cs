@@ -118,9 +118,14 @@ public class PlayerInteract : MonoBehaviour
         string[] names = food.name.Split('(');
         food.name = names[0];
 
-        food.gameObject.layer = LayerMask.NameToLayer("Default");
-
         food.parent = null;
+
+        food.gameObject.layer = LayerMask.NameToLayer("Default");
+        for(int i = 0; i <food.childCount; i++)
+        {
+            food.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+
 
         food.GetComponent<Rigidbody>().isKinematic = false;
         food.GetComponent<Rigidbody>().useGravity = true;
