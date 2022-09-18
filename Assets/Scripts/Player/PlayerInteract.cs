@@ -46,7 +46,7 @@ public class PlayerInteract : MonoBehaviour
         }
         if (hit.transform != null)
         {
-            if (playerInput.LeftClickDown && transform.childCount == 1)
+            if (playerInput.LeftClickDown && transform.childCount == 1 && hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
             {
                 //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
                 if (hit.transform.CompareTag("Food") && transform.childCount == 1)

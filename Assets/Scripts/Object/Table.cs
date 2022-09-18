@@ -74,6 +74,10 @@ public class Table : MonoBehaviour
             //1. 플레이어는 자식이 있어야한다(재료를 가지고 있는 상태)
             //2. 플레이어의 자식이 table의 ray를 맞은 아이여야한다.
             //3. 플레이어는 좌클릭을 해야한다. (놓기키를 눌러야한다.)
+            bool isCheck1 = player.transform.childCount != 1;
+            bool isCheck2 = player.transform.GetChild(1).transform.gameObject.GetInstanceID()
+                == hit.transform.gameObject.GetInstanceID();
+            bool isCheck3 = player.GetComponent<PlayerInput>().LeftClickDown;
             if (player.transform.childCount != 1
                 && player.transform.GetChild(1).transform.gameObject.GetInstanceID()
                 == hit.transform.gameObject.GetInstanceID()
