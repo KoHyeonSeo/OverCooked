@@ -12,8 +12,13 @@ public class IngredientDisplay : MonoBehaviour
     public bool isReady;
     int cookLevel = 0;
     int maxCookLevel;
+    GameObject player;
     void Start()
     {
+        if (GameManager.instance.Player)
+        {
+            player = GameManager.instance.Player;  
+        }
         curObject = Instantiate(ingredientObject.cookLevel[cookLevel]);
         curObject.transform.position = transform.position;
         curObject.transform.parent = transform;
@@ -28,19 +33,20 @@ public class IngredientDisplay : MonoBehaviour
             isReady = true;
         }
     }
-
     public void CookLevelUp()
     {
         if (cookLevel < maxCookLevel)
             cookLevel++;
         Destroy(curObject);
-        curObject = Instantiate(ingredientObject.cookLevel[cookLevel]);
-        curObject.transform.position = transform.position;
-        curObject.transform.parent = transform;
+        player.GetComponent<PlayerCreateNew>().CreatesNewObject(ingredientObject.cookLevel[cookLevel], "Default", true, transform, transform.position, true);
+        //curObject = Instantiate(ingredientObject.cookLevel[cookLevel]);
+        //curObject.transform.position = transform.position;
+        //curObject.transform.parent = transform;
     }
 
     void Update()
     {
-        
+        if (!player)
+            player = GameManager.instance.Player;
     }
 }
