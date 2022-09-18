@@ -32,6 +32,15 @@ public class PlayerInteract : MonoBehaviour
     }
     private void Update()
     {
+        if(transform.childCount > 1)
+        {
+            GrabbingObjectInfo = transform.GetChild(1).gameObject;
+        }
+        else
+        {
+            GrabbingObjectInfo = null;
+        }
+
         //음식을 집고 있을 경우 Grab 상태로 전이
         if (transform.childCount > 1 && playerState.curState != PlayerState.State.Grab)
             playerState.curState = PlayerState.State.Grab;
@@ -51,13 +60,12 @@ public class PlayerInteract : MonoBehaviour
             {
                 curInteractState = InteractState.Grab;
                 createNew.PlayerHaving(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-                GrabbingObjectInfo = hit.transform.gameObject;
+                
             }
             else if (hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
             {
                 curInteractState = InteractState.FireDistinguish;
                 createNew.PlayerHaving(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-                GrabbingObjectInfo = hit.transform.gameObject;
             }
         }         //내려놓기
         else if (playerInput.LeftClickDown && transform.childCount > 1)
@@ -100,9 +108,6 @@ public class PlayerInteract : MonoBehaviour
     public GameObject PointObject { get; set; } 
     private void Throw(float power)
     {
-        //잡고 있는 물체 null;
-        GrabbingObjectInfo = null;
-
         //현재 잡는걸 놓았기에 None으로 상태 변경
         curInteractState = InteractState.None;
 
