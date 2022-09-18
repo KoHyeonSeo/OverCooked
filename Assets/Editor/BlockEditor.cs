@@ -8,7 +8,8 @@ public class BlockEditor : EditorWindow
     [MenuItem("EditorWindow/BlockEditor")]
     static void Init()
     {
-        BlockEditor editor = (BlockEditor)GetWindow(typeof(BlockEditor));
+        var window = GetWindow<BlockEditor>();
+        window.maxSize = window.minSize = new Vector2(200, 500);
     }
 
     Vector2 scrollPosition;
