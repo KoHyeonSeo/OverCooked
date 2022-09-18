@@ -10,11 +10,12 @@ public class PlayerRay : MonoBehaviour
     public GameObject getObject;
     public GameObject cutTable;
     Vector3 objectPosition;
-
+    private PlayerCreateNew createNew;
     void Start()
     {
         //objectPosition.position = new Vector3(0, 1, 0);
         objectPosition = new Vector3(0f, -0.2f ,0.6f);
+        createNew = GetComponent<PlayerCreateNew>();
     }
 
     void Update()
@@ -231,8 +232,8 @@ public class PlayerRay : MonoBehaviour
 
     void SetGetObject(GameObject obj)
     {
-        
-        obj.transform.parent = transform;
+        //obj.transform.parent = transform;
+        createNew.PlayerHaving(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
         obj.transform.position = objectPosition;
         getObject = obj;
     }
