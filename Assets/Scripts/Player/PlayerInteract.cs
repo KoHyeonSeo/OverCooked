@@ -43,34 +43,29 @@ public class PlayerInteract : MonoBehaviour
         {
             PointObject = hit.transform.gameObject;
 
-            if (playerInput.LeftClickDown && transform.childCount == 1)
-            {
-                //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
-                if (hit.transform.CompareTag("Food") && transform.childCount == 1)
-                {
-                    curInteractState = InteractState.Grab;
-                    GameObject create = createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.5f, 0.5f));
-                    GrabbingObjectInfo = create;
-                }
-                else if (hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
-                {
-                    curInteractState = InteractState.FireDistinguish;
-                    GameObject create = createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-                    GrabbingObjectInfo = create;
-                }
-            }
         }
-        //내려놓기
+        if (playerInput.LeftClickDown && transform.childCount == 1)
+        {
+            //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
+            if (hit.transform.CompareTag("Food") && transform.childCount == 1)
+            {
+                curInteractState = InteractState.Grab;
+                GameObject create = createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.5f, 0.5f));
+                GrabbingObjectInfo = create;
+            }
+            else if (hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
+            {
+                curInteractState = InteractState.FireDistinguish;
+                GameObject create = createNew.CreatesNewObject(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+                GrabbingObjectInfo = create;
+            }
+        }         //내려놓기
         else if (playerInput.LeftClickDown && transform.childCount > 1)
         {
-            if (Physics.Raycast(ray, out hit, 1f))
-            {
-                //Table에 닿지 않았다면
-                if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
-                    Throw(100);
-            }
+            //Table에 닿지 않았다면
+            if (hit.transform == null || (hit.transform.gameObject.layer != LayerMask.NameToLayer("Table")))
+                Throw(100);
         }
-
         //던지기 (잡은 오브젝트가 있는 경우에만)
         if (playerInput.RightClickDown && transform.childCount > 1)
         {

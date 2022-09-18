@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,6 +24,16 @@ public class GameManager : MonoBehaviour
     {
         if(!Player)
             Player = GameObject.FindGameObjectWithTag("Player");
+
+        #region æ¿¿Ãµø
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            if (Input.GetKeyDown((KeyCode)(48 + i)))
+            {
+                SceneManager.LoadScene(i);
+            }
+        }
+        #endregion
     }
     public GameObject Player { get; private set; }
 }

@@ -11,6 +11,8 @@ public class OrderSheetManager : MonoBehaviour
     public List<GameObject> orderSheetList = new List<GameObject>(); //주문서 리스트
     public GameObject orderSheetPanel;
     int orderCount = 0;
+    public UI_ReadyStart readyStart;
+    private bool isOnce = false;
 
     public static OrderSheetManager instance;
     
@@ -21,12 +23,18 @@ public class OrderSheetManager : MonoBehaviour
 
     void Start()
     {
-        //15초마다 주문서 생성
-        InvokeRepeating("CreateOrderSheet", 0f, 15f);
     }
 
     void Update()
     {
+
+        if (readyStart.IsReady && !isOnce)
+        {
+            isOnce = true;
+            //15초마다 주문서 생성
+            InvokeRepeating("CreateOrderSheet", 0f, 15f);
+        }
+
     }
 
     //주문서 생성

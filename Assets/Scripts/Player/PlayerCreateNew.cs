@@ -13,13 +13,20 @@ public class PlayerCreateNew : MonoBehaviour
     /// <param name="layerName"></param>
     /// <param name="localPosition"></param>
     /// <param name="parent"></param>
-    public GameObject CreatesNewObject(GameObject objectPrefab, string layerName, bool isHave = false, Transform parent = null, Vector3? localPosition = null)
+    public GameObject CreatesNewObject(GameObject objectPrefab, string layerName, bool isHave = false, Transform parent = null, Vector3? localPosition = null, bool dontDestroyOriginal = false)
     {
         //생성
         GameObject creating = Instantiate(objectPrefab);
         //이름 뒤 (clone) 제거
         string[] names = creating.name.Split('(');
         creating.name = names[0];
+        if (objectPrefab.transform.childCount > 0)
+        {
+            for (int i = objectPrefab.transform.childCount - 1; i < creating.transform.childCount; i++)
+            {
+                Destroy(creating.transform.GetChild(i).gameObject);
+            }
+        }
 
         //layer변경
         creating.layer = LayerMask.NameToLayer(layerName);
@@ -46,7 +53,10 @@ public class PlayerCreateNew : MonoBehaviour
             creating.transform.localPosition = (Vector3)localPosition;
             creating.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         }
-        Destroy(objectPrefab);
+        if (!dontDestroyOriginal)
+        {
+            Destroy(objectPrefab);
+        }
         return creating;
     }
     /// <summary>

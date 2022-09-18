@@ -28,11 +28,6 @@ public class OrderSheet : MonoBehaviour
         StartCoroutine(IeTimer());
     }
 
-    void Update()
-    {
-        
-    }
-
     IEnumerator IeTimer()
     {
         for (int i = 0; i < recipe.ingredients.Length * 30; i++)
@@ -40,7 +35,7 @@ public class OrderSheet : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
             gauge--;
             timeGauge.GetComponent<Image>().fillAmount = gauge / (recipe.ingredients.Length * 30);
-            print(gauge / recipe.ingredients.Length * 30);
+            //print(gauge / recipe.ingredients.Length * 30);
         }
         OrderSheetManager.instance.orderSheetList.Remove(gameObject);
         OrderSheetManager.instance.CreateOrderSheet();
