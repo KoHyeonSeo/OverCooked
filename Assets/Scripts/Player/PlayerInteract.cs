@@ -92,12 +92,12 @@ public class PlayerInteract : MonoBehaviour
     /// <summary>
     /// 들고 있는 오브젝트 GameObject형 반환 들고 있는 것이 없다면 null
     /// </summary>
-    public GameObject GrabbingObjectInfo { get; private set; }
+    public GameObject GrabbingObjectInfo { get; set; }
 
     /// <summary>
     /// 가리키고 있는 오브젝트 GameObject형 반환, 가리키고 있는 것이 없다면 null
     /// </summary>
-    public GameObject PointObject { get; private set; } 
+    public GameObject PointObject { get; set; } 
     private void Throw(float power)
     {
         //잡고 있는 물체 null;
