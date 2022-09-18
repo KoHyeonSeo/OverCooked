@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8769419449545394029}
   - component: {fileID: 8769419449545394028}
   - component: {fileID: 8769419449545394031}
+  - component: {fileID: -155298550979170627}
   m_Layer: 0
   m_Name: CutLettuce
   m_TagString: Food
@@ -83,3 +84,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-155298550979170627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769419449545394025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744f9c17bb544ad489ce332dd327bf24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
