@@ -7,8 +7,8 @@ public class FireBox : MonoBehaviour
 {
     public GameObject getObject;
     public Transform objectPosition;
-    float fireTime = 5;
-    float bakeTime = 2;
+    float fireTime = 15;
+    float bakeTime = 10;
     float time = 0;
     public GameObject fireEffectPrefab;
     public GameObject fireEffect;

@@ -97,7 +97,7 @@ public class OrderSheetManager : MonoBehaviour
             for (int j = 0; j < i; j++)
             {
                 //현재 리스트에 담긴 주문서 넓이만큼 간격 두고 이동하기 위해 계산
-                xTargetPos += 10 + orderSheetList[i - 1].GetComponent<RectTransform>().rect.width * 0.5f;
+                xTargetPos += 10 + orderSheetList[j].GetComponent<RectTransform>().rect.width * 0.5f;
             }
             orderSheetList[i].GetComponent<RectTransform>().localPosition = new Vector3(xTargetPos, 0, 0);
             /*while (xTargetPos < xPos)
@@ -146,11 +146,13 @@ public class OrderSheetManager : MonoBehaviour
                 }
                 if (j == recipe.ingredients.Length - 1)
                 {
+                    orderSheetList[i].GetComponent<OrderSheet>().DestroyOrder();
+                    //IeDeleteOrderSheet(orderSheetList[i]);
                     print("리스트에 있는 음식");
                     Destroy(plate.transform.gameObject);
                     StageManager.instance.CoinPlus(8);
-                    orderSheetList.RemoveAt(i);
-                    CreateOrderSheet();
+                    //orderSheetList.RemoveAt(i);
+                    //CreateOrderSheet();
                     break;
                 }
             }

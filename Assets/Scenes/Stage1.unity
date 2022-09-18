@@ -1387,7 +1387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getObject: {fileID: 0}
   objectPosition: {fileID: 0}
-  fireEffectPrefab: {fileID: 0}
+  fireEffectPrefab: {fileID: 1271764609937064, guid: 8b47f39d91e61384889cff33839361dc, type: 3}
   fireEffect: {fileID: 0}
   fireGauge: 100
   isFire: 0
@@ -8938,7 +8938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getObject: {fileID: 0}
   objectPosition: {fileID: 0}
-  fireEffectPrefab: {fileID: 0}
+  fireEffectPrefab: {fileID: 1271764609937064, guid: 8b47f39d91e61384889cff33839361dc, type: 3}
   fireEffect: {fileID: 0}
   fireGauge: 100
   isFire: 0
@@ -13387,7 +13387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getObject: {fileID: 0}
   objectPosition: {fileID: 0}
-  fireEffectPrefab: {fileID: 0}
+  fireEffectPrefab: {fileID: 1271764609937064, guid: 8b47f39d91e61384889cff33839361dc, type: 3}
   fireEffect: {fileID: 0}
   fireGauge: 100
   isFire: 0
@@ -30458,7 +30458,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 02:32
+  m_Text: 04:00
 --- !u!222 &2084970363
 CanvasRenderer:
   m_ObjectHideFlags: 0
