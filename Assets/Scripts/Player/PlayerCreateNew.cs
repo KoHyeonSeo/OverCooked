@@ -20,7 +20,7 @@ public class PlayerCreateNew : MonoBehaviour
         //이름 뒤 (clone) 제거
         string[] names = creating.name.Split('(');
         creating.name = names[0];
-        if (objectPrefab.transform.childCount > 0)
+        if (!objectPrefab.CompareTag("FireExtinguisher") && objectPrefab.transform.childCount > 0)
         {
             for (int i = objectPrefab.transform.childCount - 1; i < creating.transform.childCount; i++)
             {

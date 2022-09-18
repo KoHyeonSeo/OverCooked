@@ -79,7 +79,7 @@ public class Table : MonoBehaviour
                 && player.GetComponent<PlayerInput>().LeftClickDown)
             {
                 player.GetComponent<PlayerCreateNew>().
-                    CreatesNewObject(hit.transform.gameObject, "Table", true, transform, new Vector3(0, 1, 0));
+                    CreatesNewObject(hit.transform.gameObject, "Table", true, transform, new Vector3(0, 0.5f, 0));
 
             }
         }
