@@ -25,8 +25,14 @@ public class PlayerRay : MonoBehaviour
 
     void CheckRay()
     {
-        getObject = GetComponent<PlayerInteract>().GrabbingObjectInfo;
-        interactiveObject = GetComponent<PlayerInteract>().PointObject;
+        if (GetComponent<PlayerInteract>().GrabbingObjectInfo)
+        {
+            print(GetComponent<PlayerInteract>().GrabbingObjectInfo);
+            getObject = GetComponent<PlayerInteract>().GrabbingObjectInfo;
+        }
+            
+        if (GetComponent<PlayerInteract>().PointObject)
+            interactiveObject = GetComponent<PlayerInteract>().PointObject;
         if (getObject)
         {
             getObject.layer = 10;
@@ -198,7 +204,7 @@ public class PlayerRay : MonoBehaviour
         else
         {
             cutTable.GetComponent<CutBox>().isPlayerExit = true;
-            if (cutTable.GetComponent<CutBox>().getObject.GetComponent<IngredientDisplay>().isCut)
+            if (cutTable.GetComponent<CutBox>().getObject && cutTable.GetComponent<CutBox>().getObject.GetComponent<IngredientDisplay>().isCut)
             {
                 getObject = cutTable.GetComponent<CutBox>().getObject;
                 SetGetObject(getObject);
@@ -235,6 +241,6 @@ public class PlayerRay : MonoBehaviour
         createNew.PlayerHaving(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
         //obj.transform.parent = transform;
         //obj.transform.position = objectPosition;
-        getObject = obj;
+        GetComponent<PlayerInteract>().GrabbingObjectInfo = obj;
     }
 }
