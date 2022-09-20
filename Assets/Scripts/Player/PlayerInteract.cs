@@ -14,7 +14,6 @@ public class PlayerInteract : MonoBehaviour
     private PlayerInput playerInput;
     private RaycastHit hit;
     private Vector3 startPosition;
-    private PlayerCreateNew createNew;
     
     public enum InteractState
     {
@@ -28,7 +27,6 @@ public class PlayerInteract : MonoBehaviour
         startPosition = transform.position + new Vector3(0, 2, 0);
         playerInput = GetComponent<PlayerInput>();
         playerState = GetComponent<PlayerState>();
-        createNew = GetComponent<PlayerCreateNew>();
     }
     private void Update()
     {
@@ -48,52 +46,56 @@ public class PlayerInteract : MonoBehaviour
         Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y / 2 - 0.1f, transform.position.z), transform.forward);
         LayerMask layer = 1 << LayerMask.NameToLayer("Grab");
         //바닥에 있는 음식 잡기
-        Debug.DrawRay(ray.origin, ray.direction, Color.red);
-        if (Physics.Raycast(ray, out hit, 1f, ~layer))
+        Debug.DrawRay(ray.origin, ray.direction * 2 , Color.red);
+        if (Physics.Raycast(ray, out hit, 2, ~layer))
         {
             PointObject = hit.transform.gameObject;
         }
-        if (playerInput.LeftClickDown && transform.childCount == 1 && hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
+        if (hit.transform && hit.transform.gameObject.layer == LayerMask.NameToLayer("Table"))
         {
-            //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
-            if (hit.transform.CompareTag("Food") && transform.childCount == 1)
+            if (playerInput.LeftClickDown && transform.childCount == 1 && hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
             {
-                curInteractState = InteractState.Grab;
-                createNew.PlayerHaving(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-                
-            }
-            else if (hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
-            {
-                curInteractState = InteractState.FireDistinguish;
-                createNew.PlayerHaving(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-            }
-        }         //내려놓기
-        else if (playerInput.LeftClickDown && transform.childCount > 1)
-        {
-            //Table에 닿지 않았다면
-            if (hit.transform == null || (hit.transform.gameObject.layer != LayerMask.NameToLayer("Table")))
-                Throw(100);
-        }
-        //던지기 (잡은 오브젝트가 있는 경우에만)
-        if (playerInput.RightClickDown && transform.childCount > 1)
-        {
-            Throw(throwPower);
-        }
+                //음식이고, 자식이 없을경우만 잡을 수 있다. (플레이어는 하나의 재료만 잡을 수 있다.)
+                if (hit.transform.CompareTag("Food") && transform.childCount == 1)
+                {
+                    curInteractState = InteractState.Grab;
+                    CreateNew.HavingSetting(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
 
+                }
+                else if (hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
+                {
+                    curInteractState = InteractState.FireDistinguish;
+                    CreateNew.HavingSetting(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+                }
+            }         //내려놓기
+            else if (playerInput.LeftClickDown && transform.childCount > 1)
+            {
+                //Table에 닿지 않았다면
+                if (hit.transform == null || (hit.transform.gameObject.layer != LayerMask.NameToLayer("Table")))
+                    Throw(100);
+            }
+            //던지기 (잡은 오브젝트가 있는 경우에만)
+            if (playerInput.RightClickDown && transform.childCount > 1)
+            {
+                Throw(throwPower);
+            }
+        }
         //소화기 분사 
         if(curInteractState == InteractState.FireDistinguish)
         {
             if (transform?.GetChild(1))
             {
-                if (playerInput.FireExtinguisher)
+                if (transform.GetChild(1).CompareTag("FireExtinguisher"))
                 {
-                    transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(true);
+                    if (playerInput.FireExtinguisher)
+                    {
+                        transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(false);
+                    }
                 }
-                else
-                {
-                    transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(false);
-                }
-                
             }
         }
     }
