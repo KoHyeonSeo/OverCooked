@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 6741391651393755793}
   - component: {fileID: 6741391651393755794}
   - component: {fileID: -8151413521253616636}
-  - component: {fileID: 4868075195369364639}
   m_Layer: 6
   m_Name: Box_Player
   m_TagString: Player
@@ -176,18 +175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwPower: 1000
   curInteractState: 0
---- !u!114 &4868075195369364639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6741391651393755795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0e6240eeb8cb8b4287c395767de03aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5157360567492652808
 PrefabInstance:
   m_ObjectHideFlags: 0

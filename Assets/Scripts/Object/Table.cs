@@ -61,8 +61,7 @@ public class Table : MonoBehaviour
             hit.transform.gameObject.layer == LayerMask.NameToLayer("Default") &&
             transform.childCount == tableChild)
         {
-            player.GetComponent<PlayerCreateNew>().
-                PlayerHaving(hit.transform.gameObject, "Table", true, transform, new Vector3(0, 0.5f, 0));
+            CreateNew.HavingSetting(hit.transform.gameObject, "Table", true, transform, new Vector3(0, 0.5f, 0));
        
         }
     }
@@ -79,8 +78,7 @@ public class Table : MonoBehaviour
                 == hit.transform.gameObject.GetInstanceID()
                 && player.GetComponent<PlayerInput>().LeftClickDown)
             {
-                player.GetComponent<PlayerCreateNew>().
-                    PlayerHaving(hit.transform.gameObject, "Table", true, transform, new Vector3(0, 0.5f, 0));
+                    CreateNew.HavingSetting(hit.transform.gameObject, "Table", true, transform, new Vector3(0, 0.5f, 0));
 
             }
         }
@@ -95,8 +93,7 @@ public class Table : MonoBehaviour
                 //우클릭하여 집기
                 if (hit.transform.gameObject.GetComponent<PlayerInput>().LeftClickDown)
                 {
-                    player.GetComponent<PlayerCreateNew>().
-                        PlayerHaving(transform.GetChild(tableChild).gameObject, "Grab", true, hit.transform, new Vector3(0, -0.5f, 0.5f));
+                    CreateNew.HavingSetting(transform.GetChild(tableChild).gameObject, "Grab", true, hit.transform, new Vector3(0, -0.5f, 0.5f));
                   
                 }
             }
