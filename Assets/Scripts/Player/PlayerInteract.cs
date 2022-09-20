@@ -51,6 +51,11 @@ public class PlayerInteract : MonoBehaviour
         {
             PointObject = hit.transform.gameObject;
         }
+        else
+        {
+            PointObject = null;
+        }
+
         if (hit.transform && hit.transform.gameObject.layer == LayerMask.NameToLayer("Table"))
         {
             if (playerInput.LeftClickDown && transform.childCount == 1 && hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
