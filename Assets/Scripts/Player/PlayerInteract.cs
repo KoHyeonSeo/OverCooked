@@ -56,7 +56,7 @@ public class PlayerInteract : MonoBehaviour
             PointObject = null;
         }
 
-        if (hit.transform && hit.transform.gameObject.layer == LayerMask.NameToLayer("Table"))
+        if (hit.transform && hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
         {
             if (playerInput.LeftClickDown && transform.childCount == 1 && hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
             {
