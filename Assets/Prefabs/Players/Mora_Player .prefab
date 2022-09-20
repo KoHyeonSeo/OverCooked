@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 1553288078034013841}
   - component: {fileID: 1553288078034013840}
   - component: {fileID: -464391110482750711}
-  - component: {fileID: 7463493935560065037}
   m_Layer: 6
   m_Name: 'Mora_Player '
   m_TagString: Player
@@ -176,18 +175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwPower: 1000
   curInteractState: 0
---- !u!114 &7463493935560065037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553288078034013843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0e6240eeb8cb8b4287c395767de03aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1553288076141986846
 PrefabInstance:
   m_ObjectHideFlags: 0
