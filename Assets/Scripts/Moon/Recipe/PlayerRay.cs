@@ -4,47 +4,48 @@ using UnityEngine;
 
 public class PlayerRay : MonoBehaviour
 {
-    Ray ray;
-    RaycastHit hit;
-    public GameObject interactiveObject;
-    public GameObject getObject;
+    public GameObject getObject; //현재 플레이어가 들고 있는 것
+    public GameObject interactiveObject; //현재 플레이어와 닿아있는 것
     public GameObject cutTable;
+
     Vector3 objectPosition;
-    private PlayerCreateNew createNew;
+    //private PlayerCreateNew createNew;
+
     void Start()
     {
-        //objectPosition.position = new Vector3(0, 1, 0);
         objectPosition = new Vector3(0f, -0.2f ,0.6f);
-        createNew = GetComponent<PlayerCreateNew>();
+        //createNew = GetComponent<PlayerCreateNew>();
     }
 
     void Update()
     {
+        CheckPlayer();
         CheckRay();
     }
 
-    void CheckRay()
+    void CheckPlayer()
     {
+        //플레이가 뭘 들고 있으면 getObject에 넣음
         if (GetComponent<PlayerInteract>().GrabbingObjectInfo)
-        {
             getObject = GetComponent<PlayerInteract>().GrabbingObjectInfo;
-        }
         else
             getObject = null;
-
+        //플레어어가 어디에 닿아있으면 interactiveObject에 넣음
         if (GetComponent<PlayerInteract>().PointObject)
             interactiveObject = GetComponent<PlayerInteract>().PointObject;
         else
             interactiveObject = null;
+    }
 
-        if (getObject)
-        {
-            getObject.layer = 10;
-        }
-        else
+    void CheckRay()
+    {
+        //책상에 닿아있다면
+        if(interactiveObject && interactiveObject.GetComponent<M_Table>())
         {
             
+            interactiveObject.GetComponent<M_Table>().BlinkTable();
         }
+
         if (interactiveObject)
         {
             if (interactiveObject.GetComponent<CutBox>())
@@ -69,17 +70,7 @@ public class PlayerRay : MonoBehaviour
                 cutTable = null;
             }
         }
-        
 
-        /*ray = new Ray(transform.position, transform.right);
-        Debug.DrawRay(transform.position, transform.right, Color.blue);
-        RayHit();
-        ray = new Ray(transform.position, transform.right * -1);
-        Debug.DrawRay(transform.position, transform.right * -1, Color.blue);
-        RayHit();
-        ray = new Ray(transform.position, transform.forward);
-        Debug.DrawRay(transform.position, transform.forward, Color.blue);
-        RayHit();*/
         if (GetComponent<PlayerInput>().LeftClickDown)
         {
             if (interactiveObject)
@@ -263,7 +254,7 @@ public class PlayerRay : MonoBehaviour
 
     void RayHit()
     {
-        if (Physics.Raycast(ray, out hit, 1))
+       /* if (Physics.Raycast(ray, out hit, 1))
         {
             //들고 있는게 음식이면 Ray 한 번 더 쏨
             if (getObject && hit.transform.tag == "Food")
@@ -281,12 +272,12 @@ public class PlayerRay : MonoBehaviour
         else
         {
             interactiveObject = null;
-        }
+        }*/
     }
 
     void SetGetObject(GameObject obj)
     {
-        createNew.PlayerHaving(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+        //createNew.PlayerHaving(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
         //obj.transform.parent = transform;
         //obj.transform.position = objectPosition;
         GetComponent<PlayerInteract>().GrabbingObjectInfo = obj;
