@@ -27,7 +27,7 @@ public class M_IngredientBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player && isPlayerExit)
+        /*if (player && isPlayerExit)
         {
         }
         else
@@ -58,7 +58,7 @@ public class M_IngredientBox : MonoBehaviour
         if (Physics.Raycast(ray, out hit3, 1, ~layer))
         {
             HitRay(hit3);
-        }
+        }*/
     }
     private void HitRay(RaycastHit hit)
     {
@@ -81,27 +81,27 @@ public class M_IngredientBox : MonoBehaviour
         }
     }
 
-    //public void CheckClick()
-    //{
-    //    if (player.GetComponent<PlayerInput>().LeftClickDown)
-    //    {
-    //        GameObject ingredient = Instantiate(ingredientPrefab);
-    //        ingredient.transform.parent = player.transform;
-    //        ingredient.transform.localPosition = new Vector3(0, -.5f, .5f);
-    //        string[] names = ingredient.name.Split('(');
-    //        ingredient.name = names[0];
-    //    }
-    //}
+    public void CheckClick()
+    {
+        if (player.GetComponent<PlayerInput>().LeftClickDown)
+        {
+            GameObject ingredient = Instantiate(ingredientPrefab);
+            ingredient.transform.parent = player.transform;
+            ingredient.transform.localPosition = new Vector3(0, -.5f, .5f);
+            string[] names = ingredient.name.Split('(');
+            ingredient.name = names[0];
+        }
+    }
 
-    ////재료 생성
-    //public void CreateIngredient()
-    //{
-    //    ingredient = player.GetComponent<player>
-    //    //박스 클릭하면 재료 생성
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        GameObject ingredient = Instantiate(ingredientPrefab, transform.position, Quaternion.identity);
-    //    }
-    //}
+    //재료 생성
+    public void CreateIngredient()
+    {
+        //ingredient = player.GetComponent < player >
+        //박스 클릭하면 재료 생성
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject ingredient = Instantiate(ingredientPrefab, transform.position, Quaternion.identity);
+        }
+    }
 }
 

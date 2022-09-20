@@ -6,8 +6,9 @@ public class PlayerRay : MonoBehaviour
 {
     public GameObject getObject; //현재 플레이어가 들고 있는 것
     public GameObject interactiveObject; //현재 플레이어와 닿아있는 것
+    public GameObject curTable;
     public GameObject cutTable;
-
+    //public GameObject cur
     Vector3 objectPosition;
     //private PlayerCreateNew createNew;
 
@@ -21,6 +22,7 @@ public class PlayerRay : MonoBehaviour
     {
         CheckPlayer();
         CheckRay();
+        CheckPlayerClick();
     }
 
     void CheckPlayer()
@@ -42,9 +44,17 @@ public class PlayerRay : MonoBehaviour
         //책상에 닿아있다면
         if(interactiveObject && interactiveObject.GetComponent<M_Table>())
         {
-            
+            //깜빡거림
+            curTable = interactiveObject;
             interactiveObject.GetComponent<M_Table>().BlinkTable();
         }
+        else if (curTable)
+        {
+            curTable.GetComponent<M_Table>().StopBlink();
+            curTable = null;
+        }
+
+
 
         if (interactiveObject)
         {
@@ -156,6 +166,47 @@ public class PlayerRay : MonoBehaviour
             }
         }
     }
+
+    void CheckPlayerClick()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (getObject)
+            {
+                if (!interactiveObject)
+                {
+                    getObject = null;
+
+                }
+                else if (interactiveObject.GetComponent<M_Table>())
+                {
+                    interactiveObject.GetComponent<M_Table>().SetObject(getObject);
+                }
+            }
+            else if (!getObject)
+            {
+                if (!interactiveObject)
+                {
+                    
+                }
+                else if (interactiveObject.GetComponent<M_Table>())
+                {
+                    if (interactiveObject.GetComponent<M_Table>().getObject)
+                    {
+                        CreateNew.HavingSetting(interactiveObject.GetComponent<M_Table>().getObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+                    }    
+                }
+                else if (interactiveObject.GetComponent<IngredientTable>())
+                {
+                    GameObject ingredient = interactiveObject.GetComponent<IngredientTable>().CreateIngredient();
+                    CreateNew.HavingSetting(ingredient, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+                }
+            }
+            
+        }
+    }
+
+
 
     void InteractiveTable()
     {
