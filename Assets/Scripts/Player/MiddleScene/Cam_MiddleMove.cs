@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class Cam_MiddleMove : MonoBehaviour
+public class Cam_MiddleMove : MonoBehaviourPun
 {
     [SerializeField] private float moveSpeed = 7;
     void Update()

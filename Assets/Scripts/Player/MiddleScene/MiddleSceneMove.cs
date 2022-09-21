@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class MiddleSceneMove : MonoBehaviour
+public class MiddleSceneMove : MonoBehaviourPun
 {
     [SerializeField] private float turnSpeed = 5;
     [SerializeField] private float moveSpeed = 7;
