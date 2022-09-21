@@ -85,7 +85,7 @@ public class StartManager : MonoBehaviourPunCallbacks
     {
         RoomOptions roomOptions = new RoomOptions();
 
-        roomOptions.MaxPlayers = 4;
+        roomOptions.MaxPlayers = 3;
         roomOptions.IsVisible = true;
         PhotonNetwork.CreateRoom(createCode_InputField.text, roomOptions);
     }
