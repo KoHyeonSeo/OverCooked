@@ -36,10 +36,7 @@ public class StartManager : MonoBehaviourPunCallbacks
         //print("OnConnectedToMaster");
 
         //닉네임 설정
-        //PhotonNetwork.NickName = "Zㅣ존 현또니또닝";
         PhotonNetwork.NickName = nickName_InputField.text;
-        //다른 로비, 다른 채널에 들어가고 싶다면? -> 특정 로비 진입
-        //PhotonNetwork.JoinLobby(new TypedLobby("현서 로비",LobbyType.Default));
     }
     private void Update()
     {
