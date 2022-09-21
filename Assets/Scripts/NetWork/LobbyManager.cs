@@ -32,6 +32,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //플레이어 생성
     private void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.SerializationRate = 60;
         PhotonNetwork.SendRate = 60;
         //1. 계산하고
@@ -48,7 +49,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     
     public void AddPlayers(GameObject gameObject)
     {
-        Debug.Log(gameObject);
         players.Add(gameObject);
 
 
@@ -89,5 +89,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             players[i].transform.position = spawnPos[i];
         }
 
+    }
+    public void OnClickMiddleMap()
+    {
+
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LoadLevel("MiddleScene");
     }
 }
