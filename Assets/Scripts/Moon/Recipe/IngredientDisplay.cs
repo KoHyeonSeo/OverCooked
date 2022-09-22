@@ -14,6 +14,7 @@ public class IngredientDisplay : MonoBehaviour
     int maxModelLevel;
     GameObject player;
     Mesh model;
+    Transform modelTransform;
     Texture modelTexture;
     BoxCollider modelCollider;
 
@@ -39,27 +40,19 @@ public class IngredientDisplay : MonoBehaviour
         }*/
     }
 
-    void CheckReady()
-    {
-        //if (ingredientObject.isPossibleBake && isBake)
-    }
-
     public void CookLevelUp()
     {
         if (modelLevel < maxModelLevel)
             modelLevel++;
         MeshChange();
-        //Destroy(curObject);
-        //curObject = player.GetComponent<PlayerCreateNew>().CreatesNewObject(ingredientObject.cookLevel[cookLevel], "Default", true, transform, new Vector3(0, 0, 0), true);
-        //curObject = Instantiate(ingredientObject.model[modelLevel]);
-        //curObject.transform.position = transform.position;
-        //curObject.transform.parent = transform;
     }
 
     void MeshChange()
     {
         model = ingredientObject.model[modelLevel].GetComponent<MeshFilter>().sharedMesh;
-        GetComponent<MeshFilter>().mesh= model;
+        GetComponent<MeshFilter>().sharedMesh = model;
+        modelTransform = ingredientObject.model[modelLevel].GetComponent<Transform>();
+        GetComponent<Transform>().localScale = modelTransform.localScale;
         modelTexture = ingredientObject.model[modelLevel].GetComponent<MeshRenderer>().sharedMaterial.mainTexture;
         GetComponent<MeshRenderer>().material.mainTexture = modelTexture;
         if (ingredientObject.model[modelLevel].GetComponent<BoxCollider>())

@@ -8,6 +8,7 @@ public class M_Table : MonoBehaviour
     Color startColor;
     Color endColor;
 
+    //¿ÀºêÁ§Æ® ¹Þ±â
     public GameObject getObject;
     Vector3 objectPosition;
 
@@ -27,8 +28,8 @@ public class M_Table : MonoBehaviour
         Debug.DrawRay(transform.position, transform.up, Color.blue);
         if (Physics.Raycast(ray, out hit, 1))
         {
-            if (hit.transform.gameObject.tag == "Food")
-                SetObject(hit.transform.gameObject);
+            //if (hit.transform.gameObject.tag == "Food")
+                //SetObject(hit.transform.gameObject);
         }
     }
 
@@ -41,6 +42,7 @@ public class M_Table : MonoBehaviour
     //Å×ÀÌºí ±ôºý°Å¸² ÁßÁö
     public void StopBlink()
     {
+        print("¸ØÃã");
         GetComponent<Renderer>().material.color = startColor;
     }
 
@@ -52,4 +54,6 @@ public class M_Table : MonoBehaviour
         objectPosition.y = getObject.transform.localScale.y / 2;
         getObject.transform.localPosition = objectPosition;
     }
+
+ 
 }

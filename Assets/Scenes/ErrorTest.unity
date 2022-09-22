@@ -1324,14 +1324,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d2bfb1619e5f143b55133b9aa40cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getObject: {fileID: 0}
-  objectPosition: {fileID: 0}
+  objectPosition: {x: 0, y: 0, z: 0}
   fireEffectPrefab: {fileID: 0}
   fireEffect: {fileID: 0}
   fireGauge: 100
   isFire: 0
   bakeGauge: {fileID: 2054219642}
   bakeGaugeImage: {fileID: 2013908830}
+  cookingTool: {fileID: 0}
 --- !u!114 &62075526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7683,6 +7683,8 @@ GameObject:
   - component: {fileID: 609911300}
   - component: {fileID: 609911299}
   - component: {fileID: 609911303}
+  - component: {fileID: 609911305}
+  - component: {fileID: 609911304}
   m_Layer: 7
   m_Name: MeatBox
   m_TagString: Untagged
@@ -7792,7 +7794,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609911296}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0816d165ea1161d448840f05f5dc09ac, type: 3}
   m_Name: 
@@ -7800,6 +7802,32 @@ MonoBehaviour:
   ingredientPrefab: {fileID: 504508968258116117, guid: 549f950fad0d6b343b29b499fd85d444, type: 3}
   player: {fileID: 0}
   tableChild: 1
+--- !u!114 &609911304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609911296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7118d7f920718ee459323bbcd4a52fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 0}
+--- !u!114 &609911305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609911296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf1d44ac712a9d45baee9fd1d18436e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientPrefab: {fileID: 504508968258116117, guid: 549f950fad0d6b343b29b499fd85d444, type: 3}
 --- !u!1 &621388569
 GameObject:
   m_ObjectHideFlags: 0
@@ -8013,6 +8041,7 @@ GameObject:
   - component: {fileID: 628595517}
   - component: {fileID: 628595516}
   - component: {fileID: 628595515}
+  - component: {fileID: 628595521}
   m_Layer: 7
   m_Name: CutTable (1)
   m_TagString: Untagged
@@ -8049,8 +8078,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03612bbd15225da459d85242db116421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getObject: {fileID: 0}
-  objectPosition: {fileID: 1721732543}
+  cutTableObject: {fileID: 0}
+  objectPosition: {x: 0, y: 0, z: 0}
   isPlayerExit: 0
   cutGauge: {fileID: 261008459}
   cutGaugeImage: {fileID: 1138760039}
@@ -8146,6 +8175,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628595513}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &628595521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628595513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7118d7f920718ee459323bbcd4a52fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 0}
 --- !u!1 &630513035
 GameObject:
   m_ObjectHideFlags: 0
@@ -8876,14 +8918,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d2bfb1619e5f143b55133b9aa40cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getObject: {fileID: 0}
-  objectPosition: {fileID: 0}
+  objectPosition: {x: 0, y: 0, z: 0}
   fireEffectPrefab: {fileID: 0}
   fireEffect: {fileID: 0}
   fireGauge: 100
   isFire: 0
   bakeGauge: {fileID: 1790387927}
   bakeGaugeImage: {fileID: 37224341}
+  cookingTool: {fileID: 0}
 --- !u!114 &679227515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13330,14 +13372,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d2bfb1619e5f143b55133b9aa40cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getObject: {fileID: 0}
-  objectPosition: {fileID: 0}
+  objectPosition: {x: 0, y: 0, z: 0}
   fireEffectPrefab: {fileID: 0}
   fireEffect: {fileID: 0}
   fireGauge: 100
   isFire: 0
   bakeGauge: {fileID: 1180206203}
   bakeGaugeImage: {fileID: 361400709}
+  cookingTool: {fileID: 0}
 --- !u!114 &957255538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20580,6 +20622,7 @@ GameObject:
   - component: {fileID: 1450172745}
   - component: {fileID: 1450172749}
   - component: {fileID: 1450172750}
+  - component: {fileID: 1450172751}
   m_Layer: 7
   m_Name: TomatoBox
   m_TagString: Untagged
@@ -20710,6 +20753,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientPrefab: {fileID: 3340701904661468211, guid: 53235cade5774e2449458604c4678c44, type: 3}
+--- !u!114 &1450172751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450172742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7118d7f920718ee459323bbcd4a52fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 0}
 --- !u!1 &1451931517
 GameObject:
   m_ObjectHideFlags: 0
@@ -28778,6 +28834,135 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996906675}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1997433439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1997433443}
+  - component: {fileID: 1997433442}
+  - component: {fileID: 1997433441}
+  - component: {fileID: 1997433440}
+  - component: {fileID: 1997433444}
+  - component: {fileID: 1997433445}
+  m_Layer: 0
+  m_Name: FryingPan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1997433440
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997433439}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1997433441
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997433439}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9f8f37a3c89c64b4f83c87d5e94bc97f, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1997433442
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997433439}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1997433443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997433439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.677, y: 1.5447843, z: 3.672}
+  m_LocalScale: {x: 0.8, y: 0.2, z: 0.8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1997433444
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997433439}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1997433445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997433439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c2bad01233cb548a1b903c9dd4f39c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 0}
+  objectPosition: {fileID: 0}
 --- !u!1 &2007571379
 GameObject:
   m_ObjectHideFlags: 0
@@ -31767,14 +31952,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d2bfb1619e5f143b55133b9aa40cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getObject: {fileID: 0}
-  objectPosition: {fileID: 0}
+  objectPosition: {x: 0, y: 0, z: 0}
   fireEffectPrefab: {fileID: 1271764609937064, guid: 8b47f39d91e61384889cff33839361dc, type: 3}
   fireEffect: {fileID: 0}
   fireGauge: 100
   isFire: 0
   bakeGauge: {fileID: 911145101}
   bakeGaugeImage: {fileID: 1200927929}
+  cookingTool: {fileID: 0}
 --- !u!1 &3459374859598363620
 GameObject:
   m_ObjectHideFlags: 0
@@ -32424,6 +32609,7 @@ GameObject:
   - component: {fileID: 5240347791676679011}
   - component: {fileID: 5240347791676679010}
   - component: {fileID: 5240347792021936796}
+  - component: {fileID: 5240347792021936797}
   m_Layer: 6
   m_Name: Shark_Player
   m_TagString: Player
@@ -32438,15 +32624,32 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5240347792021936795}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d01431a9bdf38f14586f83e91e1e8761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   getObject: {fileID: 0}
   interactiveObject: {fileID: 0}
-  curTable: {fileID: 0}
+  lastTable: {fileID: 0}
   cutTable: {fileID: 0}
+  sinkTable: {fileID: 0}
+--- !u!114 &5240347792021936797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5240347792021936795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bde661d040c9784f916fd621cf49a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 0}
+  interactiveObject: {fileID: 0}
+  lastCuttingTable: {fileID: 0}
+  lastTable: {fileID: 0}
 --- !u!23 &5584870109269322280
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37424,6 +37627,7 @@ GameObject:
   - component: {fileID: 9217593785029887585}
   - component: {fileID: 9217593785029887586}
   - component: {fileID: 9217593785029887587}
+  - component: {fileID: 9217593785029887588}
   m_Layer: 7
   m_Name: CutTable
   m_TagString: Untagged
@@ -37534,7 +37738,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9217593785029887516}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6dbedf1c4404cf43b0b34d3bf696ad2, type: 3}
   m_Name: 
@@ -37552,11 +37756,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03612bbd15225da459d85242db116421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getObject: {fileID: 0}
-  objectPosition: {fileID: 1395189087}
+  cutTableObject: {fileID: 0}
+  objectPosition: {x: 0, y: 0, z: 0}
   isPlayerExit: 0
   cutGauge: {fileID: 1248744762}
   cutGaugeImage: {fileID: 1012334027}
+--- !u!114 &9217593785029887588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217593785029887516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7118d7f920718ee459323bbcd4a52fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 0}
 --- !u!65 &9217593785179446564
 BoxCollider:
   m_ObjectHideFlags: 0

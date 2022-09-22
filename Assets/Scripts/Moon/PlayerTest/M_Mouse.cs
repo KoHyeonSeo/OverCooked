@@ -10,7 +10,7 @@ public class M_Mouse : MonoBehaviour
     //GameObject hitObject;
     float startY;
 
-    void Start()
+    /*void Start()
     {
         
     }
@@ -42,9 +42,9 @@ public class M_Mouse : MonoBehaviour
                         hitObject.transform.parent.GetComponent<M_Box>().getObject = null;
                         hitObject.transform.parent = null;
                     }
-                    else if (hitObject.transform.parent && hitObject.transform.parent.GetComponent<CutBox>())
+                    else if (hitObject.transform.parent && hitObject.transform.parent.GetComponent<CuttingTable>())
                     {
-                        hitObject.transform.parent.GetComponent<CutBox>().getObject = null;
+                        //hitObject.transform.parent.GetComponent<CutBox>().getObject = null;
                         hitObject.transform.parent = null;
                     }
                     else if (hitObject.transform.parent && hitObject.transform.parent.GetComponent<FireBox>())
@@ -100,11 +100,11 @@ public class M_Mouse : MonoBehaviour
                             hitObject = null;
                         }
                     }
-                    else if (hit.transform.GetComponent<CutBox>())
+                    else if (hit.transform.GetComponent<CuttingTable>())
                     {
-                        if (!hit.transform.GetComponent<CutBox>().getObject)
+                        if (!hit.transform.GetComponent<CuttingTable>().cutTableObject)
                         {
-                            hit.transform.GetComponent<CutBox>().SetObject(hitObject);
+                            hit.transform.GetComponent<CuttingTable>().SetObject(hitObject);
                             hitObject = null;
                         }
                     }
@@ -143,12 +143,12 @@ public class M_Mouse : MonoBehaviour
                         hitObject = null;
                     }
                     //아니면 그냥 그곳에 두기
-                    /*else
+                    *//*else
                     {
                         mouseWorldPos.y = startY;
                         hitObject.transform.position = mouseWorldPos;
                         hitObject = null;
-                    }*/
+                    }*//*
                 }
             }
         }
@@ -171,5 +171,5 @@ public class M_Mouse : MonoBehaviour
             mouseWorldPos.y = 2f;
             hitObject.transform.position = mouseWorldPos;
         }
-    }
+    }*/
 }
