@@ -44,6 +44,7 @@ MonoBehaviour:
   - RPC_PlayerMove
   - ChangePosition
   - RPC_PlayerControl
+  - RPC_Throw
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

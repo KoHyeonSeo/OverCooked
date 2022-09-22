@@ -7,7 +7,7 @@ using Photon.Pun;
 public class GameManager : MonoBehaviourPun
 {
     public static GameManager instance;
-    //public Transform playerPos;
+    public Transform playerPos;
     private void Awake()
     {
         if (!instance)
@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviourPun
         }
         //나중에 나의 캐릭터를 찾아야할 방법으로 바꿔야한다.
         //Debug.Log("isMine : " + photonView.IsMine);
-        //Player = PhotonNetwork.Instantiate("Shark_Player", playerPos.position + new Vector3(Random.Range(-1,1),0,Random.Range(-2,2)), Quaternion.identity);
-        Player = PhotonNetwork.Instantiate("Shark_Player", new Vector3(Random.Range(-10, 10), 5, Random.Range(-10, 10)), Quaternion.identity);
         PhotonNetwork.AutomaticallySyncScene = true;
+        Player = PhotonNetwork.Instantiate("Shark_Player", playerPos.position + new Vector3(Random.Range(-1, 1), 0, Random.Range(-2, 2)), Quaternion.identity);
+        //Player = PhotonNetwork.Instantiate("Shark_Player", new Vector3(Random.Range(-10, 10), 5, Random.Range(-10, 10)), Quaternion.identity);
 
         //Debug.Log("Player GetInstanceID : " + Player.GetInstanceID());
     }
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviourPun
         {
             if (!Player)
             {
-                //Player = PhotonNetwork.Instantiate("Shark_Player", playerPos.position + new Vector3(Random.Range(-1, 1), 0, Random.Range(-2, 2)), Quaternion.identity);
+                Player = PhotonNetwork.Instantiate("Shark_Player", playerPos.position + new Vector3(Random.Range(-1, 1), 0, Random.Range(-2, 2)), Quaternion.identity);
             }
         }
 

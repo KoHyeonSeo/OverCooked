@@ -53,8 +53,8 @@ public class PlayerInput : MonoBehaviourPun
 
     private void Update()
     {
-        if (photonView.IsMine)
-        {
+        //if (photonView.IsMine)
+        //{
             if (!playerControl)
             {
                 #region 움직임 관련 입력
@@ -81,6 +81,6 @@ public class PlayerInput : MonoBehaviourPun
                 Interact = false;
                 FireExtinguisher = false;
             }
-        }
+        //}
     }
 }

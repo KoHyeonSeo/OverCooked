@@ -56,12 +56,12 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.LoadLevel(4);
-                //if (other.gameObject.name.Contains("Portal"))
-                //{
-                //    string[] names = other.gameObject.name.Split('/');
-                //    PhotonNetwork.LoadLevel(names[1]);
-                //}
+                //PhotonNetwork.LoadLevel(4);
+                if (other.gameObject.name.Contains("Portal"))
+                {
+                    string[] names = other.gameObject.name.Split('/');
+                    PhotonNetwork.LoadLevel(names[1]);
+                }
             }
         }
     }
