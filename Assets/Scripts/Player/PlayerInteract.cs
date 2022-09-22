@@ -26,18 +26,12 @@ public class PlayerInteract : MonoBehaviourPun
 
     private void Start()
     {
-<<<<<<< HEAD
         if (photonView.IsMine)
         {
             startPosition = transform.position + new Vector3(0, 2, 0);
             playerInput = GetComponent<PlayerInput>();
             playerState = GetComponent<PlayerState>();
         }
-=======
-        startPosition = transform.position + new Vector3(0, 2, 0);
-        playerInput = GetComponent<PlayerInput>();
-        playerState = GetComponent<PlayerState>();
->>>>>>> M
     }
     private void Update()
     {
@@ -69,11 +63,7 @@ public class PlayerInteract : MonoBehaviourPun
             PointObject = null;
         }
 
-<<<<<<< HEAD
         if (hit.transform && hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
-=======
-        if (hit.transform && hit.transform.gameObject.layer == LayerMask.NameToLayer("Table"))
->>>>>>> M
         {
             if (playerInput.LeftClickDown && transform.childCount == 1 && hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
             {
