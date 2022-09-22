@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerState : MonoBehaviour
+public class PlayerState : MonoBehaviourPun
 {
     public enum State
     {
@@ -18,10 +19,13 @@ public class PlayerState : MonoBehaviour
     private Animator animator;
     private void Start()
     {
-        animator = transform.GetChild(0).GetComponent<Animator>();    
+        if(photonView.IsMine)
+            animator = transform.GetChild(0).GetComponent<Animator>();    
     }
     private void Update()
     {
+        //if(!photonView.IsMine) return;
+
         if (curState != saveState)
         {
             ChangeState(curState);

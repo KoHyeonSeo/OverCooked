@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class UI_ReadyStart : MonoBehaviour
+public class UI_ReadyStart : MonoBehaviourPun
 {
     [SerializeField] private GameObject readyUI;
     [SerializeField] private float speed = 5;
@@ -19,13 +20,50 @@ public class UI_ReadyStart : MonoBehaviour
     public bool IsReady { get; private set; }  
     private void Start()
     {
-        readyUI.SetActive(false);
-        startUI.SetActive(false);
-        if (GameManager.instance.Player)
-            player = GameManager.instance.Player;
-        IsReady = false;
+            readyUI.SetActive(false);
+            startUI.SetActive(false);
+            if (GameManager.instance.Player)
+                player = GameManager.instance.Player;
+            IsReady = false;
     }
     private void Update()
+    {
+        if (!player)
+            player = GameManager.instance.Player;
+
+        print("UI_ReadyStart player: " + player.GetInstanceID());
+        curTime += Time.deltaTime;
+        if (curTime < startTime)
+        {
+            //플레이어들 활동 제어
+            player.GetComponent<PlayerInput>().playerControl = true;
+
+            readyUI.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(readyUI.GetComponent<RectTransform>().anchoredPosition, Vector2.zero, Time.deltaTime * speed);
+
+            readyUI.SetActive(true);
+            startUI.SetActive(false);
+        }
+        else if (curTime > startTime && curTime < endTime)
+        {
+            //플레이어들 활동 제어
+            player.GetComponent<PlayerInput>().playerControl = true;
+
+            startUI.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(startUI.GetComponent<RectTransform>().anchoredPosition, Vector2.zero, Time.deltaTime * speed);
+            readyUI.SetActive(false);
+            startUI.SetActive(true);
+        }
+        else
+        {
+            //플레이어들 활동 제어 해제
+            player.GetComponent<PlayerInput>().playerControl = false;
+
+            readyUI.SetActive(false);
+            startUI.SetActive(false);
+            IsReady = true;
+        }
+    }
+    [PunRPC]
+    public void RPC_PlayerControl()
     {
         if (!player)
             player = GameManager.instance.Player;
@@ -61,5 +99,4 @@ public class UI_ReadyStart : MonoBehaviour
             IsReady = true;
         }
     }
-
 }

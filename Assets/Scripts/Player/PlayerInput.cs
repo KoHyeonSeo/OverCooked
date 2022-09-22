@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : MonoBehaviourPun
 {
     public const string XAxisName = "Horizontal";
     public const string ZAxisName = "Vertical";
@@ -52,31 +53,34 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (!playerControl)
+        if (photonView.IsMine)
         {
-            #region 움직임 관련 입력
-            XAxisDown = Input.GetAxisRaw(XAxisName);
-            ZAxisDown = Input.GetAxisRaw(ZAxisName);
-            DashButton = Input.GetKey(KeyCode.LeftShift);
-            #endregion
+            if (!playerControl)
+            {
+                #region 움직임 관련 입력
+                XAxisDown = Input.GetAxisRaw(XAxisName);
+                ZAxisDown = Input.GetAxisRaw(ZAxisName);
+                DashButton = Input.GetKey(KeyCode.LeftShift);
+                #endregion
 
-            #region 상호작용 관련 입력
-            LeftClickDown = Input.GetButtonDown(leftClickName);
-            RightClickDown = Input.GetButtonDown(rightClickName);
-            Interact = Input.GetButtonDown(interactName);
-            FireExtinguisher = Input.GetKey(KeyCode.LeftControl);
-            #endregion
-        }
-        else
-        {
-            XAxisDown = 0;
-            ZAxisDown = 0;
-            DashButton = false;
+                #region 상호작용 관련 입력
+                LeftClickDown = Input.GetButtonDown(leftClickName);
+                RightClickDown = Input.GetButtonDown(rightClickName);
+                Interact = Input.GetButtonDown(interactName);
+                FireExtinguisher = Input.GetKey(KeyCode.LeftControl);
+                #endregion
+            }
+            else
+            {
+                XAxisDown = 0;
+                ZAxisDown = 0;
+                DashButton = false;
 
-            LeftClickDown = false;
-            RightClickDown = false;
-            Interact = false;
-            FireExtinguisher = false;
+                LeftClickDown = false;
+                RightClickDown = false;
+                Interact = false;
+                FireExtinguisher = false;
+            }
         }
     }
 }
