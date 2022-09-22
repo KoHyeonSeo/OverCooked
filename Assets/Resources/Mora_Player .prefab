@@ -17,7 +17,10 @@ GameObject:
   - component: {fileID: 1553288078034013841}
   - component: {fileID: 1553288078034013840}
   - component: {fileID: -464391110482750711}
+<<<<<<< HEAD:Assets/Resources/Mora_Player .prefab
   - component: {fileID: 5469869220086860391}
+=======
+>>>>>>> M:Assets/Prefabs/Players/Mora_Player .prefab
   m_Layer: 6
   m_Name: 'Mora_Player '
   m_TagString: Player
@@ -176,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwPower: 1000
   curInteractState: 0
+<<<<<<< HEAD:Assets/Resources/Mora_Player .prefab
 --- !u!114 &5469869220086860391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +204,8 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+=======
+>>>>>>> M:Assets/Prefabs/Players/Mora_Player .prefab
 --- !u!1001 &1553288076141986846
 PrefabInstance:
   m_ObjectHideFlags: 0
