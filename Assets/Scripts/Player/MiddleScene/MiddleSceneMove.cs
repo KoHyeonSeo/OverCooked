@@ -46,6 +46,20 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
             recieveRot = (Quaternion)stream.ReceiveNext();
         }
     }
+    private void OnTriggerStay(Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (other.gameObject.name.Contains("Portal"))
+                {
+                    string[] names = other.gameObject.name.Split('/');
+                    PhotonNetwork.LoadLevel(names[1]);
+                }
+            }
+        }
+    }
     //[PunRPC]
     //public void RPC_PlayerMove()
     //{
