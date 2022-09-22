@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class FireBox : MonoBehaviour
 {
-    public GameObject getObject;
-    public Transform objectPosition;
+    //public GameObject getObject;
+    public Vector3 objectPosition;
     float fireTime = 15;
     float bakeTime = 10;
     float time = 0;
@@ -16,9 +16,12 @@ public class FireBox : MonoBehaviour
     public bool isFire;
     public GameObject bakeGauge;
     public Image bakeGaugeImage;
+    public GameObject cookingTool;
+    FryingPan fryingPan;
 
     void Start()
     {
+        objectPosition = new Vector3(0, 1, 0);
         bakeGaugeImage.GetComponent<Image>().fillAmount = time / bakeTime;
         bakeGauge.SetActive(false);
     }
@@ -37,7 +40,8 @@ public class FireBox : MonoBehaviour
         {  
             return;
         }
-        if (getObject && getObject.GetComponent<IngredientDisplay>().isBake)
+        if (cookingTool && cookingTool.GetComponent<FryingPan>() && cookingTool.GetComponent<FryingPan>().getObject
+            && cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake)
         {
             time += Time.deltaTime;
             if (fireTime < time)
@@ -46,10 +50,9 @@ public class FireBox : MonoBehaviour
             }
         }
         //오브젝트가 프라이팬이고 프라이팬에 음식이 있으면 시간이 흐름
-        if (getObject /*&& getObject.GetComponent<FryingPan>() && getObject.GetComponent<FryingPan>().getObject*/)
+        else if (cookingTool && cookingTool.GetComponent<FryingPan>().getObject/*&& getObject.GetComponent<FryingPan>() && getObject.GetComponent<FryingPan>().getObject*/)
         {
-            //GameObject fryObject = getObject.GetComponent<FryingPan>().getObject;
-            GameObject fryObject = getObject;
+            GameObject fryObject = cookingTool.GetComponent<FryingPan>().getObject;
             if (fryObject && fryObject.GetComponent<IngredientDisplay>())
             {
                 if (fryObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleBake && !fryObject.GetComponent<IngredientDisplay>().isBake)
@@ -74,24 +77,24 @@ public class FireBox : MonoBehaviour
     {
         /*print("구움: " + getObject.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().ingredientObject.name);
         getObject.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = true;*/
-        print("구움: " + getObject.GetComponent<IngredientDisplay>().name);
-        getObject.GetComponent<IngredientDisplay>().CookLevelUp();
-        getObject.GetComponent<IngredientDisplay>().isBake = true;
+        print("구움: " + cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().name);
+        cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().CookLevelUp();
+        cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = true;
         bakeGauge.SetActive(false);
         //time = 0;
     }
 
     void Fire()
     {
-        getObject.GetComponent<IngredientDisplay>().isBake = false;
+        cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = false;
         fireEffect = Instantiate(fireEffectPrefab);
         Vector3 firePos = transform.position;
         firePos.y += 1;
         fireEffect.transform.position = firePos;
         isFire = true;
         fireGauge = 100;
-        Destroy(getObject);
-        getObject = null;
+        Destroy(cookingTool.GetComponent<FryingPan>().getObject);
+        cookingTool.GetComponent<FryingPan>().getObject = null;
         print("불 남");
     }
 
@@ -102,17 +105,24 @@ public class FireBox : MonoBehaviour
 
     public void SetObject(GameObject obj)
     {
+        if (!cookingTool && obj.GetComponent<FryingPan>())
+        {
+            fryingPan = obj.GetComponent<FryingPan>();
+            cookingTool = obj;
+            cookingTool.transform.parent = transform;
+            objectPosition.y = 0.52f;
+            cookingTool.transform.localPosition = objectPosition;
+        }
         //박스 위에 오브젝트가 없으면 받은 오브젝트 셋팅
-        if (!getObject && !isFire && !obj.GetComponent<IngredientDisplay>().isBake)
+        /*if (!getObject && obj.tag == "Food" && cookingTool && !obj.GetComponent<IngredientDisplay>().isBake)
         {
             time = 0;
             bakeGauge.SetActive(true);
-            obj.transform.parent = transform;
-            obj.transform.localPosition = new Vector3(0, 1, 0);
             getObject = obj;
-            //getObject.transform.position = objectPosition.position;
-            //getObject.transform.parent = transform;
-        }
+            getObject.transform.parent = transform;
+            objectPosition.y = getObject.transform.localScale.y / 2;
+            getObject.transform.localPosition = objectPosition;
+        }*/
 
     }
 }
