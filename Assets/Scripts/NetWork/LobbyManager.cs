@@ -22,7 +22,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         spawnPos = new Vector3[PhotonNetwork.CurrentRoom.PlayerCount];
         float position = (endPos.position.x - startPos.position.x) / PhotonNetwork.CurrentRoom.PlayerCount;
     
-        //3. 나머지 애들 재배치시키고
+        //Spawn 거리 계산
         for(int i = 0; i < spawnPos.Length; i++)
         {
             spawnPos[i] = new Vector3(startPos.position.x + position * i, 0.5f, startPos.position.z);
@@ -41,25 +41,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //2. 들어온 친구 배치 시키고
         int idx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
         PhotonNetwork.Instantiate("Player", spawnPos[idx], Quaternion.identity);
-
-
     }
-    //현재 방에 있는 Player GameObject를 담아놓자.
-    public List<GameObject> players = new List<GameObject>();
-    
-    public void AddPlayers(GameObject gameObject)
+
+    [PunRPC]
+    public void ChangePosition()
     {
-        players.Add(gameObject);
-
-
+        //계산하고
         CalcSpawnPos();
 
-        //print("PhotonNetwork Player = " + PhotonNetwork.CurrentRoom.PlayerCount);
-        //print("Player = " + players.Count);
-        //print("SpawnPos = " + spawnPos.Length);
-
-        //3. 나머지 애들 위치 재배치
-        for (int i = 0; i < spawnPos.Length; i++)
+        List<GameObject> players = new List<GameObject>();
+        StartPlayer[] obj = GameObject.FindObjectsOfType<StartPlayer>();
+        for (int i = 0; i < obj.Length; i++)
+        {
+            if (obj[i].CompareTag("Player"))
+            {
+                players.Add(obj[i].gameObject);
+            }
+        }
+        for (int i = 0; i < players.Count; i++)
         {
             players[i].transform.position = spawnPos[i];
         }
@@ -68,27 +67,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
         print(newPlayer.NickName + "님이 방에 들어왔");
+
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
 
-        //리스트에서 이 아이를 빼야한다.
-        for(int i = 0; i < players.Count; i++)
-        {
-            if (!players[i])
-                players.RemoveAt(i);
-        }
-
         //2. 계산한 후
         CalcSpawnPos();
 
-        //3. 나머지 애들 위치 재배치
-        for (int i = 0; i < spawnPos.Length; i++)
-        {
-            players[i].transform.position = spawnPos[i];
-        }
-
+        //3. 재배치
+        ChangePosition();
     }
     public void OnClickMiddleMap()
     {
