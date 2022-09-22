@@ -81,7 +81,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void OnClickMiddleMap()
     {
-
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.LoadLevel("MiddleScene");
     }
