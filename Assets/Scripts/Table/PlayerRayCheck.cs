@@ -87,8 +87,10 @@ public class PlayerRayCheck : MonoBehaviour
             else if (interactiveObject && !getObject)
             {
                 HavingSettingObject(interactiveObject);
-
-
+            }
+            else if(!interactiveObject)
+            {
+                //GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
             }
         }
     }
