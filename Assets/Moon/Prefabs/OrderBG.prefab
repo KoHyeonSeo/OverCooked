@@ -316,7 +316,7 @@ MonoBehaviour:
   recipeContentGroup: {fileID: 4073462918450126892}
   timeGauge: {fileID: 4073462919239264550}
   gauge: 100
-  ingredientTime: 60
+  ingredientTime: 40
 --- !u!1 &8392930887269119608
 GameObject:
   m_ObjectHideFlags: 0
