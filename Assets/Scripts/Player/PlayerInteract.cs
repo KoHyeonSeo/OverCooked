@@ -1,8 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerInteract : MonoBehaviour
+public class PlayerInteract : MonoBehaviourPun
 {
     [Header("조작 설정")]
     [SerializeField] private float throwPower = 1000f;
@@ -24,12 +26,17 @@ public class PlayerInteract : MonoBehaviour
 
     private void Start()
     {
-        startPosition = transform.position + new Vector3(0, 2, 0);
-        playerInput = GetComponent<PlayerInput>();
-        playerState = GetComponent<PlayerState>();
+        if (photonView.IsMine)
+        {
+            startPosition = transform.position + new Vector3(0, 2, 0);
+            playerInput = GetComponent<PlayerInput>();
+            playerState = GetComponent<PlayerState>();
+        }
     }
     private void Update()
     {
+        if (!photonView.IsMine) return;
+
         if(transform.childCount > 1)
         {
             GrabbingObjectInfo = transform.GetChild(1).gameObject;

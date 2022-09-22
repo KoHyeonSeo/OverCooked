@@ -11,6 +11,10 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
     [SerializeField] private float turnSpeed = 5;
     Vector3 recievePos;
     Quaternion recieveRot;
+    private void Start()
+    {
+        
+    }
     void Update()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -52,11 +56,12 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                if (other.gameObject.name.Contains("Portal"))
-                {
-                    string[] names = other.gameObject.name.Split('/');
-                    PhotonNetwork.LoadLevel(names[1]);
-                }
+                PhotonNetwork.LoadLevel(4);
+                //if (other.gameObject.name.Contains("Portal"))
+                //{
+                //    string[] names = other.gameObject.name.Split('/');
+                //    PhotonNetwork.LoadLevel(names[1]);
+                //}
             }
         }
     }

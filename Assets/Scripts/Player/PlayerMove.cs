@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerMove : MonoBehaviour
+using Photon.Pun;
+public class PlayerMove : MonoBehaviourPun, IPunObservable
 {
     [Header("이동 속도 조정")]
     [SerializeField] private float moveSpeed = 5f;
@@ -14,23 +14,49 @@ public class PlayerMove : MonoBehaviour
 
     private PlayerInput playerInput;
     private Vector3 Dir;
+    private Vector3 receivePos;
+    private Quaternion receiveRot;
     private void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
+        if(photonView.IsMine)
+            playerInput = GetComponent<PlayerInput>();
     }
     private void Update()
     {
-        Dir = playerInput.XAxisDown * Vector3.right + playerInput.ZAxisDown * Vector3.forward;
+        if (photonView.IsMine)
+        {
+            Debug.Log(photonView.GetInstanceID());
+            Dir = playerInput.XAxisDown * Vector3.right + playerInput.ZAxisDown * Vector3.forward;
 
-        if (playerInput.DashButton)
-            currentSpeed = dashSpeed;
+            if (playerInput.DashButton)
+                currentSpeed = dashSpeed;
+            else
+                currentSpeed = moveSpeed;
+
+            //방향키 방향쪽으로 바라봄
+            transform.LookAt(transform.position + Dir);
+            transform.position += Dir * currentSpeed * Time.deltaTime;
+        }
         else
-            currentSpeed = moveSpeed;
+        {
+            transform.position =
+                Vector3.Lerp(transform.position, receivePos, Time.deltaTime * 5);
+            transform.rotation =
+                Quaternion.Lerp(transform.rotation, receiveRot, Time.deltaTime * 5);
+        }
+    }
 
-        //방향키 방향쪽으로 바라봄
-        transform.LookAt(transform.position + Dir);
-        transform.position += Dir * currentSpeed * Time.deltaTime;
-
-       
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            receivePos = (Vector3)stream.ReceiveNext();
+            receiveRot = (Quaternion)stream.ReceiveNext();
+        }
     }
 }

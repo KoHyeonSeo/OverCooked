@@ -43,6 +43,7 @@ MonoBehaviour:
   - RPC_Cam_Move
   - RPC_PlayerMove
   - ChangePosition
+  - RPC_PlayerControl
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

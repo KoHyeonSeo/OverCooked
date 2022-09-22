@@ -16,7 +16,7 @@ public class BlockEditor : EditorWindow
     private void OnGUI()
     {
         GUILayout.Label("Interact Object", EditorStyles.boldLabel);
-        Object resource_table = Resources.Load<GameObject>("Table");
+        Object resource_table = Resources.Load<GameObject>("Editor/Table");
         GUILayout.BeginHorizontal();
         GUILayout.BeginScrollView
             (scrollPosition,
@@ -35,7 +35,7 @@ public class BlockEditor : EditorWindow
         }
 
         GUILayout.Label("Trash Can");
-        Object resource_trash = Resources.Load<GameObject>("Trash Can");
+        Object resource_trash = Resources.Load<GameObject>("Editor/Trash Can");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_trash)))
         {
             EditorGUIUtility.PingObject(resource_trash);
@@ -45,7 +45,7 @@ public class BlockEditor : EditorWindow
         }
 
         GUILayout.Label("Fire Extinguisher");
-        Object resource_FireExtinguisher = Resources.Load<GameObject>("FireExtinguisher");
+        Object resource_FireExtinguisher = Resources.Load<GameObject>("Editor/FireExtinguisher");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_FireExtinguisher)))
         {
             EditorGUIUtility.PingObject(resource_FireExtinguisher);
@@ -57,7 +57,7 @@ public class BlockEditor : EditorWindow
         GUILayout.Label("Other", EditorStyles.boldLabel); 
 
         GUILayout.Label("Deadzone");
-        Object resource_DeadZone = Resources.Load<GameObject>("Deadzone");
+        Object resource_DeadZone = Resources.Load<GameObject>("Editor/Deadzone");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_DeadZone)))
         {
             EditorGUIUtility.PingObject(resource_DeadZone);
