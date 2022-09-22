@@ -6,20 +6,21 @@ public class PlayerRay : MonoBehaviour
 {
     public GameObject getObject; //현재 플레이어가 들고 있는 것
     public GameObject interactiveObject; //현재 플레이어와 닿아있는 것
-    public GameObject lastTable; //마지막으로 닿아있던 테이블
-    public GameObject cutTable; //지금 닿아있는 컷팅 테이블
-    public GameObject sinkTable; //지금 닿아있는 싱크대
+    public GameObject cutTable;
 
-    /*void Start()
+    Vector3 objectPosition;
+    //private PlayerCreateNew createNew;
+
+    void Start()
     {
-
+        objectPosition = new Vector3(0f, -0.2f ,0.6f);
+        //createNew = GetComponent<PlayerCreateNew>();
     }
 
     void Update()
     {
-        CheckPlayer(); //플레이어가 들고 있는 것, 닿아 있는 테이블 찾기
-        CheckRay(); //
-        CheckPlayerClick();
+        CheckPlayer();
+        CheckRay();
     }
 
     void CheckPlayer()
@@ -38,29 +39,16 @@ public class PlayerRay : MonoBehaviour
 
     void CheckRay()
     {
-        CheckTable();
-        if (getObject)
+        //책상에 닿아있다면
+        if(interactiveObject && interactiveObject.GetComponent<M_Table>())
         {
-            if (interactiveObject)
-            {
-                if (interactiveObject.GetComponent<M_Table>())
-                {
-                    M_Table();
-                }
-            }
-            else
-            {
-
-            }
+            
+            interactiveObject.GetComponent<M_Table>().BlinkTable();
         }
-
-        
-
-
 
         if (interactiveObject)
         {
-            if (interactiveObject.GetComponent<CuttingTable>())
+            if (interactiveObject.GetComponent<CutBox>())
             {
                 cutTable = interactiveObject;
             }
@@ -68,7 +56,7 @@ public class PlayerRay : MonoBehaviour
             {
                 if (cutTable != interactiveObject)
                 {
-                    cutTable.GetComponent<CuttingTable>().isPlayerExit = false;
+                    cutTable.GetComponent<CutBox>().isPlayerExit = false;
                     cutTable = null;
                 }
             }
@@ -78,7 +66,7 @@ public class PlayerRay : MonoBehaviour
             
             if (cutTable)
             {
-                cutTable.GetComponent<CuttingTable>().isPlayerExit = false;
+                cutTable.GetComponent<CutBox>().isPlayerExit = false;
                 cutTable = null;
             }
         }
@@ -98,7 +86,7 @@ public class PlayerRay : MonoBehaviour
                 {
                     //InteractiveIngredientBox();
                 }
-                else if (interactiveObject.GetComponent<CuttingTable>())
+                else if (interactiveObject.GetComponent<CutBox>())
                 {
                     //InteractiveCutTable();
                 }
@@ -117,12 +105,12 @@ public class PlayerRay : MonoBehaviour
             }
             else
             {
-                *//*if (getObject)
+                /*if (getObject)
                 {
                     getObject.transform.parent = null;
                     getObject.layer = 0;
                     getObject = null;
-                }*//*
+                }*/
             }
         }
         if (Input.GetKeyDown(KeyCode.E))
@@ -140,7 +128,7 @@ public class PlayerRay : MonoBehaviour
                 {
                     //InteractiveIngredientBox();
                 }
-                else if (interactiveObject.GetComponent<CuttingTable>())
+                else if (interactiveObject.GetComponent<CutBox>())
                 {
                     InteractiveCutTable();
                 }
@@ -159,87 +147,15 @@ public class PlayerRay : MonoBehaviour
             }
             else
             {
-                *//*if (getObject)
+                /*if (getObject)
                 {
                     getObject.transform.parent = null;
                     getObject.layer = 0;
                     getObject = null;
-                }*//*
+                }*/
             }
         }
     }
-
-    void CheckTable()
-    {
-        //책상에 닿아있다면
-        if (interactiveObject && interactiveObject.GetComponent<M_Table>())
-        {
-            //깜빡거림
-            lastTable = interactiveObject;
-            interactiveObject.GetComponent<M_Table>().BlinkTable();
-        }
-        else if (lastTable)
-        {
-            lastTable.GetComponent<M_Table>().StopBlink();
-            lastTable = null;
-        }
-    }
-
-    void M_Table()
-    {
-        //깜빡거림
-        lastTable = interactiveObject;
-        interactiveObject.GetComponent<M_Table>().BlinkTable();
-        if (getObject)
-        {
-
-        }
-        else
-        {
-
-        }
-    }
-
-    void CheckPlayerClick()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (getObject)
-            {
-                if (!interactiveObject)
-                {
-                    getObject = null;
-
-                }
-                else if (interactiveObject.GetComponent<M_Table>())
-                {
-                    interactiveObject.GetComponent<M_Table>().SetObject(getObject);
-                }
-            }
-            else if (!getObject)
-            {
-                if (!interactiveObject)
-                {
-                    
-                }
-                else if (interactiveObject.GetComponent<M_Table>())
-                {
-                    if (interactiveObject.GetComponent<M_Table>().getObject)
-                    {
-                        CreateNew.HavingSetting(interactiveObject.GetComponent<M_Table>().getObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-                    }    
-                }
-                else if (interactiveObject.GetComponent<IngredientBox>())
-                {
-                    GameObject ingredient = interactiveObject.GetComponent<IngredientBox>().CreateIngredient();
-                    CreateNew.HavingSetting(ingredient, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-                }
-            }
-            
-        }
-    }
-
-    
 
     void InteractiveTable()
     {
@@ -273,17 +189,17 @@ public class PlayerRay : MonoBehaviour
         //재료 생성 후 getObject에 넣어쥼
         else
         {
-            *//*GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
-                    GetComponent<PlayerCreateNew>().CreatesNewObject(ingredient, "Grab");*//*
+            /*GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
+                    GetComponent<PlayerCreateNew>().CreatesNewObject(ingredient, "Grab");*/
 
             //ingredient.transform.parent = transform;
             //ingredient.transform.localPosition = new Vector3(0, -.5f, .5f);
             //ingredient.transform.position = objectPosition.position;
 
-            *//*GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
+            /*GameObject ingredient = Instantiate(interactiveObject.GetComponent<M_IngredientBox>().ingredientPrefab);
             string[] names = ingredient.name.Split('(');
             ingredient.name = names[0];
-            SetGetObject(ingredient);*//*
+            SetGetObject(ingredient);*/
         }
     }
 
@@ -318,22 +234,45 @@ public class PlayerRay : MonoBehaviour
         //뭔가 들고 있을 때
         if (getObject)
         {
-            interactiveObject.GetComponent<CuttingTable>().SetObject(getObject);
+            interactiveObject.GetComponent<CutBox>().SetObject(getObject);
             //getObject = null;
             GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
         }
         //들고있는게 없을 때
         else
         {
-            cutTable.GetComponent<CuttingTable>().isPlayerExit = true;
-            if (cutTable.GetComponent<CuttingTable>().cutTableObject.GetComponent<IngredientDisplay>().isCut)
+            cutTable.GetComponent<CutBox>().isPlayerExit = true;
+            if (cutTable.GetComponent<CutBox>().getObject.GetComponent<IngredientDisplay>().isCut)
             {
-                getObject = cutTable.GetComponent<CuttingTable>().cutTableObject;
+                getObject = cutTable.GetComponent<CutBox>().getObject;
                 SetGetObject(getObject);
                 //cutTable.GetComponent<CutBox>().getObject = null;
                 cutTable.GetComponent<Table>().transform.GetChild(0).parent = null;
             }
         }
+    }
+
+    void RayHit()
+    {
+       /* if (Physics.Raycast(ray, out hit, 1))
+        {
+            //들고 있는게 음식이면 Ray 한 번 더 쏨
+            if (getObject && hit.transform.tag == "Food")
+            {
+                ray = new Ray(hit.transform.position, transform.forward);
+                Debug.DrawRay(hit.transform.position, transform.forward, Color.blue);
+                if (Physics.Raycast(ray, out hit, 1))
+                {
+                    interactiveObject = hit.transform.gameObject;
+                } 
+            }
+            else
+                interactiveObject = hit.transform.gameObject;
+        }
+        else
+        {
+            interactiveObject = null;
+        }*/
     }
 
     void SetGetObject(GameObject obj)
@@ -342,5 +281,5 @@ public class PlayerRay : MonoBehaviour
         //obj.transform.parent = transform;
         //obj.transform.position = objectPosition;
         GetComponent<PlayerInteract>().GrabbingObjectInfo = obj;
-    }*/
+    }
 }

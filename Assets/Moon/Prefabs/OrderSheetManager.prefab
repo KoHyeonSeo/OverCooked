@@ -51,9 +51,6 @@ MonoBehaviour:
   orderBG: {fileID: 0}
   recipeBG: {fileID: 1534262305219556013, guid: 3f79cfd898024ff40acc869cb9ea1012, type: 3}
   recipeContentGroup: {fileID: 0}
-  timeGauge: {fileID: 0}
-  gauge: 100
-  ingredientTime: 3
 --- !u!1 &3669424260789935781
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +640,6 @@ MonoBehaviour:
   orderSheetPrefab: {fileID: 4073462919453506660, guid: 61a1628f52e50b342a3926c5b9b92cb3, type: 3}
   orderSheetList: []
   orderSheetPanel: {fileID: 4721140272459540243}
-  readyStart: {fileID: 0}
 --- !u!1 &4721140272459540243
 GameObject:
   m_ObjectHideFlags: 0
