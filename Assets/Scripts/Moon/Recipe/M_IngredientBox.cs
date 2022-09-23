@@ -17,10 +17,10 @@ public class M_IngredientBox : MonoBehaviour
 
     void Start()
     {
-        if (GameManager.instance.Player)
+       /* if (GameManager.instance.Player)
         {
             player = GameManager.instance.Player;
-        }
+        }*/
         
     }
 
