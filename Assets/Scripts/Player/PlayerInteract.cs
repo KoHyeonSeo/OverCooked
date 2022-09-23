@@ -24,6 +24,7 @@ public class PlayerInteract : MonoBehaviourPun
         Throw,
         GrabStart,
         FireDistinguish,
+        Birth,
     }
 
     /// <summary>
@@ -53,6 +54,12 @@ public class PlayerInteract : MonoBehaviourPun
         if (curInteractState == InteractState.GrabStart)
         {
             Grab();
+        }
+
+        //다시 태어나라는 명령
+       if(curInteractState == InteractState.Birth)
+        {
+            OnBirth();
         }
 
         //음식을 집고 있을 경우 Grab 상태로 전이
@@ -169,7 +176,8 @@ public class PlayerInteract : MonoBehaviourPun
     public void OnBirth()
     {
         playerState.curState = PlayerState.State.Idle;
-        photonView.RPC("RPC_OnBirth", RpcTarget.All, transform, startPosition);
+        curInteractState = InteractState.None;
+        transform.position = startPosition + Vector3.up * 5f;
     }
 
     #region RPC
@@ -225,9 +233,9 @@ public class PlayerInteract : MonoBehaviourPun
         curInteractState = InteractState.Throw;
     }
     [PunRPC]
-    public void RPC_OnBirth(Transform player, Vector3 startPos)
+    public void RPC_OnBirth()
     {
-        player.position = startPos;
+        curInteractState = InteractState.Birth;
     }
     #endregion
 }

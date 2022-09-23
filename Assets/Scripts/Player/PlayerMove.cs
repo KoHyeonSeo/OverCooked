@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
         {
             playerInput = GetComponent<PlayerInput>();
             GameManager.instance.players.Add(gameObject);
+            transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
         }
     }
     private void Update()

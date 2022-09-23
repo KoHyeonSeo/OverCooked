@@ -17,7 +17,7 @@ public class DeadZone : MonoBehaviourPun
             curTime += Time.deltaTime;
             if (curTime > waitTime)
             {
-                player.GetComponent<PlayerInteract>().OnBirth();
+                player.GetComponent<PhotonView>().RPC("RPC_OnBirth", RpcTarget.All);
                 playerDead = false;
                 curTime = 0;
             }
@@ -25,20 +25,17 @@ public class DeadZone : MonoBehaviourPun
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (photonView.IsMine)
+        if (!other.CompareTag("Player"))
         {
-            if (!other.CompareTag("Player"))
-            {
-                Destroy(other.gameObject);
-            }
-            else
-            {
-                other.GetComponent<PlayerState>().curState = PlayerState.State.Die;
-                if (other.transform.childCount > 1)
-                    other.transform.GetChild(1).parent = null;
-                player = other.transform;
-                playerDead = true;
-            }
+            Destroy(other.gameObject);
+        }
+        else
+        {
+            other.GetComponent<PhotonView>().RPC("RPC_ChangeState", RpcTarget.All, PlayerState.State.Die);
+            if (other.transform.childCount > 1)
+                other.transform.GetChild(1).parent = null;
+            player = other.transform;
+            playerDead = true;
         }
     }
 }

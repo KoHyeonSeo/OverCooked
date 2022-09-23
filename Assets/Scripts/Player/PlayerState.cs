@@ -19,7 +19,7 @@ public class PlayerState : MonoBehaviourPun
     private Animator animator;
     private void Start()
     {
-        animator = transform.GetChild(0).GetComponent<Animator>();    
+        animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();    
     }
     private void Update()
     {
