@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class FireExtinguisher : MonoBehaviourPun
+public class FireExtinguisher : MonoBehaviourPun,IPunObservable
 {
     [SerializeField] private float extinguisher = 8f;
     GameObject player;
     private RaycastHit hit;
+    private Vector3 recievePos;
+    private Quaternion recieveRot;
+
 
     private void Start()
     {
@@ -16,32 +19,55 @@ public class FireExtinguisher : MonoBehaviourPun
     }
     private void Update()
     {
-        if (!photonView.IsMine) return;
-
-        if(!player)
-            player = GameManager.instance.Player;
-        if (player.GetComponent<PlayerInteract>().curInteractState == PlayerInteract.InteractState.FireDistinguish
-            && player.GetComponent<PlayerInput>().FireExtinguisher)
+        if (photonView.IsMine)
         {
-            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.forward);
-
-            //소화기 쏘는 부분이 닿았니
-            Debug.DrawRay(ray.origin, ray.direction * 5, Color.magenta);
-            if (Physics.Raycast(ray, out hit, 5))
+            if (!player)
+                player = GameManager.instance.Player;
+            if (player.GetComponent<PlayerInteract>().curInteractState == PlayerInteract.InteractState.FireDistinguish
+                && player.GetComponent<PlayerInput>().FireExtinguisher)
             {
-                if (hit.transform.name.Contains("FireTable"))
+                Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.forward);
+
+                //소화기 쏘는 부분이 닿았니
+                Debug.DrawRay(ray.origin, ray.direction * 5, Color.magenta);
+                if (Physics.Raycast(ray, out hit, 5))
                 {
-                    if (hit.transform.GetComponent<FireBox>().isFire)
+                    if (hit.transform.name.Contains("FireTable"))
                     {
-                        photonView.RPC("FireSuppression",RpcTarget.All, (extinguisher * Time.deltaTime));
+                        if (hit.transform.GetComponent<FireBox>().isFire)
+                        {
+                            photonView.RPC("FireSuppression", RpcTarget.All, (extinguisher * Time.deltaTime));
+                        }
                     }
                 }
             }
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, recievePos, Time.deltaTime * 7);
+            transform.rotation = Quaternion.Lerp(transform.rotation, recieveRot, Time.deltaTime * 7);
         }
     }
     [PunRPC]
     public void FireSuppression(float ex)
     {
         hit.transform.GetComponent<FireBox>().FireSuppression(ex);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            if (PhotonNetwork.IsMasterClient && !transform.parent)
+            {
+                stream.SendNext(transform.position);
+                stream.SendNext(transform.rotation);
+            }
+        }
+        else
+        {
+            recievePos = (Vector3)stream.ReceiveNext();
+            recieveRot = (Quaternion)stream.ReceiveNext();
+        }
     }
 }
