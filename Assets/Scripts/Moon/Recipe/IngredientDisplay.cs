@@ -49,10 +49,10 @@ public class IngredientDisplay : MonoBehaviour
 
     void MeshChange()
     {
+        modelTransform = ingredientObject.model[modelLevel].GetComponent<Transform>();
+        GetComponent<Transform>().localScale = modelTransform.localScale;
         model = ingredientObject.model[modelLevel].GetComponent<MeshFilter>().sharedMesh;
         GetComponent<MeshFilter>().sharedMesh = model;
-        modelTransform = ingredientObject.model[modelLevel].GetComponent<Transform>();        
-        GetComponent<Transform>().localScale = modelTransform.localScale;
         modelTexture = ingredientObject.model[modelLevel].GetComponent<MeshRenderer>().sharedMaterial.mainTexture;
         GetComponent<MeshRenderer>().material.mainTexture = modelTexture;
         if (ingredientObject.model[modelLevel].GetComponent<BoxCollider>())
@@ -67,10 +67,5 @@ public class IngredientDisplay : MonoBehaviour
     {
         if (!player)
             player = GameManager.instance.Player;
-    }
-
-    private void OnDestroy()
-    {
-        print("1111111111112");
     }
 }

@@ -19,6 +19,8 @@ public class OrderSheet : MonoBehaviour
     public Image timeGauge;
     public float gauge = 100;
     public int ingredientTime = 3;
+    public Image wrongImage;
+
     void Start()
     {
         //orderSheetSprite = GetComponent<Sprite>();

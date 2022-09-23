@@ -21,6 +21,7 @@ public class PlayerRayCheck : MonoBehaviour
         CheckPlayerInteractive();
     }
 
+    //플레이어가 들고 있는것, 닿아있는 것 체크
     void SetPlayerObject()
     {
         //플레이가 뭘 들고 있으면 getObject에 넣음
@@ -35,6 +36,7 @@ public class PlayerRayCheck : MonoBehaviour
             interactiveObject = null;
     }
 
+    //마지막에 닿은 테이블들 체크
     void CheckLastTable()
     {
         if (interactiveObject && interactiveObject.GetComponent<M_Table>())
@@ -79,18 +81,67 @@ public class PlayerRayCheck : MonoBehaviour
                 interactiveObject.GetComponent<M_Table>().StopBlink();
                 if (interactiveObject.GetComponent<IngredientBox>())
                     InteractiveIngredientBox();
-                if (interactiveObject.GetComponent<CuttingTable>())
+                else if (interactiveObject.GetComponent<CuttingTable>())
                     InteractiveCuttingTable();
-                if (interactiveObject.GetComponent<FireBox>())
+                else if (interactiveObject.GetComponent<FireBox>())
                     InteractiveFireTable();
+                else if (interactiveObject.name == "ServiceDesk")
+                    InteractiveServiceDesk();
+                else if (interactiveObject.GetComponent<M_Table>())
+                    InteractiveTable();
+
             }
             else if (interactiveObject && !getObject)
             {
+                //물건 드는건 플레이어 쪽에서 처리(나중에 바꿔)
                 HavingSettingObject(interactiveObject);
             }
-            else if(!interactiveObject)
+            else if(!interactiveObject && getObject)
             {
-                //GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+                getObject.GetComponent<Rigidbody>().useGravity = true;
+                getObject.GetComponent<Rigidbody>().isKinematic = false;
+                GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
+                GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+            }
+        }
+    }
+
+
+    void InteractiveServiceDesk()
+    {
+        if (getObject)
+        {
+            if (getObject.GetComponent<Plate>())
+            {
+                OrderSheetManager.instance.CheckOrderSheet(getObject.GetComponent<Plate>());
+            }
+        }
+    }
+
+    void InteractiveTable()
+    {
+        if (getObject)
+        {
+            if (getObject.GetComponent<Plate>() && interactiveObject.GetComponent<M_Table>().getObject)
+            {
+                getObject.GetComponent<Plate>().GetIngredient(interactiveObject.GetComponent<M_Table>().getObject);
+            }
+            else if (interactiveObject.GetComponent<M_Table>().getObject && interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>())
+            {
+                if (getObject.GetComponent<IngredientDisplay>())
+                {
+                    interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject);
+                }
+            }
+            else 
+                interactiveObject.GetComponent<M_Table>().SetObject(getObject);
+           // GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+        }
+        else
+        {
+            if (interactiveObject.GetComponent<M_Table>().getObject)
+            {
+                HavingSettingObject(interactiveObject.GetComponent<M_Table>().getObject);
             }
         }
     }
@@ -121,7 +172,10 @@ public class PlayerRayCheck : MonoBehaviour
             lastCuttingTable = interactiveObject;
             //만약 다 잘린 재료가 테이블에 있다면 플레이어가 가져감
             if (cuttingTable.cutTableObject && cuttingTable.cutTableObject.GetComponent<IngredientDisplay>().isCut)
+            {
                 HavingSettingObject(cuttingTable.cutTableObject);
+                cuttingTable.cutTableObject = null;
+            }
             //만약 다 잘리지 않은 재료가 테이블에 있다면 썰기 시작
             else
                 cuttingTable.isPlayerExit = true;
@@ -142,19 +196,23 @@ public class PlayerRayCheck : MonoBehaviour
             }
             else if (!fireBox.cookingTool && getObject.GetComponent<FryingPan>())
             {
-                
                 fireBox.SetObject(getObject);
             }
         }
         else
         {
             if (fireBox.cookingTool)
+            {
                 HavingSettingObject(fireBox.cookingTool);
+                fireBox.cookingTool = null;
+            }
+                
         }
     }
 
     void HavingSettingObject(GameObject obj)
     {
-        CreateNew.HavingSetting(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+        if (!getObject)
+            CreateNew.HavingSetting(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
     }
 }

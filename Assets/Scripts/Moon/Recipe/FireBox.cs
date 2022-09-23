@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FireBox : MonoBehaviour
 {
-    //public GameObject getObject;
+    public GameObject cookingTool;
     public Vector3 objectPosition;
     float fireTime = 15;
     float bakeTime = 10;
@@ -16,12 +16,19 @@ public class FireBox : MonoBehaviour
     public bool isFire;
     public GameObject bakeGauge;
     public Image bakeGaugeImage;
-    public GameObject cookingTool;
     FryingPan fryingPan;
 
     void Start()
     {
         objectPosition = new Vector3(0, 1, 0);
+        if (cookingTool)
+        {
+            GameObject tool = Instantiate(cookingTool);
+            tool.transform.parent = transform;
+            objectPosition.y = 0.52f;
+            tool.transform.localPosition = objectPosition;
+            cookingTool = tool;
+        }
         bakeGaugeImage.GetComponent<Image>().fillAmount = time / bakeTime;
         bakeGauge.SetActive(false);
     }
@@ -57,6 +64,8 @@ public class FireBox : MonoBehaviour
             {
                 if (fryObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleBake && !fryObject.GetComponent<IngredientDisplay>().isBake)
                 {
+                    if (!bakeGauge.activeSelf)
+                        bakeGauge.SetActive(true);
                     time += Time.deltaTime;
                     bakeGaugeImage.GetComponent<Image>().fillAmount = time / bakeTime;
                     if (fireTime < time)
