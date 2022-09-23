@@ -28,7 +28,7 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
-            //Debug.Log(photonView.GetInstanceID());a
+            //Debug.Log(photonView.GetInstanceID());
             Dir = playerInput.XAxisDown * Vector3.right + playerInput.ZAxisDown * Vector3.forward;
 
             if (playerInput.DashButton)
