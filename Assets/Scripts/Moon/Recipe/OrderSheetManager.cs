@@ -27,7 +27,6 @@ public class OrderSheetManager : MonoBehaviour
 
     void Update()
     {
-        
         if (readyStart.IsReady && !isOnce)
         {
             isOnce = true;
@@ -127,39 +126,46 @@ public class OrderSheetManager : MonoBehaviour
             //접시의 재료 개수와 주문서 레시피의 재료 개수가 다르면 다음 주문서로
             if (plate.ingredientList.Count != recipe.ingredients.Length)
             {
-                //얼마나 차이 나는지 프린트
-                print(plate.ingredientList.Count + ", " + recipe.ingredients.Length);
                 continue;
             }
-            print(plate.ingredientList.Count);
             for (int j = 0; j < recipe.ingredients.Length; j++)
             {
                 //접시의 재료와 주문서 레시피의 재료가 같은지 비교
-                if (plate.ingredientList.Contains(recipe.ingredients[j]))
+                if (!plate.ingredientList.Contains(recipe.ingredients[j]))
                 {
-                    print(plate.ingredientList[j].name);
-                }
-                else
-                {
-                    print("잘못된 음식");
+                    StartCoroutine(WrongPlate());
                     Destroy(plate.transform.gameObject);
                 }
                 if (j == recipe.ingredients.Length - 1)
                 {
                     orderSheetList[i].GetComponent<OrderSheet>().DestroyOrder();
-                    //IeDeleteOrderSheet(orderSheetList[i]);
                     print("리스트에 있는 음식");
                     Destroy(plate.transform.gameObject);
                     StageManager.instance.CoinPlus(8);
-                    //orderSheetList.RemoveAt(i);
-                    //CreateOrderSheet();
                     break;
                 }
             }
             if (i == orderSheetList.Count - 1)
+            {
+                StartCoroutine(WrongPlate());
                 Destroy(plate.transform.gameObject);
+            }
         }
+        StartCoroutine(WrongPlate());
         Destroy(plate.transform.gameObject);
+    }
+
+    IEnumerator WrongPlate()
+    {
+        for (int i = 0; i < orderSheetList.Count; i++)
+        {
+            orderSheetList[i].GetComponent<OrderSheet>().wrongImage.enabled = true;
+        }
+        yield return new WaitForSeconds(0.5f);
+        for (int i = 0; i < orderSheetList.Count; i++)
+        {
+            orderSheetList[i].GetComponent<OrderSheet>().wrongImage.enabled = false;
+        }
     }
 
     void CreateDirtyPlate()

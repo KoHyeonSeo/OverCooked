@@ -30,7 +30,7 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < platePositionTable.Length; i++)
         {
             GameObject plate = Instantiate(platePrefab);
-            platePositionTable[i].GetComponent<M_Box>().SetObject(plate);
+            platePositionTable[i].GetComponent<M_Table>().SetObject(plate);
         }
         timeOver.SetActive(false);
 

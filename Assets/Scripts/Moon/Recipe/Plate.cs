@@ -20,7 +20,6 @@ public class Plate : MonoBehaviour
 
     void Update()
     {
-        
     }
 
     //매개변수로 들어온 재료를 리스트에 넣고 텍스트 반영
