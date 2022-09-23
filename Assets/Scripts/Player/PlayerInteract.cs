@@ -245,21 +245,22 @@ public class PlayerInteract : MonoBehaviourPun
         curInteractState = InteractState.Birth;
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if(stream.IsWriting)
-        {
-            stream.SendNext(grabbedObj);
-        }
-        else
-        {
-            grabbedObj = (GameObject)stream.ReceiveNext();
-            if(grabbedObj && grabbedObj.transform.parent == null)
-            {
-                grabbedObj.transform.parent = transform;
-            }
-        }
-    }
 
     #endregion
+    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if(stream.IsWriting)
+    //    {
+    //        stream.SendNext(grabbedObj);
+    //    }
+    //    else
+    //    {
+    //        grabbedObj = (GameObject)stream.ReceiveNext();
+    //        if(grabbedObj && grabbedObj.transform.parent == null)
+    //        {
+    //            CreateNew.HavingSetting(grabbedObj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+    //            //grabbedObj.transform.parent = transform;
+    //        }
+    //    }
+    //}
 }
