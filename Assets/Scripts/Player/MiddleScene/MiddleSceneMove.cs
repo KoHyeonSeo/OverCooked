@@ -35,7 +35,15 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
             transform.rotation = Quaternion.Lerp(transform.rotation, recieveRot, Time.deltaTime * lerpSpeed);
         }
 
-
+        if (isPortal && Input.GetKeyDown(KeyCode.Space))
+        {
+            //PhotonNetwork.LoadLevel(4);
+            if (other.gameObject.name.Contains("Portal"))
+            {
+                string[] names = other.gameObject.name.Split('/');
+                PhotonNetwork.LoadLevel(names[1]);
+            }
+        }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -50,20 +58,38 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
             recieveRot = (Quaternion)stream.ReceiveNext();
         }
     }
+
+    bool isPortal = false;
+    Collider other;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            isPortal = true;
+            this.other = other;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            isPortal = false;
+        }
+    }
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                //PhotonNetwork.LoadLevel(4);
-                if (other.gameObject.name.Contains("Portal"))
-                {
-                    string[] names = other.gameObject.name.Split('/');
-                    PhotonNetwork.LoadLevel(names[1]);
-                }
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    if (PhotonNetwork.IsMasterClient)
+        //    {
+        //        //PhotonNetwork.LoadLevel(4);
+        //        if (other.gameObject.name.Contains("Portal"))
+        //        {
+        //            string[] names = other.gameObject.name.Split('/');
+        //            PhotonNetwork.LoadLevel(names[1]);
+        //        }
+        //    }
+        //}
     }
     //[PunRPC]
     //public void RPC_PlayerMove()
