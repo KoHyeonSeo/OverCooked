@@ -18,14 +18,17 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
     private Quaternion receiveRot;
     private void Start()
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
+        {
             playerInput = GetComponent<PlayerInput>();
+            GameManager.instance.players.Add(gameObject);
+        }
     }
     private void Update()
     {
         if (photonView.IsMine)
         {
-            Debug.Log(photonView.GetInstanceID());
+            //Debug.Log(photonView.GetInstanceID());a
             Dir = playerInput.XAxisDown * Vector3.right + playerInput.ZAxisDown * Vector3.forward;
 
             if (playerInput.DashButton)
@@ -40,9 +43,9 @@ public class PlayerMove : MonoBehaviourPun, IPunObservable
         else
         {
             transform.position =
-                Vector3.Lerp(transform.position, receivePos, Time.deltaTime * 5);
+                Vector3.Lerp(transform.position, receivePos, Time.deltaTime * 7);
             transform.rotation =
-                Quaternion.Lerp(transform.rotation, receiveRot, Time.deltaTime * 5);
+                Quaternion.Lerp(transform.rotation, receiveRot, Time.deltaTime * 7);
         }
     }
 

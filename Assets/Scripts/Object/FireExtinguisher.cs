@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class FireExtinguisher : MonoBehaviour
+public class FireExtinguisher : MonoBehaviourPun
 {
     [SerializeField] private float extinguisher = 8f;
     GameObject player;
@@ -15,6 +16,8 @@ public class FireExtinguisher : MonoBehaviour
     }
     private void Update()
     {
+        if (!photonView.IsMine) return;
+
         if(!player)
             player = GameManager.instance.Player;
         if (player.GetComponent<PlayerInteract>().curInteractState == PlayerInteract.InteractState.FireDistinguish
@@ -30,10 +33,15 @@ public class FireExtinguisher : MonoBehaviour
                 {
                     if (hit.transform.GetComponent<FireBox>().isFire)
                     {
-                        hit.transform.GetComponent<FireBox>().FireSuppression((extinguisher * Time.deltaTime));
+                        photonView.RPC("FireSuppression",RpcTarget.All, (extinguisher * Time.deltaTime));
                     }
                 }
             }
         }
+    }
+    [PunRPC]
+    public void FireSuppression(float ex)
+    {
+        hit.transform.GetComponent<FireBox>().FireSuppression(ex);
     }
 }

@@ -31,7 +31,7 @@ public class UI_ReadyStart : MonoBehaviourPun
         if (!player)
             player = GameManager.instance.Player;
 
-        print("UI_ReadyStart player: " + player.GetInstanceID());
+        //print("UI_ReadyStart player: " + player.GetInstanceID());
         curTime += Time.deltaTime;
         if (curTime < startTime)
         {

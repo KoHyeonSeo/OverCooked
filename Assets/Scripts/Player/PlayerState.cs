@@ -19,13 +19,10 @@ public class PlayerState : MonoBehaviourPun
     private Animator animator;
     private void Start()
     {
-        if(photonView.IsMine)
-            animator = transform.GetChild(0).GetComponent<Animator>();    
+        animator = transform.GetChild(0).GetComponent<Animator>();    
     }
     private void Update()
     {
-        //if(!photonView.IsMine) return;
-
         if (curState != saveState)
         {
             ChangeState(curState);

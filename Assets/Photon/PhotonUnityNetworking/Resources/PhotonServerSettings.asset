@@ -45,6 +45,12 @@ MonoBehaviour:
   - ChangePosition
   - RPC_PlayerControl
   - RPC_Throw
+  - PRC_UseFireExtinguisher
+  - RPC_Grab
+  - RPC_OnBirth
+  - RPC_Ray
+  - RPC_ChangeState
+  - RPC_InteractChange
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
