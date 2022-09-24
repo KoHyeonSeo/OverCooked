@@ -115,7 +115,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Save();
 
         if (PhotonNetwork.IsMasterClient)
-            PhotonNetwork.LoadLevel("MiddleScene");
+        {
+            bool isChecking = true;
+            StartPlayer [] players = GameObject.FindObjectsOfType<StartPlayer>();
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (!players[i].transform.GetChild(2).gameObject.activeSelf)
+                {
+                    isChecking = false;
+                }
+            }
+            if (isChecking)
+            {
+                PhotonNetwork.LoadLevel("MiddleScene");
+            }
+        }
     }
     public void Save()
     {
@@ -128,17 +142,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         { 
             PlayerCharactor playerCharactor = new PlayerCharactor();
             
-            //Test log
-            Debug.Log(i);
-            Debug.Log(playerInfo[i]);
-
             playerCharactor.myViewId = i;
             playerCharactor.name = playerInfo[i];
             arrayJson.data.Add(playerCharactor);
         }
+        arrayJson.data.Sort((struct1, struct2) => struct1.myViewId.CompareTo(struct2.myViewId));
 
         string jsonData = JsonUtility.ToJson(arrayJson, true);
-        //프린트 결과: {} <-이렇게 나와요...
         print(jsonData);
         string path = Application.dataPath + "/Data";
         if (!Directory.Exists(path))

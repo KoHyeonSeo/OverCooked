@@ -54,6 +54,7 @@ MonoBehaviour:
   - FireSuppression
   - RPC_SelectCount
   - RPC_ChangedInfo
+  - Checking
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

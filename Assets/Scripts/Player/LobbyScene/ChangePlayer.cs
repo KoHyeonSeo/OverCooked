@@ -5,8 +5,8 @@ using Photon.Pun;
 
 public class ChangePlayer : MonoBehaviourPun
 {
-    int selectCnt = 0;
-    int maxCnt = 2;
+    private int selectCnt = 0;
+    private int maxCnt = 2;
 
     private void Start()
     {
@@ -24,16 +24,19 @@ public class ChangePlayer : MonoBehaviourPun
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            photonView.RPC("Checking", RpcTarget.All, true);
             LobbyManager.instance.Info(photonView.ViewID, transform.GetChild(0).GetChild(selectCnt).gameObject.name);
         }
     }
     public void OnClickLeftButton()
     {
         photonView.RPC("RPC_SelectCount", RpcTarget.All, false);
+        photonView.RPC("Checking", RpcTarget.All, false);
     }
     public void OnClickRightButton()
     {
         photonView.RPC("RPC_SelectCount", RpcTarget.All, true);
+        photonView.RPC("Checking", RpcTarget.All, false);
     }
     [PunRPC]
     public void RPC_SelectCount(bool isInCrease)
@@ -52,6 +55,14 @@ public class ChangePlayer : MonoBehaviourPun
             else
                 selectCnt--;
         }
+    }
+    [PunRPC]
+    public void Checking(bool isCheck)
+    {
+        if (isCheck)
+            transform.GetChild(2).gameObject.SetActive(true);
+        else
+            transform.GetChild(2).gameObject.SetActive(false);
     }
     private void Show()
     {

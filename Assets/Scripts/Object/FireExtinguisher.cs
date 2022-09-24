@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class FireExtinguisher : MonoBehaviourPun,IPunObservable
+public class FireExtinguisher : MonoBehaviourPun, IPunObservable
 {
     [SerializeField] private float extinguisher = 8f;
     GameObject player;
@@ -19,10 +19,10 @@ public class FireExtinguisher : MonoBehaviourPun,IPunObservable
     }
     private void Update()
     {
+        if (!player)
+            player = GameManager.instance.Player;
         if (photonView.IsMine)
         {
-            if (!player)
-                player = GameManager.instance.Player;
             if (player.GetComponent<PlayerInteract>().curInteractState == PlayerInteract.InteractState.FireDistinguish
                 && player.GetComponent<PlayerInput>().FireExtinguisher)
             {
@@ -36,13 +36,14 @@ public class FireExtinguisher : MonoBehaviourPun,IPunObservable
                     {
                         if (hit.transform.GetComponent<FireBox>().isFire)
                         {
+                            //hit.transform.GetComponent<FireBox>().FireSuppression(extinguisher * Time.deltaTime);
                             photonView.RPC("FireSuppression", RpcTarget.All, (extinguisher * Time.deltaTime));
                         }
                     }
                 }
             }
         }
-        else
+        else if(transform.parent == null)
         {
             transform.position = Vector3.Lerp(transform.position, recievePos, Time.deltaTime * 7);
             transform.rotation = Quaternion.Lerp(transform.rotation, recieveRot, Time.deltaTime * 7);
@@ -56,6 +57,8 @@ public class FireExtinguisher : MonoBehaviourPun,IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (transform.parent != null) return;
+
         if (stream.IsWriting)
         {
             if (PhotonNetwork.IsMasterClient && !transform.parent)

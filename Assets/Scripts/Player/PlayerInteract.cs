@@ -52,7 +52,7 @@ public class PlayerInteract : MonoBehaviourPun
         {
             Throw(tPower);
         }
-        //Grab을 하라는 명령( InteractState.GrabStart)이 들어온다면
+        //Grab을 하라는 명령(InteractState.GrabStart)이 들어온다면
         if (curInteractState == InteractState.GrabStart)
         {
             Grab();
@@ -131,7 +131,6 @@ public class PlayerInteract : MonoBehaviourPun
             playerRayCheck.CheckPlayerInteractive();
         }
     }
-    GameObject grabbedObj;
     private void Grab()
     {
         if (hit.transform != null && hit.transform?.gameObject.layer != LayerMask.NameToLayer("Table"))
@@ -140,13 +139,11 @@ public class PlayerInteract : MonoBehaviourPun
             if (hit.transform.CompareTag("Food") && transform.childCount == 1)
             {
                 curInteractState = InteractState.Grab;
-                grabbedObj = hit.transform.gameObject;
                 CreateNew.HavingSetting(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
                 return;
             }
             else if (hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
             {
-                grabbedObj = hit.transform.gameObject;
                 curInteractState = InteractState.Grab;
                 CreateNew.HavingSetting(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
                 return;
@@ -157,7 +154,6 @@ public class PlayerInteract : MonoBehaviourPun
 
     private void Throw(float power)
     {
-        grabbedObj = null;
 
         Transform food = transform.GetChild(1);
 
@@ -232,11 +228,6 @@ public class PlayerInteract : MonoBehaviourPun
             if (transform.childCount > 1)
                 transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(false);
         }
-    }
-    [PunRPC]
-    public void RPC_Grab(GameObject changedObject, string layerName, bool isHave = false, Transform parent = null, Vector3? localPosition = null)
-    {
-        CreateNew.HavingSetting(changedObject, layerName, isHave, parent, localPosition);
     }
     [PunRPC]
     public void RPC_Throw(float power)

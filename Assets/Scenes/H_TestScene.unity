@@ -166,6 +166,7 @@ MonoBehaviour:
   curTimeText: {fileID: 70634755}
   readyStart: {fileID: 2018734703}
   timeOver: {fileID: 7241950183847695794}
+  plateTable: {fileID: 0}
 --- !u!4 &553425
 Transform:
   m_ObjectHideFlags: 0
@@ -5823,7 +5824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564ba4d647505f443933f1e4050103fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPos: {fileID: 1925070967}
+  playerPoss: []
   players: []
 --- !u!4 &869702296
 Transform:
