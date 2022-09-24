@@ -20,15 +20,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     //플레이어 선택 캐릭터 정보를 저장
     public Dictionary<int, string> playerInfo = new Dictionary<int, string>();
-    
+
     //Json 파일에 저장할 플레이어와 선택한 캐릭터 정보에 대한 구조체
+    [System.Serializable]
     public struct PlayerCharactor
     {
         public int myViewId;
         public string name;
     }
-    
+
     //구조체를 담을 리스트 클래스 생성
+    [System.Serializable]
     public class ArrayJson<T>
     {
         public List<T> data;
@@ -61,6 +63,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         int idx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
         PhotonNetwork.Instantiate("Player", spawnPos[idx], Quaternion.identity);
     }
+    public void Info(int key, string value)
+    {
+        photonView.RPC("RPC_ChangedInfo", RpcTarget.All, key, value);
+    }
+
+    [PunRPC]
+    public void RPC_ChangedInfo(int key, string value)
+    {
+        playerInfo[key] = value;
+    }
 
     [PunRPC]
     public void ChangePosition()
@@ -92,11 +104,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerLeftRoom(otherPlayer);
 
-        //2. 계산한 후
-        CalcSpawnPos();
+        ////2. 계산한 후
+        //CalcSpawnPos();
 
-        //3. 재배치
-        ChangePosition();
+        ////3. 재배치
+        //ChangePosition();
     }
     public void OnClickMiddleMap()
     {
@@ -115,14 +127,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         foreach (int i in list)
         { 
             PlayerCharactor playerCharactor = new PlayerCharactor();
+            
+            //Test log
             Debug.Log(i);
             Debug.Log(playerInfo[i]);
+
             playerCharactor.myViewId = i;
             playerCharactor.name = playerInfo[i];
             arrayJson.data.Add(playerCharactor);
         }
 
         string jsonData = JsonUtility.ToJson(arrayJson, true);
+        //프린트 결과: {} <-이렇게 나와요...
         print(jsonData);
         string path = Application.dataPath + "/Data";
         if (!Directory.Exists(path))
