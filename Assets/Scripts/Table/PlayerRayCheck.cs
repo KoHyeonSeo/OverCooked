@@ -76,32 +76,41 @@ public class PlayerRayCheck : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            //책상에 닿았을 때
             if (interactiveObject && interactiveObject.GetComponent<M_Table>())
             {
                 interactiveObject.GetComponent<M_Table>().StopBlink();
+                //재료 상자라면
                 if (interactiveObject.GetComponent<IngredientBox>())
                     InteractiveIngredientBox();
+                //도마가 있는 책상이라면
                 else if (interactiveObject.GetComponent<CuttingTable>())
                     InteractiveCuttingTable();
+                //불이 있는 책상이라면
                 else if (interactiveObject.GetComponent<FireBox>())
                     InteractiveFireTable();
+                //음식을 제출하는 곳이라면
                 else if (interactiveObject.name == "ServiceDesk")
                     InteractiveServiceDesk();
+                //일반 테이블이라면
                 else if (interactiveObject.GetComponent<M_Table>())
                     InteractiveTable();
 
             }
+            //책상이 아닌것과 닿고 들고 있는 것이 없을 때
             else if (interactiveObject && !getObject)
             {
                 //물건 드는건 플레이어 쪽에서 처리(나중에 바꿔)
                 HavingSettingObject(interactiveObject);
             }
+            //책상에 닿지 않고 무언가를 들고 있을 때
             else if(!interactiveObject && getObject)
             {
-                getObject.GetComponent<Rigidbody>().useGravity = true;
+                //플레이어에서 내려놓는 함수 호출
+                /*getObject.GetComponent<Rigidbody>().useGravity = true;
                 getObject.GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
-                GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+                GetComponent<PlayerInteract>().GrabbingObjectInfo = null;*/
             }
         }
     }
@@ -135,7 +144,6 @@ public class PlayerRayCheck : MonoBehaviour
             }
             else 
                 interactiveObject.GetComponent<M_Table>().SetObject(getObject);
-           // GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
         }
         else
         {
@@ -159,11 +167,10 @@ public class PlayerRayCheck : MonoBehaviour
         CuttingTable cuttingTable = interactiveObject.GetComponent<CuttingTable>();
         if (getObject)
         {
-            //들고 있는 오브젝트 테이블에 내려 놓기
             //자를 수 있는 음식을 들고 있으면 내려 놓음
             if (getObject.GetComponent<IngredientDisplay>() && getObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleCut)
                 cuttingTable.SetObject(getObject);
-            //접시를 들고있으면서 컷팅테이블에 올라간 재료가 잘린 상태라면
+            //접시를 들고있으면서 컷팅테이블에 올라간 재료가 잘린 상태라면 접시에 올림
             else if (getObject.tag == "Plate" && cuttingTable.cutTableObject.GetComponent<IngredientDisplay>().isCut)
                 getObject.GetComponent<Plate>().GetIngredient(cuttingTable.cutTableObject);    
         }
@@ -194,22 +201,25 @@ public class PlayerRayCheck : MonoBehaviour
                 //화덕 위 요리 도구 위에 재료 셋팅
                 fireBox.cookingTool.GetComponent<FryingPan>().SetObject(getObject);
             }
+            //화덕 위에 도구가 없으면서 플레이어가 도구를 들고 있으면
             else if (!fireBox.cookingTool && getObject.GetComponent<FryingPan>())
             {
+                //화덕 위에 도구 셋팅
                 fireBox.SetObject(getObject);
             }
         }
         else
-        {
-            if (fireBox.cookingTool)
+        {   
+            //플레이어가 든 게 없고 화덕 위에 도구만 있으면 플레이어가 든다
+            if (fireBox.cookingTool && !fireBox.cookingTool.GetComponent<FryingPan>().getObject)
             {
                 HavingSettingObject(fireBox.cookingTool);
                 fireBox.cookingTool = null;
-            }
-                
+            }       
         }
     }
 
+    //플레이어가 들고 있게 하기
     void HavingSettingObject(GameObject obj)
     {
         if (!getObject)

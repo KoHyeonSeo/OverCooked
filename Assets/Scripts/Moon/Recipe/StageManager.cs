@@ -14,6 +14,7 @@ public class StageManager : MonoBehaviour
     public Text curTimeText;
     public UI_ReadyStart readyStart;
     public GameObject timeOver;
+    public GameObject plateTable;
 
     public static StageManager instance;
 

@@ -13,6 +13,7 @@ public class OrderSheetManager : MonoBehaviour
     int orderCount = 0;
     public UI_ReadyStart readyStart;
     private bool isOnce = false;
+    
 
     public static OrderSheetManager instance;
     
@@ -166,10 +167,6 @@ public class OrderSheetManager : MonoBehaviour
         {
             orderSheetList[i].GetComponent<OrderSheet>().wrongImage.enabled = false;
         }
-    }
-
-    void CreateDirtyPlate()
-    {
-        
+        PlateManager.instance.AddPlate();
     }
 }

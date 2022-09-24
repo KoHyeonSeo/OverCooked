@@ -84,13 +84,9 @@ public class FireBox : MonoBehaviour
 
     void ChangeStateBake()
     {
-        /*print("구움: " + getObject.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().ingredientObject.name);
-        getObject.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = true;*/
-        print("구움: " + cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().name);
         cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().CookLevelUp();
         cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = true;
         bakeGauge.SetActive(false);
-        //time = 0;
     }
 
     void Fire()
@@ -104,7 +100,6 @@ public class FireBox : MonoBehaviour
         fireGauge = 100;
         Destroy(cookingTool.GetComponent<FryingPan>().getObject);
         cookingTool.GetComponent<FryingPan>().getObject = null;
-        print("불 남");
     }
 
     public void FireSuppression(float i)
@@ -122,16 +117,5 @@ public class FireBox : MonoBehaviour
             objectPosition.y = 0.52f;
             cookingTool.transform.localPosition = objectPosition;
         }
-        //박스 위에 오브젝트가 없으면 받은 오브젝트 셋팅
-        /*if (!getObject && obj.tag == "Food" && cookingTool && !obj.GetComponent<IngredientDisplay>().isBake)
-        {
-            time = 0;
-            bakeGauge.SetActive(true);
-            getObject = obj;
-            getObject.transform.parent = transform;
-            objectPosition.y = getObject.transform.localScale.y / 2;
-            getObject.transform.localPosition = objectPosition;
-        }*/
-
     }
 }
