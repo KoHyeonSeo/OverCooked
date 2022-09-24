@@ -34,6 +34,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         public List<T> data;
     }
 
+    ArrayJson<PlayerCharactor> arrayJson = new ArrayJson<PlayerCharactor>();
     //SpawnPos 계산
     private void CalcSpawnPos()
     {
@@ -106,13 +107,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void Save()
     {
-        ArrayJson<PlayerCharactor> arrayJson = new ArrayJson<PlayerCharactor>();
         List<int> list = new List<int>(playerInfo.Keys);
+        
+        arrayJson.data = new List<PlayerCharactor>();
 
         //플레이어 정보 저장
         foreach (int i in list)
         { 
             PlayerCharactor playerCharactor = new PlayerCharactor();
+            Debug.Log(i);
+            Debug.Log(playerInfo[i]);
             playerCharactor.myViewId = i;
             playerCharactor.name = playerInfo[i];
             arrayJson.data.Add(playerCharactor);

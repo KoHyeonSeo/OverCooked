@@ -18,7 +18,7 @@ public class PlayerRayCheck : MonoBehaviour
     {
         SetPlayerObject();
         CheckLastTable();
-        CheckPlayerInteractive();
+        //CheckPlayerInteractive();
     }
 
     //플레이어가 들고 있는것, 닿아있는 것 체크
@@ -72,37 +72,34 @@ public class PlayerRayCheck : MonoBehaviour
         }   
     }
 
-    void CheckPlayerInteractive()
+    public void CheckPlayerInteractive()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (interactiveObject && interactiveObject.GetComponent<M_Table>())
         {
-            if (interactiveObject && interactiveObject.GetComponent<M_Table>())
-            {
-                interactiveObject.GetComponent<M_Table>().StopBlink();
-                if (interactiveObject.GetComponent<IngredientBox>())
-                    InteractiveIngredientBox();
-                else if (interactiveObject.GetComponent<CuttingTable>())
-                    InteractiveCuttingTable();
-                else if (interactiveObject.GetComponent<FireBox>())
-                    InteractiveFireTable();
-                else if (interactiveObject.name == "ServiceDesk")
-                    InteractiveServiceDesk();
-                else if (interactiveObject.GetComponent<M_Table>())
-                    InteractiveTable();
+            interactiveObject.GetComponent<M_Table>().StopBlink();
+            if (interactiveObject.GetComponent<IngredientBox>())
+                InteractiveIngredientBox();
+            else if (interactiveObject.GetComponent<CuttingTable>())
+                InteractiveCuttingTable();
+            else if (interactiveObject.GetComponent<FireBox>())
+                InteractiveFireTable();
+            else if (interactiveObject.name == "ServiceDesk")
+                InteractiveServiceDesk();
+            else if (interactiveObject.GetComponent<M_Table>())
+                InteractiveTable();
 
-            }
-            else if (interactiveObject && !getObject)
-            {
-                //물건 드는건 플레이어 쪽에서 처리(나중에 바꿔)
-                HavingSettingObject(interactiveObject);
-            }
-            else if(!interactiveObject && getObject)
-            {
-                getObject.GetComponent<Rigidbody>().useGravity = true;
-                getObject.GetComponent<Rigidbody>().isKinematic = false;
-                GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
-                GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
-            }
+        }
+        else if (interactiveObject && !getObject)
+        {
+            //물건 드는건 플레이어 쪽에서 처리(나중에 바꿔)
+            HavingSettingObject(interactiveObject);
+        }
+        else if (!interactiveObject && getObject)
+        {
+            getObject.GetComponent<Rigidbody>().useGravity = true;
+            getObject.GetComponent<Rigidbody>().isKinematic = false;
+            GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
+            GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
         }
     }
 

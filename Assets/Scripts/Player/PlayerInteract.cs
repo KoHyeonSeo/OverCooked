@@ -12,6 +12,7 @@ public class PlayerInteract : MonoBehaviourPun
 
     private PlayerState playerState;
     private PlayerInput playerInput;
+    private PlayerRayCheck playerRayCheck;
     private RaycastHit hit;
     private Vector3 startPosition;
 
@@ -41,12 +42,13 @@ public class PlayerInteract : MonoBehaviourPun
         startPosition = transform.position + new Vector3(0, 2, 0);
         playerInput = GetComponent<PlayerInput>();
         playerState = GetComponent<PlayerState>();
+        playerRayCheck = GetComponent<PlayerRayCheck>();
     }
     private void Update()
     {
 
         //던지라는 명령어가 들어온다면
-        if(curInteractState == InteractState.Throw)
+        if (curInteractState == InteractState.Throw)
         {
             Throw(tPower);
         }
@@ -57,7 +59,7 @@ public class PlayerInteract : MonoBehaviourPun
         }
 
         //다시 태어나라는 명령
-       if(curInteractState == InteractState.Birth)
+        if (curInteractState == InteractState.Birth)
         {
             OnBirth();
         }
@@ -86,7 +88,7 @@ public class PlayerInteract : MonoBehaviourPun
             if (playerInput.LeftClickDown && transform.childCount == 1 && curInteractState == InteractState.None)
             {
                 photonView.RPC("RPC_Ray", RpcTarget.All, new Vector3(transform.position.x, transform.position.y / 2 - 0.1f, transform.position.z), transform.forward);
-                
+
             }
             //내려놓기
             else if (playerInput.LeftClickDown && transform.childCount > 1)
@@ -94,7 +96,7 @@ public class PlayerInteract : MonoBehaviourPun
                 //Table에 닿지 않았다면
                 if (hit.transform == null || (hit.transform.gameObject.layer != LayerMask.NameToLayer("Table")))
                 {
-                    photonView.RPC("RPC_Throw", RpcTarget.All,100f);
+                    photonView.RPC("RPC_Throw", RpcTarget.All, 100f);
                 }
             }
         }
@@ -122,8 +124,13 @@ public class PlayerInteract : MonoBehaviourPun
                 }
             }
         }
-    }
 
+        //CheckPlayerInteractive 함수 호출
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            playerRayCheck.CheckPlayerInteractive();
+        }
+    }
     GameObject grabbedObj;
     private void Grab()
     {

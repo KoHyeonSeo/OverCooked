@@ -22,7 +22,8 @@ public class ChangePlayer : MonoBehaviourPun
         if (Input.GetKeyDown(KeyCode.Space))
         {
             LobbyManager.instance.playerInfo[photonView.ViewID] = transform.GetChild(0).GetChild(selectCnt).gameObject.name;
-
+            print(photonView.ViewID);
+            print(LobbyManager.instance.playerInfo[photonView.ViewID]);
         }
     }
     public void OnClickLeftButton()
