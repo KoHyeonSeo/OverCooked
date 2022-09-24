@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.IO;
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public static LobbyManager instance;
@@ -17,6 +18,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if(!instance)
             instance = this;
     }
+    //플레이어 선택 캐릭터 정보를 저장
+    public Dictionary<int, string> playerInfo = new Dictionary<int, string>();
+    
+    //Json 파일에 저장할 플레이어와 선택한 캐릭터 정보에 대한 구조체
+    public struct PlayerCharactor
+    {
+        public int myViewId;
+        public string name;
+    }
+    
+    //구조체를 담을 리스트 클래스 생성
+    public class ArrayJson<T>
+    {
+        public List<T> data;
+    }
+
+    ArrayJson<PlayerCharactor> arrayJson = new ArrayJson<PlayerCharactor>();
+    //SpawnPos 계산
     private void CalcSpawnPos()
     {
         spawnPos = new Vector3[PhotonNetwork.CurrentRoom.PlayerCount];
@@ -81,7 +100,35 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void OnClickMiddleMap()
     {
+        Save();
+
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.LoadLevel("MiddleScene");
+    }
+    public void Save()
+    {
+        List<int> list = new List<int>(playerInfo.Keys);
+        
+        arrayJson.data = new List<PlayerCharactor>();
+
+        //플레이어 정보 저장
+        foreach (int i in list)
+        { 
+            PlayerCharactor playerCharactor = new PlayerCharactor();
+            Debug.Log(i);
+            Debug.Log(playerInfo[i]);
+            playerCharactor.myViewId = i;
+            playerCharactor.name = playerInfo[i];
+            arrayJson.data.Add(playerCharactor);
+        }
+
+        string jsonData = JsonUtility.ToJson(arrayJson, true);
+        print(jsonData);
+        string path = Application.dataPath + "/Data";
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        File.WriteAllText(path + "/PlayerData.txt", jsonData);
     }
 }

@@ -1010,6 +1010,7 @@ GameObject:
   - component: {fileID: 5240347791975796697}
   - component: {fileID: 5240347791975796688}
   - component: {fileID: 5240347791647323681}
+  - component: {fileID: -7546340650133699358}
   - component: {fileID: 467331304836107067}
   m_Layer: 6
   m_Name: Shark_Player
@@ -1169,6 +1170,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwPower: 1000
   curInteractState: 0
+--- !u!114 &-7546340650133699358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5240347791975796696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bde661d040c9784f916fd621cf49a9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getObject: {fileID: 0}
+  interactiveObject: {fileID: 0}
+  lastCuttingTable: {fileID: 0}
+  lastTable: {fileID: 0}
 --- !u!114 &467331304836107067
 MonoBehaviour:
   m_ObjectHideFlags: 0
