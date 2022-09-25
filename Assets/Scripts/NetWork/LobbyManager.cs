@@ -4,12 +4,15 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.IO;
+using Unity.Collections.LowLevel.Unsafe;
+
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public static LobbyManager instance;
 
     [SerializeField] private Transform startPos;
     [SerializeField] private Transform endPos;
+    [SerializeField] private GameObject startUI;
 
     private Vector3[] spawnPos;
 
@@ -54,6 +57,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //플레이어 생성
     private void Start()
     {
+        if(!PhotonNetwork.IsMasterClient)
+            startUI.SetActive(false);
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.SerializationRate = 60;
         PhotonNetwork.SendRate = 60;

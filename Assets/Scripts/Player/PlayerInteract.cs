@@ -140,13 +140,13 @@ public class PlayerInteract : MonoBehaviourPun
             if (hit.transform.CompareTag("Food") && transform.childCount == 1)
             {
                 curInteractState = InteractState.Grab;
-                CreateNew.HavingSetting(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+                CreateNew.HavingSetting(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.7f));
                 return;
             }
             else if (hit.transform.CompareTag("FireExtinguisher") && transform.childCount == 1)
             {
                 curInteractState = InteractState.Grab;
-                CreateNew.HavingSetting(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+                CreateNew.HavingSetting(hit.transform.gameObject, "Grab", true, transform, new Vector3(0, -0.3f, 0.7f));
                 return;
             }
         }
