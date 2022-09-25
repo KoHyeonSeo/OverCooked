@@ -20,14 +20,13 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
 
     void Update()
     {
-        
         if (photonView.IsMine)
         {
             SetPlayerObject();
-            CheckLastTable();
             ShootRay();
+            CheckLastTable();
+            CheckPlayerInteractive();
         }
-        CheckPlayerInteractive();
     }
 
     void ShootRay()
@@ -43,10 +42,12 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         {
             interactiveObject = null;
         }
+        if (interactiveObject && interactiveObject.tag == "Player")
+            return;
         if (interactiveObject && interactiveObject.GetComponent<IngredientDisplay>())
         {
             ray = new Ray(interactiveObject.transform.position, transform.forward);
-            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
+            //Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
             RaycastHit hit2;
             if (Physics.Raycast(ray, out hit2, 1))
             {
@@ -56,15 +57,13 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         else if (interactiveObject && interactiveObject.GetComponent<Plate>())
         {
             ray = new Ray(interactiveObject.transform.position, transform.forward);
-            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
+            //Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
             RaycastHit hit2;
             if (Physics.Raycast(ray, out hit2, 1))
             {
                 interactiveObject = hit2.transform.gameObject;
             }
         }
-        print(getObject
-             + ", " + interactiveObject);
     }
 
     //플레이어가 들고 있는것, 닿아있는 것 체크
@@ -89,6 +88,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         {
             if (interactiveObject.GetComponent<M_Table>())
                 interactiveObject.GetComponent<M_Table>().BlinkTable();
+            
             //현재 닿은 책상과 마지막에 닿은 책상이 다르다면 깜빡임 멈춤
             if (lastTable && interactiveObject != lastTable)
             {
@@ -192,6 +192,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
     }
 
     //재료 상자
+    [PunRPC]
     void InteractiveIngredientBox()
     {
         GameObject ingredient = interactiveObject.GetComponent<IngredientBox>().CreateIngredient();
@@ -223,7 +224,10 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             }
             //만약 다 잘리지 않은 재료가 테이블에 있다면 썰기 시작
             else
+            {
                 cuttingTable.isPlayerExit = true;
+            }
+                
         }
     }
 
@@ -255,21 +259,30 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         }
     }
 
+    [PunRPC]
     void HavingSettingObject(GameObject obj)
     {
+        /*if (!getObject)
+        {
+            //obj.GetComponent<Rigidbody>().useGravity = false;
+            obj.transform.parent = transform;
+            obj.transform.localPosition = new Vector3(0, -0.3f, 0.5f);
+        }*/
         if (!getObject)
             CreateNew.HavingSetting(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        /*if (stream.IsWriting)
+        if (stream.IsWriting)
         {
+            stream.SendNext(getObject);
             stream.SendNext(interactiveObject);
         }
         else
         {
-            rayText.text = (string)stream.ReceiveNext();
-        }*/
+            getObject = (GameObject)stream.ReceiveNext();
+            interactiveObject = (GameObject)stream.ReceiveNext();
+        }
     }
 }

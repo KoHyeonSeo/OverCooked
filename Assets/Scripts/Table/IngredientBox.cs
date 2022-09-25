@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class IngredientBox : MonoBehaviour
+public class IngredientBox : MonoBehaviourPun
 {
     public GameObject ingredientPrefab;
 
     public GameObject CreateIngredient()
     {
-        GameObject ingredient = Instantiate(ingredientPrefab);
+        GameObject ingredient = PhotonNetwork.Instantiate(ingredientPrefab.name, transform.position, Quaternion.identity);
+        //GameObject ingredient = Instantiate(ingredientPrefab);
         return ingredient;
     }
 }

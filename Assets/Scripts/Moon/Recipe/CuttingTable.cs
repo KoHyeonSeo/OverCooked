@@ -29,6 +29,7 @@ public class CuttingTable : MonoBehaviour
             {
                 if (isPlayerExit)
                 {
+                    print("¡∏¿Á«‘");
                     cutGauge.SetActive(true);
                     time += Time.deltaTime;
                     cutGaugeImage.GetComponent<Image>().fillAmount = time / cutTime;

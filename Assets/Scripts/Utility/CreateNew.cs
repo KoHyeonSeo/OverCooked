@@ -1,5 +1,4 @@
 using UnityEngine;
-
 /// <summary>
 /// 플레이어가 재료와 상호작용할 시 재료를 생성하는 스크립트
 /// </summary>
