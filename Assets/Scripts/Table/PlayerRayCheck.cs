@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerRayCheck : MonoBehaviour
+public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
 {
     public GameObject getObject; //현재 플레이어가 들고 있는 물건
     public GameObject interactiveObject; //현재 플레이어와 닿아있는 물건, 테이블
     public GameObject lastCuttingTable; //현재 어떤 컷팅 테이블과 닿고 있는지
     public GameObject lastTable;
+
+    Ray ray;
+    RaycastHit hit;
 
     void Start()
     {
@@ -16,9 +20,51 @@ public class PlayerRayCheck : MonoBehaviour
 
     void Update()
     {
-        SetPlayerObject();
-        CheckLastTable();
-        //CheckPlayerInteractive();
+        
+        if (photonView.IsMine)
+        {
+            SetPlayerObject();
+            CheckLastTable();
+            ShootRay();
+        }
+        CheckPlayerInteractive();
+    }
+
+    void ShootRay()
+    {
+        ray = new Ray(transform.position, transform.forward);
+        Debug.DrawRay(transform.position, transform.forward, Color.red, 1);
+        if (Physics.Raycast(ray, out hit, 1))
+        {
+           interactiveObject = hit.transform.gameObject;
+            
+        }
+        else
+        {
+            interactiveObject = null;
+        }
+        if (interactiveObject && interactiveObject.GetComponent<IngredientDisplay>())
+        {
+            ray = new Ray(interactiveObject.transform.position, transform.forward);
+            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
+            RaycastHit hit2;
+            if (Physics.Raycast(ray, out hit2, 1))
+            {
+                interactiveObject = hit2.transform.gameObject;
+            }
+        }
+        else if (interactiveObject && interactiveObject.GetComponent<Plate>())
+        {
+            ray = new Ray(interactiveObject.transform.position, transform.forward);
+            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
+            RaycastHit hit2;
+            if (Physics.Raycast(ray, out hit2, 1))
+            {
+                interactiveObject = hit2.transform.gameObject;
+            }
+        }
+        print(getObject
+             + ", " + interactiveObject);
     }
 
     //플레이어가 들고 있는것, 닿아있는 것 체크
@@ -74,35 +120,37 @@ public class PlayerRayCheck : MonoBehaviour
 
     public void CheckPlayerInteractive()
     {
-        if (interactiveObject && interactiveObject.GetComponent<M_Table>())
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            interactiveObject.GetComponent<M_Table>().StopBlink();
-            if (interactiveObject.GetComponent<IngredientBox>())
-                InteractiveIngredientBox();
-            else if (interactiveObject.GetComponent<CuttingTable>())
-                InteractiveCuttingTable();
-            else if (interactiveObject.GetComponent<FireBox>())
-                InteractiveFireTable();
-            else if (interactiveObject.name == "ServiceDesk")
-                InteractiveServiceDesk();
-            else if (interactiveObject.GetComponent<M_Table>())
-                InteractiveTable();
+            if (interactiveObject && interactiveObject.GetComponent<M_Table>())
+            {
+                interactiveObject.GetComponent<M_Table>().StopBlink();
+                if (interactiveObject.GetComponent<IngredientBox>())
+                    InteractiveIngredientBox();
+                else if (interactiveObject.GetComponent<CuttingTable>())
+                    InteractiveCuttingTable();
+                else if (interactiveObject.GetComponent<FireBox>())
+                    InteractiveFireTable();
+                else if (interactiveObject.name == "ServiceDesk")
+                    InteractiveServiceDesk();
+                else if (interactiveObject.GetComponent<M_Table>())
+                    InteractiveTable();
 
-        }
-        else if (interactiveObject && !getObject)
-        {
-            //물건 드는건 플레이어 쪽에서 처리(나중에 바꿔)
-            HavingSettingObject(interactiveObject);
-        }
-        else if (!interactiveObject && getObject)
-        {
-            getObject.GetComponent<Rigidbody>().useGravity = true;
-            getObject.GetComponent<Rigidbody>().isKinematic = false;
-            GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
-            GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+            }
+            else if (interactiveObject && !getObject)
+            {
+                //물건 드는건 플레이어 쪽에서 처리(나중에 바꿔)
+                HavingSettingObject(interactiveObject);
+            }
+            else if (!interactiveObject && getObject)
+            {
+                getObject.GetComponent<Rigidbody>().useGravity = true;
+                getObject.GetComponent<Rigidbody>().isKinematic = false;
+                GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
+                GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+            }
         }
     }
-
 
     void InteractiveServiceDesk()
     {
@@ -211,5 +259,17 @@ public class PlayerRayCheck : MonoBehaviour
     {
         if (!getObject)
             CreateNew.HavingSetting(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        /*if (stream.IsWriting)
+        {
+            stream.SendNext(interactiveObject);
+        }
+        else
+        {
+            rayText.text = (string)stream.ReceiveNext();
+        }*/
     }
 }

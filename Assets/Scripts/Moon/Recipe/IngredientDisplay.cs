@@ -20,10 +20,10 @@ public class IngredientDisplay : MonoBehaviour
 
     void Start()
     {
-        if (GameManager.instance.Player)
+        /*if (GameManager.instance.Player)
         {
             player = GameManager.instance.Player;  
-        }
+        }*/
         //curObject = Instantiate(ingredientObject.cookLevel[cookLevel]);
         //curObject.transform.position = transform.position;
         //curObject.transform.parent = transform;
@@ -65,7 +65,7 @@ public class IngredientDisplay : MonoBehaviour
 
     void Update()
     {
-        if (!player)
-            player = GameManager.instance.Player;
+        /*if (!player)
+            player = GameManager.instance.Player;*/
     }
 }

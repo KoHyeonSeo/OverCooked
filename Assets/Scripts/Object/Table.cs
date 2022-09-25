@@ -15,13 +15,13 @@ public class Table : MonoBehaviour
     public int tableChild = 0;
     private void Start()
     {
-        if(GameManager.instance.Player)
-            player = GameManager.instance.Player;
+        /*if(GameManager.instance.Player)
+            player = GameManager.instance.Player;*/
     }
     private void Update()
     {
-        if (!player)
-            player = GameManager.instance.Player;
+        /*if (!player)
+            player = GameManager.instance.Player;*/
         LayerMask layer = 1 << LayerMask.NameToLayer("Table");
         Ray ray = new Ray(transform.position, - transform.forward);
         Debug.DrawRay(ray.origin, ray.direction, Color.green);

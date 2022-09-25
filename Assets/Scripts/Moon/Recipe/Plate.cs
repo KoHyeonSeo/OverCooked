@@ -20,7 +20,15 @@ public class Plate : MonoBehaviour
     public void AddPlate(GameObject plate)
     {
         plate.transform.parent = transform;
-        plate.transform.localPosition = new Vector3(0, 1, 0);
+        print(transform);
+        plate.transform.localPosition = new Vector3(0, 2, 0);
+        plate.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+    public void PlateKinematicOff()
+    {
+        if (transform.childCount > 1)
+            transform.GetChild(1).GetComponent<Rigidbody>().isKinematic = false;
     }
 
     //매개변수로 들어온 재료를 리스트에 넣고 텍스트 반영
