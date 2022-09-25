@@ -73,7 +73,7 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
     {
         if (collision.collider.CompareTag("Slope"))
         {
-            moveSpeed = 18f;
+            moveSpeed = 17.5f;
             GetComponent<Rigidbody>().drag = 10f;
         }
         else
