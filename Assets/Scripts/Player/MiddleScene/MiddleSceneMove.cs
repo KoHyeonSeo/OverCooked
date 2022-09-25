@@ -69,6 +69,19 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
             this.other = other;
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Slope"))
+        {
+            moveSpeed = 18f;
+            GetComponent<Rigidbody>().drag = 10f;
+        }
+        else
+        {
+            moveSpeed = 10f;
+            GetComponent<Rigidbody>().drag = 0f;
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         if (PhotonNetwork.IsMasterClient)

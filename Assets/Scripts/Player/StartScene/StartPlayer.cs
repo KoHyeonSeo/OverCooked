@@ -12,8 +12,11 @@ public class StartPlayer : MonoBehaviourPun
     }
     private void Start()
     {
-        LobbyManager.instance.photonView.RPC("ChangePosition", RpcTarget.All);
-        transform.localEulerAngles = new Vector3(0,180,0);
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            LobbyManager.instance.photonView.RPC("ChangePosition", RpcTarget.All);
+            transform.localEulerAngles = new Vector3(0, 180, 0);
+        }
     }
     private void Update()
     {
