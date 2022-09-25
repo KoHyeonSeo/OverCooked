@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9194903284580500438}
   - component: {fileID: 9194903284580500393}
   - component: {fileID: 9194903284580500392}
-  m_Layer: 5
+  m_Layer: 20
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 9194903285352644881}
   - component: {fileID: 978257671532986222}
   - component: {fileID: 2380269065232470089}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 9194903286249654125}
   - component: {fileID: 9194903286249654123}
   - component: {fileID: 9194903286249654122}
-  m_Layer: 5
+  m_Layer: 20
   m_Name: IngredientName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
