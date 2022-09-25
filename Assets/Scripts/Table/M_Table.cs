@@ -51,7 +51,7 @@ public class M_Table : MonoBehaviour
     {
         getObject = obj;
         getObject.transform.parent = transform;
-        objectPosition.y = getObject.transform.localScale.y / 2;
+        objectPosition.y = 1;
         getObject.transform.localPosition = objectPosition;
     }
 

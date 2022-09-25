@@ -44,10 +44,10 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         }
         if (interactiveObject && interactiveObject.tag == "Player")
             return;
-        if (interactiveObject && interactiveObject.GetComponent<IngredientDisplay>())
+        if (interactiveObject && interactiveObject.tag == "Food")
         {
             ray = new Ray(interactiveObject.transform.position, transform.forward);
-            //Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
+            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
             RaycastHit hit2;
             if (Physics.Raycast(ray, out hit2, 1))
             {
@@ -187,6 +187,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             if (interactiveObject.GetComponent<M_Table>().getObject)
             {
                 HavingSettingObject(interactiveObject.GetComponent<M_Table>().getObject);
+                interactiveObject.GetComponent<M_Table>().getObject = null;
             }
         }
     }

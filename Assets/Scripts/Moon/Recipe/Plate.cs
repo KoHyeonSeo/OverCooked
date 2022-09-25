@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class Plate : MonoBehaviour
+public class Plate : MonoBehaviourPun
 {
     public List<GameObject> ingredientModels = new List<GameObject>();
     public List<IngredientObject> ingredientList = new List<IngredientObject>();
@@ -12,9 +13,18 @@ public class Plate : MonoBehaviour
     public RecipeObject[] recipes; //이건 인스펙터에서 넣기
     public bool isdirty;
 
+    //이미지 표시
+    public GameObject canvas;
+    public GameObject[] ingredientImages;
+
     void Start()
     {
         ingredientName.text = "";
+    }
+
+    private void Update()
+    {
+        canvas.transform.LookAt(new Vector3(transform.position.x, 10, 0));
     }
 
     public void AddPlate(GameObject plate)
@@ -43,7 +53,9 @@ public class Plate : MonoBehaviour
         {
             print(ingredient.GetComponent<IngredientDisplay>().ingredientObject.name);
             ingredientList.Add(ingredient.GetComponent<IngredientDisplay>().ingredientObject);
-            ingredientName.text = ingredientName.text + ingredientList[count].name + "\n";
+            ingredientImages[count].SetActive(true);
+            ingredientImages[count].GetComponent<Image>().sprite = ingredientList[count].recipeIcon;
+            //ingredientName.text = ingredientName.text + ingredientList[count].name + "\n";
             Destroy(ingredient);
             count++;
         }
