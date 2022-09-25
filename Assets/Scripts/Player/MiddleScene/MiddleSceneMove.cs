@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
 {
     [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float dashSpeed = 20;
     [SerializeField] private float lerpSpeed = 5;
     [SerializeField] private float turnSpeed = 5;
     Vector3 recievePos;
@@ -26,7 +27,25 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
             Vector3 newDir = Vector3.RotateTowards(transform.forward, dir, turnSpeed * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(newDir);
 
-            transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                transform.position += dir.normalized * dashSpeed * Time.deltaTime;
+            }
+            else
+            {
+                transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+            }
+
+
+            if (isPortal && Input.GetKeyDown(KeyCode.Space))
+            {
+                //PhotonNetwork.LoadLevel(4);
+                if (other.gameObject.name.Contains("Portal"))
+                {
+                    string[] names = other.gameObject.name.Split('/');
+                    PhotonNetwork.LoadLevel(names[1]);
+                }
+            }
 
         }
         else
@@ -35,15 +54,6 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
             transform.rotation = Quaternion.Lerp(transform.rotation, recieveRot, Time.deltaTime * lerpSpeed);
         }
 
-        if (isPortal && Input.GetKeyDown(KeyCode.Space))
-        {
-            //PhotonNetwork.LoadLevel(4);
-            if (other.gameObject.name.Contains("Portal"))
-            {
-                string[] names = other.gameObject.name.Split('/');
-                PhotonNetwork.LoadLevel(names[1]);
-            }
-        }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -67,19 +77,6 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
         {
             isPortal = true;
             this.other = other;
-        }
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Slope"))
-        {
-            moveSpeed = 17.5f;
-            GetComponent<Rigidbody>().drag = 10f;
-        }
-        else
-        {
-            moveSpeed = 10f;
-            GetComponent<Rigidbody>().drag = 0f;
         }
     }
     private void OnTriggerExit(Collider other)
