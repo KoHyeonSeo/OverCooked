@@ -82,12 +82,13 @@ public class PlayerInteract : MonoBehaviourPun
         {
             GrabbingObjectInfo = null;
         }
-
+        if (photonView.IsMine)
+            print(transform.childCount);
         if (hit.transform == null || hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
         {
             if (playerInput.LeftClickDown && transform.childCount == 1 && curInteractState == InteractState.None)
             {
-                photonView.RPC("RPC_Ray", RpcTarget.All, new Vector3(transform.position.x, transform.position.y / 2 - 0.1f, transform.position.z), transform.forward);
+                photonView.RPC("RPC_Ray", RpcTarget.All, new Vector3(transform.position.x, transform.position.y / 2 + 0.2f, transform.position.z), transform.forward);
 
             }
             //내려놓기
@@ -204,7 +205,7 @@ public class PlayerInteract : MonoBehaviourPun
         Ray ray = new(origin, dir);
         LayerMask layer = 1 << LayerMask.NameToLayer("Grab");
         //바닥에 있는 음식 잡기
-        Debug.DrawRay(ray.origin, ray.direction * 2, Color.red);
+        Debug.DrawRay(ray.origin, ray.direction * 2, Color.black);
         if (Physics.Raycast(ray, out hit, 2, ~layer))
         {
             PointObject = hit.transform.gameObject;

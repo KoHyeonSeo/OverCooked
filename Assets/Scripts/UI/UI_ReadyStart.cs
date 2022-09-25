@@ -20,11 +20,12 @@ public class UI_ReadyStart : MonoBehaviourPun
     public bool IsReady { get; private set; }  
     private void Start()
     {
+
             readyUI.SetActive(false);
             startUI.SetActive(false);
-            if (GameManager.instance.Player)
-                player = GameManager.instance.Player;
-            IsReady = false;
+        if (GameManager.instance.Player)
+            player = GameManager.instance.Player;
+        IsReady = false;
     }
     private void Update()
     {

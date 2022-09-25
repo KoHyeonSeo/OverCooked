@@ -20,6 +20,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     //플레이어 선택 캐릭터 정보를 저장
     public Dictionary<int, string> playerInfo = new Dictionary<int, string>();
+    //public SortedList<int, string> playerInfo = new SortedList<int, string>();
 
     //Json 파일에 저장할 플레이어와 선택한 캐릭터 정보에 대한 구조체
     [System.Serializable]
@@ -65,7 +66,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void Info(int key, string value)
     {
-        photonView.RPC("RPC_ChangedInfo", RpcTarget.All, key, value);
+        photonView.RPC("RPC_ChangedInfo", RpcTarget.AllBuffered, key, value);
     }
 
     [PunRPC]
@@ -103,16 +104,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-
-        ////2. 계산한 후
-        //CalcSpawnPos();
-
-        ////3. 재배치
-        //ChangePosition();
     }
     public void OnClickMiddleMap()
     {
-        Save();
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -127,11 +121,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
             if (isChecking)
             {
+                photonView.RPC("RPC_Save", RpcTarget.All);
                 PhotonNetwork.LoadLevel("MiddleScene");
+                //PhotonNetwork.LoadLevel("Stage1");
             }
         }
     }
-    public void Save()
+    [PunRPC]
+    public void RPC_Save()
     {
         List<int> list = new List<int>(playerInfo.Keys);
         
@@ -149,12 +146,39 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         arrayJson.data.Sort((struct1, struct2) => struct1.myViewId.CompareTo(struct2.myViewId));
 
         string jsonData = JsonUtility.ToJson(arrayJson, true);
-        print(jsonData);
+        //print(jsonData);
         string path = Application.dataPath + "/Data";
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);
         }
         File.WriteAllText(path + "/PlayerData.txt", jsonData);
+
     }
+    //public void Save()
+    //{
+    //    List<int> list = new List<int>(playerInfo.Keys);
+
+    //    arrayJson.data = new List<PlayerCharactor>();
+
+    //    //플레이어 정보 저장
+    //    foreach (int i in list)
+    //    {
+    //        PlayerCharactor playerCharactor = new PlayerCharactor();
+
+    //        playerCharactor.myViewId = i;
+    //        playerCharactor.name = playerInfo[i];
+    //        arrayJson.data.Add(playerCharactor);
+    //    }
+    //    //arrayJson.data.Sort((struct1, struct2) => struct1.myViewId.CompareTo(struct2.myViewId));
+
+    //    string jsonData = JsonUtility.ToJson(arrayJson, true);
+    //    print(jsonData);
+    //    string path = Application.dataPath + "/Data";
+    //    if (!Directory.Exists(path))
+    //    {
+    //        Directory.CreateDirectory(path);
+    //    }
+    //    File.WriteAllText(path + "/PlayerData.txt", jsonData);
+    //}
 }

@@ -24,19 +24,19 @@ public class ChangePlayer : MonoBehaviourPun
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            photonView.RPC("Checking", RpcTarget.All, true);
+            photonView.RPC("Checking", RpcTarget.AllBuffered, true);
             LobbyManager.instance.Info(photonView.ViewID, transform.GetChild(0).GetChild(selectCnt).gameObject.name);
         }
     }
     public void OnClickLeftButton()
     {
-        photonView.RPC("RPC_SelectCount", RpcTarget.All, false);
-        photonView.RPC("Checking", RpcTarget.All, false);
+        photonView.RPC("RPC_SelectCount", RpcTarget.AllBuffered, false);
+        photonView.RPC("Checking", RpcTarget.AllBuffered, false);
     }
     public void OnClickRightButton()
     {
-        photonView.RPC("RPC_SelectCount", RpcTarget.All, true);
-        photonView.RPC("Checking", RpcTarget.All, false);
+        photonView.RPC("RPC_SelectCount", RpcTarget.AllBuffered, true);
+        photonView.RPC("Checking", RpcTarget.AllBuffered, false);
     }
     [PunRPC]
     public void RPC_SelectCount(bool isInCrease)

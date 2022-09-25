@@ -2,7 +2,7 @@
     "data": [
         {
             "myViewId": 1001,
-            "name": "Mora_Player "
+            "name": "Shark_Player"
         },
         {
             "myViewId": 2001,

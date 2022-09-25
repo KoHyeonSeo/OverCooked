@@ -37,14 +37,14 @@ public class GameManager : MonoBehaviourPun
         {
             if (arrayJson.data[i].myViewId == myObject?.GetComponent<PhotonView>().ViewID)
             {
+                //if (photonView.IsMine)
+                    print("»ý¼º: " + arrayJson.data[i].name + " / " + playerPoss[i].position);
                 Player =
                     PhotonNetwork.Instantiate(arrayJson.data[i].name, playerPoss[i].position, Quaternion.identity);
             }
 
         }
-        //Player = PhotonNetwork.Instantiate("Shark_Player", new Vector3(Random.Range(-10, 10), 5, Random.Range(-10, 10)), Quaternion.identity);
 
-        //Debug.Log("Player GetInstanceID : " + Player.GetInstanceID());
     }
     public List<GameObject> players = new List<GameObject>();
     private void Update()
@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviourPun
     {
         string path = Application.dataPath + "/Data";
         string jsonData = File.ReadAllText(path + "/PlayerData.txt");
+        print(jsonData);
         arrayJson = 
             JsonUtility.FromJson<LobbyManager.ArrayJson<LobbyManager.PlayerCharactor>>(jsonData);
         
