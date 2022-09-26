@@ -500,7 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66b8fd7b5b6c024baa546365459b9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwPower: 1000
+  throwPower: 500
   curInteractState: 0
 --- !u!114 &3907117269978177017
 MonoBehaviour:
