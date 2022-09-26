@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class ChangePlayer : MonoBehaviourPun
 {
@@ -15,6 +16,7 @@ public class ChangePlayer : MonoBehaviourPun
             LobbyManager.instance.playerInfo[photonView.ViewID] = null;
             transform.GetChild(1).gameObject.SetActive(true);
         }
+        transform.GetChild(3).GetChild(0).GetComponent<Text>().text = photonView.Owner.NickName;
     }
     private void Update()
     {
