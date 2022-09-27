@@ -13,7 +13,6 @@ public class FireBox : MonoBehaviour
     public float fireGauge;
     public GameObject fireGaugeCanvas;
     public Image fireGaugeImage;
-    public Image warningImage;
 
     void Start()
     {
