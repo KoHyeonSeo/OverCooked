@@ -16,10 +16,12 @@ public class FryingPan : MonoBehaviour
 
     //บา
     float fireTime = 15;
+    public GameObject burnWarning;
 
     void Start()
     {
-        bakeGauge.SetActive(false);   
+        bakeGauge.SetActive(false);
+        Destroy(gameObject, 10);
     }
 
     void Update()

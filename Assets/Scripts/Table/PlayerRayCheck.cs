@@ -8,7 +8,10 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
     public GameObject getObject; //현재 플레이어가 들고 있는 물건
     public GameObject interactiveObject; //현재 플레이어와 닿아있는 물건, 테이블
     public GameObject lastCuttingTable; //현재 어떤 컷팅 테이블과 닿고 있는지
+    public GameObject sink;
     public GameObject lastTable;
+    public int cleanPlate;
+    public int dirtyPlate;
 
     Ray ray;
     RaycastHit hit;
@@ -106,6 +109,11 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
                 lastCuttingTable.GetComponent<CuttingTable>().isPlayerExit = false;
                 lastCuttingTable = null;
             }
+            if (sink && interactiveObject != sink )
+            {
+                sink.GetComponent<Sink>().isPlayerExit = false;
+                sink = null;
+            }
             lastTable = interactiveObject;
         }
         else if (!interactiveObject)
@@ -138,9 +146,12 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
                     InteractiveFireTable();
                 else if (interactiveObject.name == "ServiceDesk")
                     InteractiveServiceDesk();
+                else if (interactiveObject.GetComponent<Sink>())
+                    InteractiveSink();
+                else if (interactiveObject.GetComponent<SinkPlateTable>())
+                    InteractiveSinkPlateTable();
                 else if (interactiveObject.GetComponent<M_Table>())
                     InteractiveTable();
-
             }
             else if (interactiveObject && !getObject)
             {
@@ -153,6 +164,35 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
                 getObject.GetComponent<Rigidbody>().useGravity = true;
                 getObject.GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+            }
+        }
+    }
+
+    void InteractiveSink()
+    {
+        if (getObject && getObject.GetComponent<Plate>() && dirtyPlate > 0)
+        {
+            if (getObject.GetComponent<Plate>().isdirty)
+            {
+                interactiveObject.GetComponent<Sink>().SetPlate(dirtyPlate);
+                dirtyPlate = 0;
+                Destroy(getObject);
+            }
+        }
+        else if (!getObject)
+        {
+            sink = interactiveObject;
+            interactiveObject.GetComponent<Sink>().isPlayerExit = true;
+        }
+    }
+
+    void InteractiveSinkPlateTable()
+    {
+        if (!getObject)
+        {
+            if (interactiveObject.GetComponent<SinkPlateTable>().cleanPlate > 0)
+            {
+                HavingSettingObject(interactiveObject.GetComponent<SinkPlateTable>().CreatePlate());
             }
         }
     }
@@ -187,8 +227,12 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
                     interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject.GetComponent<FryingPan>().getObject);
                 }
             }
-            else 
+            else
+            {
+                if (getObject.GetComponent<Plate>() && getObject.GetComponent<Plate>().isdirty)
+                    return;
                 interactiveObject.GetComponent<M_Table>().SetObject(getObject);
+            }  
             GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
         }
         else
@@ -197,6 +241,13 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             {
                 HavingSettingObject(interactiveObject.GetComponent<M_Table>().getObject);
                 interactiveObject.GetComponent<M_Table>().getObject = null;
+                //더러워진 접시들기
+                if (interactiveObject.GetComponent<PlateManager>())
+                {
+                    dirtyPlate = PlateManager.instance.plateCount;
+                    PlateManager.instance.plateList.Clear();
+                }
+                    
             }
         }
     }
