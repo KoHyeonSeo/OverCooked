@@ -82,8 +82,8 @@ public class PlayerInteract : MonoBehaviourPun
         {
             GrabbingObjectInfo = null;
         }
-        if (photonView.IsMine)
-            print(transform.childCount);
+        //if (photonView.IsMine)
+        //    print(transform.childCount);
         if (hit.transform == null || hit.transform.gameObject.layer != LayerMask.NameToLayer("Table"))
         {
             if (playerInput.LeftClickDown && transform.childCount == 1 && curInteractState == InteractState.None)

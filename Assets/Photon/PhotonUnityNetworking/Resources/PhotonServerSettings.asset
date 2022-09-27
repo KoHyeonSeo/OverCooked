@@ -19,7 +19,7 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: kr
     Server: 
     Port: 0
     ProxyServer: 
@@ -27,37 +27,31 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 5
+    NetworkLogging: 1
   DevRegion: kr
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - ChangePosition
+  - Checking
   - ClickRpc
   - DestroyRpc
   - DestroySpaceship
   - Fire
-  - RespawnSpaceship
-  - OnLoadMiddleScene
-  - RPC_Cam_Move
-  - RPC_PlayerMove
-  - ChangePosition
-  - RPC_PlayerControl
-  - RPC_Throw
-  - PRC_UseFireExtinguisher
-  - RPC_Grab
-  - RPC_OnBirth
-  - RPC_Ray
-  - RPC_ChangeState
-  - RPC_InteractChange
   - FireSuppression
-  - RPC_SelectCount
-  - RPC_ChangedInfo
-  - Checking
-  - RPC_Save
-  - HavingSettingObject
   - InteractiveIngredientBox
+  - PRC_UseFireExtinguisher
+  - RespawnSpaceship
+  - RPC_ChangedInfo
+  - RPC_ChangeState
+  - RPC_OnBirth
+  - RPC_PlayerControl
+  - RPC_Ray
+  - RPC_Save
+  - RPC_SelectCount
+  - RPC_Throw
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

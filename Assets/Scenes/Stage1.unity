@@ -1479,12 +1479,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cookingTool: {fileID: 0}
   objectPosition: {x: 0, y: 0, z: 0}
+  isFire: 0
   fireEffectPrefab: {fileID: 1271764609937064, guid: 8b47f39d91e61384889cff33839361dc, type: 3}
   fireEffect: {fileID: 0}
   fireGauge: 100
-  isFire: 0
-  bakeGauge: {fileID: 2054219642}
-  bakeGaugeImage: {fileID: 2013908830}
+  fireGaugeCanvas: {fileID: 0}
+  fireGaugeImage: {fileID: 0}
+  warningImage: {fileID: 0}
 --- !u!114 &62075526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,6 +1868,10 @@ PrefabInstance:
     - target: {fileID: 1930542901205731831, guid: cd9f3ef8ef5a67241b7ab476e5242b5d, type: 3}
       propertyPath: m_Name
       value: FireExtinguisher
+      objectReference: {fileID: 0}
+    - target: {fileID: 1930542901205731831, guid: cd9f3ef8ef5a67241b7ab476e5242b5d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8535329670874102717, guid: cd9f3ef8ef5a67241b7ab476e5242b5d, type: 3}
       propertyPath: sceneViewId
@@ -10173,12 +10178,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cookingTool: {fileID: 0}
   objectPosition: {x: 0, y: 0, z: 0}
+  isFire: 0
   fireEffectPrefab: {fileID: 1271764609937064, guid: 8b47f39d91e61384889cff33839361dc, type: 3}
   fireEffect: {fileID: 0}
   fireGauge: 100
-  isFire: 0
-  bakeGauge: {fileID: 1790387927}
-  bakeGaugeImage: {fileID: 37224341}
+  fireGaugeCanvas: {fileID: 0}
+  fireGaugeImage: {fileID: 0}
+  warningImage: {fileID: 0}
 --- !u!114 &679227515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15430,12 +15436,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cookingTool: {fileID: 0}
   objectPosition: {x: 0, y: 0, z: 0}
+  isFire: 0
   fireEffectPrefab: {fileID: 1271764609937064, guid: 8b47f39d91e61384889cff33839361dc, type: 3}
   fireEffect: {fileID: 0}
   fireGauge: 100
-  isFire: 0
-  bakeGauge: {fileID: 1180206203}
-  bakeGaugeImage: {fileID: 361400709}
+  fireGaugeCanvas: {fileID: 0}
+  fireGaugeImage: {fileID: 0}
+  warningImage: {fileID: 0}
 --- !u!114 &957255538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35940,12 +35947,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cookingTool: {fileID: 0}
   objectPosition: {x: 0, y: 0, z: 0}
+  isFire: 0
   fireEffectPrefab: {fileID: 1271764609937064, guid: 8b47f39d91e61384889cff33839361dc, type: 3}
   fireEffect: {fileID: 0}
   fireGauge: 100
-  isFire: 0
-  bakeGauge: {fileID: 911145101}
-  bakeGaugeImage: {fileID: 1200927929}
+  fireGaugeCanvas: {fileID: 0}
+  fireGaugeImage: {fileID: 0}
+  warningImage: {fileID: 0}
 --- !u!23 &9217593783438935316
 MeshRenderer:
   m_ObjectHideFlags: 0

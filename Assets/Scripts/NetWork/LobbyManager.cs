@@ -60,8 +60,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if(!PhotonNetwork.IsMasterClient)
             startUI.SetActive(false);
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.SerializationRate = 60;
-        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 10;
+        PhotonNetwork.SendRate = 10;
         //1. 계산하고
         CalcSpawnPos();
 
@@ -127,8 +127,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (isChecking)
             {
                 photonView.RPC("RPC_Save", RpcTarget.All);
-                PhotonNetwork.LoadLevel("MiddleScene");
-                //PhotonNetwork.LoadLevel("Stage1");
+                //PhotonNetwork.LoadLevel("MiddleScene");
+                PhotonNetwork.LoadLevel("Stage1");
             }
         }
     }
