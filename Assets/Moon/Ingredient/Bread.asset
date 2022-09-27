@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Bread
   m_EditorClassIdentifier: 
   ingredientName: 
-  cookLevel:
-  - {fileID: 8205996105102100167, guid: 1a721ee4177068b4b88a03133008821b, type: 3}
+  model:
+  - {fileID: 2466865658082603553, guid: 9db3c5bd06a15ea4bae63b39da875ebf, type: 3}
   recipeIcon: {fileID: 21300000, guid: 483bb25ab04dfb74e907fbcb30c0b87d, type: 3}
   isPossibleCut: 0
   isPossibleBake: 0

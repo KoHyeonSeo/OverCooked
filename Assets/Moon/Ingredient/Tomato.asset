@@ -15,7 +15,7 @@ MonoBehaviour:
   ingredientName: Tomato
   model:
   - {fileID: 862678039327451174, guid: 222dd29912ee75848ad1af64aa70e81d, type: 3}
-  - {fileID: 8627845184034328532, guid: b9e14fff80596954f83dd8af500a3813, type: 3}
+  - {fileID: 5130600998454703481, guid: 69f92e5840c1e2c49ab730cfd12a5c42, type: 3}
   recipeIcon: {fileID: 21300000, guid: b93c3c94bd2e95047b39d22a1540325c, type: 3}
   isPossibleCut: 1
   isPossibleBake: 0

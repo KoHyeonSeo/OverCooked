@@ -24,6 +24,7 @@ public class OrderSheetManager : MonoBehaviour
 
     void Start()
     {
+        
     }
 
     void Update()
@@ -148,8 +149,8 @@ public class OrderSheetManager : MonoBehaviour
             }
             if (i == orderSheetList.Count - 1)
             {
-                StartCoroutine(WrongPlate());
-                Destroy(plate.transform.gameObject);
+                //StartCoroutine(WrongPlate());
+                //Destroy(plate.transform.gameObject);
             }
         }
         StartCoroutine(WrongPlate());
@@ -167,6 +168,6 @@ public class OrderSheetManager : MonoBehaviour
         {
             orderSheetList[i].GetComponent<OrderSheet>().wrongImage.enabled = false;
         }
-        PlateManager.instance.AddPlate();
+        PlateManager.instance.AddDirtyPlate();
     }
 }

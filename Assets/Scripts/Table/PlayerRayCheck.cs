@@ -31,12 +31,13 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
 
     void ShootRay()
     {
-        ray = new Ray(transform.position, transform.forward);
-        Debug.DrawRay(transform.position, transform.forward, Color.red, 1);
+        Vector3 playerPos = transform.position;
+        playerPos.y = playerPos.y * 2 / 3 ;
+        ray = new Ray(playerPos, transform.forward);
+        Debug.DrawRay(playerPos, transform.forward, Color.red, 1);
         if (Physics.Raycast(ray, out hit, 1))
         {
            interactiveObject = hit.transform.gameObject;
-            
         }
         else
         {
@@ -53,16 +54,20 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             {
                 interactiveObject = hit2.transform.gameObject;
             }
+            else
+                interactiveObject = null;
         }
         else if (interactiveObject && interactiveObject.GetComponent<Plate>())
         {
             ray = new Ray(interactiveObject.transform.position, transform.forward);
-            //Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
+            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
             RaycastHit hit2;
             if (Physics.Raycast(ray, out hit2, 1))
             {
                 interactiveObject = hit2.transform.gameObject;
             }
+            else
+                interactiveObject = null;
         }
     }
 
@@ -144,9 +149,9 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             }
             else if (!interactiveObject && getObject)
             {
+                GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
                 getObject.GetComponent<Rigidbody>().useGravity = true;
                 getObject.GetComponent<Rigidbody>().isKinematic = false;
-                GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
                 GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
             }
         }
@@ -177,10 +182,14 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
                 {
                     interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject);
                 }
+                else if (getObject.GetComponent<FryingPan>() && getObject.GetComponent<FryingPan>().getObject)
+                {
+                    interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject.GetComponent<FryingPan>().getObject);
+                }
             }
             else 
                 interactiveObject.GetComponent<M_Table>().SetObject(getObject);
-           // GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+            GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
         }
         else
         {

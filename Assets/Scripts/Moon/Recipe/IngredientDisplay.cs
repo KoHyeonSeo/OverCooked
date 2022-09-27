@@ -10,13 +10,13 @@ public class IngredientDisplay : MonoBehaviourPun
     public bool isRaw;
     public bool isCut;
     public bool isBake;
-    public bool isReady;
+    public bool isBurn;
     int modelLevel = 0;
     int maxModelLevel;
     GameObject player;
     Mesh model;
     Transform modelTransform;
-    Texture modelTexture;
+    MeshRenderer modelTexture;
     BoxCollider modelCollider;
 
     void Start()
@@ -52,10 +52,19 @@ public class IngredientDisplay : MonoBehaviourPun
     {
         modelTransform = ingredientObject.model[modelLevel].GetComponent<Transform>();
         GetComponent<Transform>().localScale = modelTransform.localScale;
+        GetComponent<Transform>().localRotation = modelTransform.localRotation;
         model = ingredientObject.model[modelLevel].GetComponent<MeshFilter>().sharedMesh;
         GetComponent<MeshFilter>().sharedMesh = model;
-        modelTexture = ingredientObject.model[modelLevel].GetComponent<MeshRenderer>().sharedMaterial.mainTexture;
-        GetComponent<MeshRenderer>().material.mainTexture = modelTexture;
+        if (ingredientObject.model[modelLevel].GetComponent<MeshRenderer>().sharedMaterial.mainTexture)
+        {
+            modelTexture = ingredientObject.model[modelLevel].GetComponent<MeshRenderer>();
+            GetComponent<MeshRenderer>().material.mainTexture = modelTexture.sharedMaterial.mainTexture;
+        }
+        else
+        {
+            modelTexture = ingredientObject.model[modelLevel].GetComponent<MeshRenderer>();
+            GetComponent<MeshRenderer>().materials = modelTexture.sharedMaterials;
+        }
         if (ingredientObject.model[modelLevel].GetComponent<BoxCollider>())
         {
             modelCollider = ingredientObject.model[modelLevel].GetComponent<BoxCollider>();

@@ -14,7 +14,7 @@ public class PlateManager : MonoBehaviour
         instance = this;
     }
 
-    public void AddPlate()
+    public void AddDirtyPlate()
     {
         GameObject plate = Instantiate(platePrefab);
         plate.GetComponent<Plate>().isdirty = true;
@@ -23,7 +23,7 @@ public class PlateManager : MonoBehaviour
         {
             GetComponent<M_Table>().SetObject(plate);
             plate.transform.parent = transform;
-            plate.transform.localPosition = new Vector3(0, 1, 0);
+            plate.transform.localPosition = new Vector3(0, 0.2f, 0);
             plateList.Add(plate);
         }
         else
@@ -33,10 +33,5 @@ public class PlateManager : MonoBehaviour
             plateList.Add(plate);
 
         }
-    }
-
-    public void TakeAwayPlate()
-    {
-
     }
 }
