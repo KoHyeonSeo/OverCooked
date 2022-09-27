@@ -17,15 +17,29 @@ public class Plate : MonoBehaviourPun
     //이미지 표시
     public GameObject canvas;
     public GameObject[] ingredientImages;
+    public GameObject cleanPlate;
+    public GameObject dirtyPlate;
+
 
     void Start()
     {
         ingredientName.text = "";
+        
     }
 
     private void Update()
     {
         canvas.transform.LookAt(new Vector3(transform.position.x, 10, 0));
+        if (isdirty && cleanPlate.activeSelf)
+        {
+            cleanPlate.SetActive(false);
+            dirtyPlate.SetActive(true);
+        }
+        else if (!isdirty && dirtyPlate.activeSelf)
+        {
+            cleanPlate.SetActive(true);
+            dirtyPlate.SetActive(false);
+        }
     }
 
     public void AddPlate(GameObject plate)

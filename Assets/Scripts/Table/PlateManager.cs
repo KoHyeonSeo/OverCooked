@@ -6,7 +6,7 @@ public class PlateManager : MonoBehaviour
 {
     public List<GameObject> plateList = new List<GameObject>();
     public GameObject platePrefab;
-
+    public int plateCount = 0;
     public static PlateManager instance;
 
     private void Awake()
@@ -33,5 +33,12 @@ public class PlateManager : MonoBehaviour
             plateList.Add(plate);
 
         }
+        plateCount++;
+    }
+
+    public void RemovePlateList()
+    {
+        plateList.Clear();
+        plateCount = 0;
     }
 }

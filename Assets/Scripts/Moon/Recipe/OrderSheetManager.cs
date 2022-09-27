@@ -142,6 +142,7 @@ public class OrderSheetManager : MonoBehaviour
                 {
                     orderSheetList[i].GetComponent<OrderSheet>().DestroyOrder();
                     print("리스트에 있는 음식");
+                    PlateManager.instance.AddDirtyPlate();
                     Destroy(plate.transform.gameObject);
                     StageManager.instance.CoinPlus(8);
                     break;
@@ -150,6 +151,7 @@ public class OrderSheetManager : MonoBehaviour
             if (i == orderSheetList.Count - 1)
             {
                 //StartCoroutine(WrongPlate());
+                
                 //Destroy(plate.transform.gameObject);
             }
         }

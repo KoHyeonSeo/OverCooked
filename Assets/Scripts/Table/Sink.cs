@@ -5,36 +5,60 @@ using UnityEngine.UI;
 
 public class Sink : MonoBehaviour
 {
-    public List<GameObject> dirtyPlateList = new List<GameObject>();
-    public List<GameObject> cleanPlateList = new List<GameObject>();
-    public int dirtyPlate = 0;
     public int cleanPlate = 0;
-    public GameObject sink;
-    public Image washGauge;
+    public int dirtyPlate = 0;
+    public GameObject washGauge;
     public Image washGaugeImage;
+    public bool isPlayerExit;
+    float time;
+    float washTime = 3;
+    public GameObject sinkPlateTable;
+    public GameObject sinkModel;
+    public GameObject dirtySinkModel;
 
     void Start()
     {
-        
+        washGaugeImage.GetComponent<Image>().fillAmount = 0;
     }
 
     void Update()
     {
-        
+        WashPlate();
+        if (dirtyPlate > 0)
+        {
+            sinkModel.SetActive(false);
+            dirtySinkModel.SetActive(true);
+        }
+        else
+        {
+            sinkModel.SetActive(true);
+            dirtySinkModel.SetActive(false);
+        }
+    }
+
+    public void SetPlate(int i)
+    {
+        dirtyPlate = i;
     }
 
     public void WashPlate()
     {
-        for (int i = 0; i < PlateManager.instance.plateList.Count; i++)
+        if (isPlayerExit && dirtyPlate > 0)
         {
-            GameObject plate = PlateManager.instance.plateList[i];
-            plate.GetComponent<Plate>().isdirty = false;
-            cleanPlateList.Add(plate);
+            washGauge.SetActive(true);
+            time += Time.deltaTime;
+            washGaugeImage.GetComponent<Image>().fillAmount = time / washTime;
+            if (time > washTime)
+            {
+                dirtyPlate--;
+                sinkPlateTable.GetComponent<SinkPlateTable>().cleanPlate++;
+                sinkPlateTable.GetComponent<SinkPlateTable>().CreateCleanPlates();
+                time = 0;
+            }
         }
-    }
-
-    public void TakeAwayPlate()
-    {
-        cleanPlateList.Remove(cleanPlateList[cleanPlateList.Count - 1]);
+        else
+        {
+            washGauge.SetActive(false);
+        }
     }
 }
