@@ -35,33 +35,35 @@ public class StartManager : MonoBehaviourPunCallbacks
         print(System.Reflection.MethodBase.GetCurrentMethod().Name);
         //print("OnConnectedToMaster");
 
-        //닉네임 설정
-        PhotonNetwork.NickName = nickName_InputField.text;
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (nickName_InputField.text != "")
+            if (nickName_InputField.text.Length > 0)
             {
-                if (friendCode_InputField?.text == "" && createCode_InputField?.text == "")
+                if (friendCode_InputField?.text.Length == 0 && createCode_InputField?.text.Length == 0)
                 {
                     //나중에 UI로 구현
                     Debug.Log("코드를 입력해주세요.");
                 }
-                else if (friendCode_InputField?.text != "" && createCode_InputField?.text != "")
+                else if (friendCode_InputField?.text.Length != 0 && createCode_InputField?.text.Length != 0)
                 {
                     //나중에 UI로 구현
                     Debug.Log("둘 중 하나의 코드만 입력해주세요");
                 }
-                else if (friendCode_InputField?.text != "")
+                else if (friendCode_InputField?.text.Length != 0)
                 {
                     Debug.Log("내가 갈게 친구야~~");
+                    //닉네임 설정
+                    PhotonNetwork.NickName = nickName_InputField.text;
                     JoinRoom();
                 }
-                else if (createCode_InputField?.text != "")
+                else if (createCode_InputField?.text.Length != 0)
                 {
                     Debug.Log("가~보자고~~");
+                    //닉네임 설정
+                    PhotonNetwork.NickName = nickName_InputField.text;
                     CreateRoom();
                 }
             }
