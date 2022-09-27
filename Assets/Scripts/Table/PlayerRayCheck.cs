@@ -335,7 +335,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.IsWriting)
+        /*if (stream.IsWriting)
         {
             stream.SendNext(getObject);
             stream.SendNext(interactiveObject);
@@ -344,6 +344,6 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         {
             getObject = (GameObject)stream.ReceiveNext();
             interactiveObject = (GameObject)stream.ReceiveNext();
-        }
+        }*/
     }
 }

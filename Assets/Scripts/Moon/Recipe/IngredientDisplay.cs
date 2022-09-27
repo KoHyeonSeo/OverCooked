@@ -32,7 +32,7 @@ public class IngredientDisplay : MonoBehaviourPun
         //자르거나 구워야 하는 오브젝트가 아니면 바로 접시에 담을 수 있음
         if (ingredientObject.isPossibleBake)
             maxModelLevel = 2;
-        if (ingredientObject.isPossibleCut)
+        else if (ingredientObject.isPossibleCut)
             maxModelLevel = 1;
         MeshChange();
         /*if(!ingredientObject.isPossibleBake && !ingredientObject.isPossibleCut)
@@ -50,6 +50,7 @@ public class IngredientDisplay : MonoBehaviourPun
 
     void MeshChange()
     {
+        print("바꿈: " + modelLevel);
         modelTransform = ingredientObject.model[modelLevel].GetComponent<Transform>();
         GetComponent<Transform>().localScale = modelTransform.localScale;
         GetComponent<Transform>().localRotation = modelTransform.localRotation;

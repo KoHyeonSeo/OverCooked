@@ -9,13 +9,13 @@ public class FryingPan : MonoBehaviour
     Vector3 objectPosition = new Vector3(0, -0.2f, 0);
 
     //±Á±â
-    float bakeTime = 1;
+    float bakeTime = 10;
     public float time = 0;
     public GameObject bakeGauge;
     public Image bakeGaugeImage;
 
     //ºÒ
-    float fireTime = 15;
+    float fireTime = 18;
     public GameObject burnWarning;
 
     void Start()
@@ -42,7 +42,7 @@ public class FryingPan : MonoBehaviour
         if (getObject.GetComponent<IngredientDisplay>().isBurn)
             return;
         time += Time.deltaTime;
-        if (!bakeGauge.activeSelf)
+        if (!bakeGauge.activeSelf && !getObject.GetComponent<IngredientDisplay>().isBake)
             bakeGauge.SetActive(true);
         bakeGaugeImage.GetComponent<Image>().fillAmount = time / bakeTime;
         if (time > fireTime)
@@ -63,8 +63,8 @@ public class FryingPan : MonoBehaviour
 
     void ChangeStateBake()
     {
-        getObject.GetComponent<IngredientDisplay>().CookLevelUp();
         getObject.GetComponent<IngredientDisplay>().isBake = true;
+        getObject.GetComponent<IngredientDisplay>().CookLevelUp();
         bakeGauge.SetActive(false);
     }
 
@@ -84,12 +84,16 @@ public class FryingPan : MonoBehaviour
 
     IEnumerator BurnWarning()
     {
-        for (int i = 1; i < 20; i++) 
+        bakeGauge.SetActive(false);
+        for (float i = 1; i < 10; i++) 
         {
-            burnWarning.SetActive(false);
-            yield return new WaitForSeconds(0.5f - (i * i / 500));
-            burnWarning.SetActive(true);
-            yield return new WaitForSeconds(0.5f - (i * i / 500));
+            for (int j = 0; j < 2; j++)
+            {
+                burnWarning.SetActive(false);
+                yield return new WaitForSeconds(Mathf.Lerp(0.4f, 0f, i / 10f));
+                burnWarning.SetActive(true);
+                yield return new WaitForSeconds(Mathf.Lerp(0.4f, 0f, i / 10f));
+            }
         }
     }
 }

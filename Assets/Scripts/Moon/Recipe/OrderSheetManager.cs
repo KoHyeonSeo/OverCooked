@@ -24,17 +24,17 @@ public class OrderSheetManager : MonoBehaviour
 
     void Start()
     {
-        
+        InvokeRepeating("CreateOrderSheet", 0f, 15f);
     }
 
     void Update()
     {
-        if (readyStart.IsReady && !isOnce)
+        /*if (readyStart.IsReady && !isOnce)
         {
             isOnce = true;
             //15초마다 주문서 생성
             InvokeRepeating("CreateOrderSheet", 0f, 15f);
-        }
+        }*/
 
     }
 
@@ -101,18 +101,6 @@ public class OrderSheetManager : MonoBehaviour
                 xTargetPos += 10 + orderSheetList[j].GetComponent<RectTransform>().rect.width * 0.5f;
             }
             orderSheetList[i].GetComponent<RectTransform>().localPosition = new Vector3(xTargetPos, 0, 0);
-            /*while (xTargetPos < xPos)
-            {
-                if (xTargetPos + 1 > xPos)
-                {
-                    xPos = xTargetPos;
-                    break;
-                }
-                xPos = Mathf.Lerp(xPos, xTargetPos, 0.1f);
-                if (orderSheetList[i])
-                    orderSheetList[i].GetComponent<RectTransform>().localPosition = new Vector3(xPos, 0, 0);
-                yield return new WaitForSeconds(0.01f);
-            }*/
             yield return null;
             print("줄이기 끝");
         }
