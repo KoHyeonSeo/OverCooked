@@ -9,7 +9,7 @@ public class FryingPan : MonoBehaviour
     Vector3 objectPosition = new Vector3(0, -0.2f, 0);
 
     //±Á±â
-    float bakeTime = 10;
+    float bakeTime = 1;
     public float time = 0;
     public GameObject bakeGauge;
     public Image bakeGaugeImage;
@@ -21,7 +21,6 @@ public class FryingPan : MonoBehaviour
     void Start()
     {
         bakeGauge.SetActive(false);
-        Destroy(gameObject, 10);
     }
 
     void Update()
@@ -51,12 +50,15 @@ public class FryingPan : MonoBehaviour
             transform.parent.GetComponent<FireBox>().Fire();
             getObject.GetComponent<IngredientDisplay>().isBurn = true;
             bakeGauge.SetActive(false);
+            burnWarning.SetActive(false);
         }
-        else if (time > bakeTime)
+        else if (time > bakeTime && !getObject.GetComponent<IngredientDisplay>().isBake)
         {
             getObject.GetComponent<IngredientDisplay>().isBake = true;
+            StartCoroutine(BurnWarning());
             ChangeStateBake();
         }
+        
     }
 
     void ChangeStateBake()
@@ -77,6 +79,17 @@ public class FryingPan : MonoBehaviour
             getObject = obj;
             getObject.transform.parent = transform;
             getObject.transform.localPosition = objectPosition;
+        }
+    }
+
+    IEnumerator BurnWarning()
+    {
+        for (int i = 1; i < 20; i++) 
+        {
+            burnWarning.SetActive(false);
+            yield return new WaitForSeconds(0.5f - (i * i / 500));
+            burnWarning.SetActive(true);
+            yield return new WaitForSeconds(0.5f - (i * i / 500));
         }
     }
 }
