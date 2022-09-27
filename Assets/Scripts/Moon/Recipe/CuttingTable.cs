@@ -59,8 +59,8 @@ public class CuttingTable : MonoBehaviour
         {
             cutTableObject = obj;
             cutTableObject.transform.parent = transform;
-            
-            objectPosition.y = cutTableObject.transform.localScale.y / 2;
+            objectPosition.y = 0.6f;
+            //objectPosition.y = cutTableObject.transform.localScale.y / 2;
             cutTableObject.transform.localPosition = objectPosition;
         }
     }

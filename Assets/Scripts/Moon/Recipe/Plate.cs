@@ -12,7 +12,8 @@ public class Plate : MonoBehaviourPun
     int count = 0; //현재 담긴 재료 수
     public RecipeObject[] recipes; //이건 인스펙터에서 넣기
     public bool isdirty;
-
+    public GameObject topBread;
+    bool isBreadExist;
     //이미지 표시
     public GameObject canvas;
     public GameObject[] ingredientImages;
@@ -30,8 +31,7 @@ public class Plate : MonoBehaviourPun
     public void AddPlate(GameObject plate)
     {
         plate.transform.parent = transform;
-        print(transform);
-        plate.transform.localPosition = new Vector3(0, 2, 0);
+        plate.transform.localPosition = new Vector3(0, 0.2f, 0);
         plate.GetComponent<Rigidbody>().isKinematic = true;
     }
 
@@ -44,21 +44,57 @@ public class Plate : MonoBehaviourPun
     //매개변수로 들어온 재료를 리스트에 넣고 텍스트 반영
     public void GetIngredient(GameObject ingredient)
     {
-        if (isdirty)
+        if (isdirty || ingredient.GetComponent<IngredientDisplay>().isBurn)
             return;
-        print(ingredient.name);
         if (count > 3)
             return;
         if (CheckIngredientReady(ingredient.GetComponent<IngredientDisplay>()))
         {
-            print(ingredient.GetComponent<IngredientDisplay>().ingredientObject.name);
-            ingredientList.Add(ingredient.GetComponent<IngredientDisplay>().ingredientObject);
             ingredientImages[count].SetActive(true);
-            ingredientImages[count].GetComponent<Image>().sprite = ingredientList[count].recipeIcon;
-            //ingredientName.text = ingredientName.text + ingredientList[count].name + "\n";
+            if (ingredient.GetComponent<IngredientDisplay>().ingredientObject.name == "Bread")
+            {
+                isBreadExist = true;
+                ingredientList.Insert(0, ingredient.GetComponent<IngredientDisplay>().ingredientObject);
+                ingredientImages[count].GetComponent<Image>().sprite = ingredientList[0].recipeIcon;
+            }
+            else
+            {
+                ingredientList.Add(ingredient.GetComponent<IngredientDisplay>().ingredientObject);
+                ingredientImages[count].GetComponent<Image>().sprite = ingredientList[count].recipeIcon;
+            }
             Destroy(ingredient);
+            ModelActive();
             count++;
         }
+    }
+
+    void ModelActive()
+    {
+        for (int i = 0; i < ingredientModels.Count; i++)
+        {
+            Destroy(ingredientModels[i]);
+            ingredientModels.RemoveAt(i);
+        }
+        for (int i = 0; i < ingredientList.Count; i++)
+        {
+            GameObject ingredientModel = Instantiate(ingredientList[i].model[ingredientList[i].model.Length - 1]);
+            ingredientModel.transform.parent = transform;
+            ingredientModel.transform.localPosition = new Vector3 (0, 0.2f * (i + 1), 0);
+            ingredientModels.Add(ingredientModel);
+        }
+        CheckBread();
+    }
+
+    public void CheckBread()
+    {
+        if (isBreadExist)
+        {
+            GameObject ingredientModel = Instantiate(topBread);
+            ingredientModel.transform.parent = transform;
+            ingredientModel.transform.localPosition = new Vector3(0, 0.2f * (count + 1), 0);
+            ingredientModels.Add(ingredientModel);
+        }
+        isBreadExist = false;
     }
 
     public bool CheckIngredientReady(IngredientDisplay ingredient)

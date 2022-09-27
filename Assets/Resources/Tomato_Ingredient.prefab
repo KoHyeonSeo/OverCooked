@@ -57,7 +57,7 @@ MonoBehaviour:
   isRaw: 0
   isCut: 0
   isBake: 0
-  isReady: 0
+  isBurn: 0
 --- !u!54 &4649754179606578230
 Rigidbody:
   m_ObjectHideFlags: 0

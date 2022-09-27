@@ -7,16 +7,13 @@ public class FireBox : MonoBehaviour
 {
     public GameObject cookingTool;
     public Vector3 objectPosition;
-    float fireTime = 15;
-    float bakeTime = 10;
-    float time = 0;
+    public bool isFire;
     public GameObject fireEffectPrefab;
     public GameObject fireEffect;
     public float fireGauge;
-    public bool isFire;
-    public GameObject bakeGauge;
-    public Image bakeGaugeImage;
-    FryingPan fryingPan;
+    public GameObject fireGaugeCanvas;
+    public Image fireGaugeImage;
+    public Image warningImage;
 
     void Start()
     {
@@ -25,12 +22,11 @@ public class FireBox : MonoBehaviour
         {
             GameObject tool = Instantiate(cookingTool);
             tool.transform.parent = transform;
-            objectPosition.y = 0.52f;
             tool.transform.localPosition = objectPosition;
             cookingTool = tool;
         }
-        bakeGaugeImage.GetComponent<Image>().fillAmount = time / bakeTime;
-        bakeGauge.SetActive(false);
+        fireGaugeImage.GetComponent<Image>().fillAmount = 0;
+        fireGaugeCanvas.SetActive(false);
     }
 
     void Update()
@@ -38,68 +34,25 @@ public class FireBox : MonoBehaviour
         if (isFire && fireGauge <= 0)
         {
             fireGauge = 0;
-            print("꺼짐");
+            fireGaugeCanvas.SetActive(false);
             Destroy(fireEffect);
             isFire = false;
-            time = 0;
         }
         if (isFire && fireGauge > 0)
-        {  
+        {
+            fireGaugeImage.GetComponent<Image>().fillAmount = fireGauge / 100;
             return;
         }
-        if (cookingTool && cookingTool.GetComponent<FryingPan>() && cookingTool.GetComponent<FryingPan>().getObject
-            && cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake)
-        {
-            time += Time.deltaTime;
-            if (fireTime < time)
-            {
-                Fire();
-            }
-        }
-        //오브젝트가 프라이팬이고 프라이팬에 음식이 있으면 시간이 흐름
-        else if (cookingTool && cookingTool.GetComponent<FryingPan>().getObject/*&& getObject.GetComponent<FryingPan>() && getObject.GetComponent<FryingPan>().getObject*/)
-        {
-            GameObject fryObject = cookingTool.GetComponent<FryingPan>().getObject;
-            if (fryObject && fryObject.GetComponent<IngredientDisplay>())
-            {
-                if (fryObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleBake && !fryObject.GetComponent<IngredientDisplay>().isBake)
-                {
-                    if (!bakeGauge.activeSelf)
-                        bakeGauge.SetActive(true);
-                    time += Time.deltaTime;
-                    bakeGaugeImage.GetComponent<Image>().fillAmount = time / bakeTime;
-                    if (fireTime < time)
-                    {
-                        Fire();
-                    }
-                    else if (bakeTime < time)
-                    {
-                        //상태를 자른걸로 변환
-                        ChangeStateBake();
-                    }
-                }
-            }
-        }
     }
 
-    void ChangeStateBake()
+    public void Fire()
     {
-        cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().CookLevelUp();
-        cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = true;
-        bakeGauge.SetActive(false);
-    }
-
-    void Fire()
-    {
-        cookingTool.GetComponent<FryingPan>().getObject.GetComponent<IngredientDisplay>().isBake = false;
+        isFire = true;
         fireEffect = Instantiate(fireEffectPrefab);
         Vector3 firePos = transform.position;
         firePos.y += 1;
         fireEffect.transform.position = firePos;
-        isFire = true;
         fireGauge = 100;
-        Destroy(cookingTool.GetComponent<FryingPan>().getObject);
-        cookingTool.GetComponent<FryingPan>().getObject = null;
     }
 
     public void FireSuppression(float i)
@@ -111,10 +64,8 @@ public class FireBox : MonoBehaviour
     {
         if (!cookingTool && obj.GetComponent<FryingPan>())
         {
-            fryingPan = obj.GetComponent<FryingPan>();
             cookingTool = obj;
             cookingTool.transform.parent = transform;
-            objectPosition.y = 0.52f;
             cookingTool.transform.localPosition = objectPosition;
         }
     }

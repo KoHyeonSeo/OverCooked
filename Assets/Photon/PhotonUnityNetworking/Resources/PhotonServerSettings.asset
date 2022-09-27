@@ -56,6 +56,8 @@ MonoBehaviour:
   - RPC_ChangedInfo
   - Checking
   - RPC_Save
+  - HavingSettingObject
+  - InteractiveIngredientBox
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

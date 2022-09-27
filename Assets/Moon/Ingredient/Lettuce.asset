@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Lettuce
   m_EditorClassIdentifier: 
   ingredientName: 
-  cookLevel:
-  - {fileID: 3649112417478231398, guid: 635b93754d7e4f64cb2fe1097c0ac46c, type: 3}
-  - {fileID: 8769419449545394025, guid: 8ae9e659403037342a981c686722b43b, type: 3}
+  model:
+  - {fileID: 6968643708814926551, guid: 6ee9f86b1d747664d835997256c5d727, type: 3}
+  - {fileID: 6631831327603384082, guid: 9e9013248e1996e4ca75e780720e52ab, type: 3}
   recipeIcon: {fileID: 21300000, guid: 22f0982023077844d82056356b7022fe, type: 3}
   isPossibleCut: 1
   isPossibleBake: 0

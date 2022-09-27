@@ -15,8 +15,8 @@ MonoBehaviour:
   ingredientName: Meat
   model:
   - {fileID: 5163104833719264227, guid: 9542c6c558510a14ca83cd9bd06ffb51, type: 3}
-  - {fileID: 2771864314630846459, guid: 1b28f7bd4a488464fa296ef9cf56b94f, type: 3}
-  - {fileID: 7593623459112943794, guid: 41694c9ca64a3c445afa512a1620b45f, type: 3}
+  - {fileID: 1603697081950949261, guid: c6dfc6c4664780c4fb79994b016e7127, type: 3}
+  - {fileID: 1603697081950949261, guid: af132b6e996da5540a13d7d4ec23327a, type: 3}
   recipeIcon: {fileID: 21300000, guid: 9bf25d9fd086df14cb1315b2cd10d436, type: 3}
   isPossibleCut: 1
   isPossibleBake: 1
