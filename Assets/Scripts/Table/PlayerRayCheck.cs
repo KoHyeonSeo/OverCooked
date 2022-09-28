@@ -141,7 +141,10 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
                 if (interactiveObject.GetComponent<IngredientBox>())
                     InteractiveIngredientBox();
                 else if (interactiveObject.GetComponent<CuttingTable>())
+                {
                     InteractiveCuttingTable();
+                    //photonView.RPC("InteractiveCuttingTable", RpcTarget.All);
+                }
                 else if (interactiveObject.GetComponent<FireBox>())
                     InteractiveFireTable();
                 else if (interactiveObject.name == "ServiceDesk")
@@ -257,20 +260,27 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void InteractiveIngredientBox()
     {
+        print("1111");
         GameObject ingredient = interactiveObject.GetComponent<IngredientBox>().CreateIngredient();
         HavingSettingObject(ingredient);
     }
 
     //자르는 테이블
+    [PunRPC]
     void InteractiveCuttingTable()
     {
+        print("3333");
         CuttingTable cuttingTable = interactiveObject.GetComponent<CuttingTable>();
         if (getObject)
         {
             //들고 있는 오브젝트 테이블에 내려 놓기
             //자를 수 있는 음식을 들고 있으면 내려 놓음
             if (getObject.GetComponent<IngredientDisplay>() && getObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleCut)
-                cuttingTable.SetObject(getObject);
+            {
+                print("4444");
+                cuttingTable.SetObject(getObject.GetComponent<PhotonView>().ViewID);
+                print("5555");
+            }
             //접시를 들고있으면서 컷팅테이블에 올라간 재료가 잘린 상태라면
             else if (getObject.tag == "Plate" && cuttingTable.cutTableObject.GetComponent<IngredientDisplay>().isCut)
                 getObject.GetComponent<Plate>().GetIngredient(cuttingTable.cutTableObject);    
@@ -324,14 +334,18 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void HavingSettingObject(GameObject obj)
     {
+        print("2222");
+        int id = obj.GetComponent<PhotonView>().ViewID;
+        GetComponent<PlayerInteract>().CallGrabOnTable_RPC(id);
+        obj.GetComponent<PhotonTransformView>().enabled = false;
         /*if (!getObject)
         {
             //obj.GetComponent<Rigidbody>().useGravity = false;
             obj.transform.parent = transform;
             obj.transform.localPosition = new Vector3(0, -0.3f, 0.5f);
         }*/
-        if (!getObject)
-            CreateNew.HavingSetting(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
+        /*if (!getObject)
+            CreateNew.HavingSetting(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));*/
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -29,7 +29,7 @@ public class SinkPlateTable : MonoBehaviour
     {
         cleanPlate--;
         GameObject plate = PhotonNetwork.Instantiate(PlatePrefab.name, transform.position, Quaternion.identity);
-        ObjectManager.instance.photonObjectIdList.Add(plate.GetComponent<PhotonView>().ViewID);
+        //ObjectManager.instance.photonObjectIdList.Add(plate.GetComponent<PhotonView>().ViewID);
         CreateCleanPlates();
         return plate;
     }

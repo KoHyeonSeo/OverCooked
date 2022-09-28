@@ -21,6 +21,7 @@ public class IngredientDisplay : MonoBehaviourPun
 
     void Start()
     {
+        ObjectManager.instance.SetPhotonObject(gameObject);
         /*if (GameManager.instance.Player)
         {
             player = GameManager.instance.Player;  
@@ -76,7 +77,7 @@ public class IngredientDisplay : MonoBehaviourPun
 
     void Update()
     {
-        /*if (!player)
-            player = GameManager.instance.Player;*/
+        if (!transform.parent)
+            GetComponent<PhotonTransformView>().enabled = true;
     }
 }

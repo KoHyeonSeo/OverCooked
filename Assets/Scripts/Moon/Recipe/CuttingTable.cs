@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class CuttingTable : MonoBehaviour
+public class CuttingTable : MonoBehaviourPun, IPunObservable
 {
     public GameObject cutTableObject; //테이블 위 오브젝트
     public Vector3 objectPosition; //오브젝트 배치
@@ -21,7 +22,7 @@ public class CuttingTable : MonoBehaviour
     }
 
     void Update()
-    { 
+    {
         //도마위에 올라온 오브젝트가 음식이면서 자르지 않은 상태라면 시간이 흐름
         if (cutTableObject && cutTableObject.GetComponent<IngredientDisplay>())
         {
@@ -43,6 +44,7 @@ public class CuttingTable : MonoBehaviour
         }
     }
 
+    [PunRPC]
     void ChangeStateCut()
     {
         print("잘림: " + cutTableObject.GetComponent<IngredientDisplay>().ingredientObject.name);
@@ -52,16 +54,41 @@ public class CuttingTable : MonoBehaviour
         cutGauge.SetActive(false);
     }
 
-    public void SetObject(GameObject obj)
+    public void SetObject(int id)
     {
-        //박스 위에 오브젝트가 없으면 받은 오브젝트 셋팅
-        if (!cutTableObject)
+        photonView.RPC("RpcSetObject", RpcTarget.All, id);
+    }
+    [PunRPC]
+    public void RpcSetObject(int id)
+    {
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
-            cutTableObject = obj;
-            cutTableObject.transform.parent = transform;
-            objectPosition.y = 0.6f;
-            //objectPosition.y = cutTableObject.transform.localScale.y / 2;
-            cutTableObject.transform.localPosition = objectPosition;
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                cutTableObject = ObjectManager.instance.photonObjectIdList[i];
+                cutTableObject.transform.parent = transform;
+                objectPosition.y = 0.6f;
+                //objectPosition.y = cutTableObject.transform.localScale.y / 2;
+                cutTableObject.transform.localPosition = objectPosition;
+            }
+        }
+    }
+
+    [PunRPC]
+    void GaugeImageActive(bool TF)
+    {
+        cutGauge.SetActive(TF);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(time);
+        }
+        else
+        {
+            time = (float)stream.ReceiveNext();
         }
     }
 }
