@@ -5,16 +5,17 @@ using Photon.Pun;
 
 public class ObjectManager : MonoBehaviourPun
 {
-    public List<int> photonObjectIdList = new List<int>();
+    public List<GameObject> photonObjectIdList = new List<GameObject>();
 
     public static ObjectManager instance;
+
     private void Awake()
     {
         instance = this;
     }
 
-    public void SetViewID(int id)
+    public void SetPhotonObject(GameObject obj)
     {
-        photonObjectIdList.Add(id);
+        photonObjectIdList.Add(obj);
     }
 }
