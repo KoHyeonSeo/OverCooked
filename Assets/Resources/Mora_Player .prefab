@@ -517,7 +517,10 @@ MonoBehaviour:
   getObject: {fileID: 0}
   interactiveObject: {fileID: 0}
   lastCuttingTable: {fileID: 0}
+  sink: {fileID: 0}
   lastTable: {fileID: 0}
+  cleanPlate: 0
+  dirtyPlate: 0
 --- !u!114 &5469869220086860391
 MonoBehaviour:
   m_ObjectHideFlags: 0

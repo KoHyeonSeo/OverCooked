@@ -17,6 +17,7 @@ public class PlayerInteract : MonoBehaviourPun
     private Vector3 startPosition;
 
     private float tPower = 100f;
+    private int photonId = 0;
 
     public enum InteractState
     {
@@ -26,6 +27,7 @@ public class PlayerInteract : MonoBehaviourPun
         GrabStart,
         FireDistinguish,
         Birth,
+        GrabTable
     }
 
     /// <summary>
@@ -62,6 +64,12 @@ public class PlayerInteract : MonoBehaviourPun
         if (curInteractState == InteractState.Birth)
         {
             OnBirth();
+        }
+
+        //테이블에 있는 물체 잡기
+        if(curInteractState == InteractState.GrabTable)
+        {
+            GrabOnTable(photonId);
         }
 
         //음식을 집고 있을 경우 Grab 상태로 전이
@@ -132,6 +140,29 @@ public class PlayerInteract : MonoBehaviourPun
             playerRayCheck.CheckPlayerInteractive();
         }
     }
+    //지현언니가 호출
+    public void CallGrabOnTable_RPC(int id)
+    {
+        photonView.RPC("RPC_GrabOnTable", RpcTarget.All, id);
+    }
+
+    //테이블 위에 있는 물건 잡는다.
+    private void GrabOnTable(int id)
+    {
+        curInteractState = InteractState.None;
+        //찾고 넣는다.
+        IngredientDisplay[] ingredient = GameObject.FindObjectsOfType<IngredientDisplay>();
+        
+        for(int i = 0; i <ingredient.Length; i++)
+        {
+            if (ingredient[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                CreateNew.HavingSetting(ingredient[i].gameObject, "Grab", true, transform, new Vector3(0, -0.1f, 0.8f));
+                break;
+            }
+        }
+
+    }
     private void Grab()
     {
         if (hit.transform != null && hit.transform?.gameObject.layer != LayerMask.NameToLayer("Table"))
@@ -192,6 +223,12 @@ public class PlayerInteract : MonoBehaviourPun
     }
 
     #region RPC
+    [PunRPC]
+    public void RPC_GrabOnTable(int id)
+    {
+        photonId = id;
+        curInteractState = InteractState.GrabTable;
+    }
     [PunRPC]
     public void RPC_ChangeState(PlayerState.State state)
     {
