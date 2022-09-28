@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 //주문서 관리
 public class OrderSheetManager : MonoBehaviour
@@ -35,12 +36,13 @@ public class OrderSheetManager : MonoBehaviour
             //15초마다 주문서 생성
             InvokeRepeating("CreateOrderSheet", 0f, 15f);
         }*/
-
     }
 
     //주문서 생성
     public void CreateOrderSheet()
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
         orderCount = orderSheetList.Count;
         //주문 5개 까지만 받음
         if (orderCount >= 5)

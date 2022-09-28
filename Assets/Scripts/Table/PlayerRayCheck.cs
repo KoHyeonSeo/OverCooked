@@ -192,7 +192,8 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         {
             if (interactiveObject.GetComponent<SinkPlateTable>().cleanPlate > 0)
             {
-                HavingSettingObject(interactiveObject.GetComponent<SinkPlateTable>().CreatePlate());
+                //HavingSettingObject(ObjectManager.instance.photonObjectIdList.FindIndex()
+                //HavingSettingObject(interactiveObject.GetComponent<SinkPlateTable>().CreatePlate());
             }
         }
     }

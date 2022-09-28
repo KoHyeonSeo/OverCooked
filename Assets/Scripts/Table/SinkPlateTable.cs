@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class SinkPlateTable : MonoBehaviour
 {
@@ -27,7 +28,8 @@ public class SinkPlateTable : MonoBehaviour
     public GameObject CreatePlate()
     {
         cleanPlate--;
-        GameObject plate = Instantiate(PlatePrefab);
+        GameObject plate = PhotonNetwork.Instantiate(PlatePrefab.name, transform.position, Quaternion.identity);
+        ObjectManager.instance.photonObjectIdList.Add(plate.GetComponent<PhotonView>().ViewID);
         CreateCleanPlates();
         return plate;
     }
