@@ -37,9 +37,7 @@ public class OrderSheet : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
             gauge--;
             timeGauge.GetComponent<Image>().fillAmount = gauge / (recipe.ingredients.Length * ingredientTime);
-            //print(gauge / recipe.ingredients.Length * 30);
         }
-        //OrderSheetManager.instance.orderSheetList.Remove(gameObject);
         DestroyOrder();
         Destroy(gameObject);
     }

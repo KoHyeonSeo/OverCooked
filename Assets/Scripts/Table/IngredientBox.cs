@@ -10,7 +10,7 @@ public class IngredientBox : MonoBehaviourPun
     public GameObject CreateIngredient()
     {
         GameObject ingredient = PhotonNetwork.Instantiate(ingredientPrefab.name, transform.position, Quaternion.identity);
-        //GameObject ingredient = Instantiate(ingredientPrefab);
+        ObjectManager.instance.SetViewID(ingredient.GetComponent<PhotonView>().ViewID);
         return ingredient;
     }
 }

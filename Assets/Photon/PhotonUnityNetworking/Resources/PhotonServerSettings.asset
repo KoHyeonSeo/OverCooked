@@ -52,6 +52,7 @@ MonoBehaviour:
   - RPC_Save
   - RPC_SelectCount
   - RPC_Throw
+  - HavingSettingObject
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
