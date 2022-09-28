@@ -10,7 +10,7 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
     public Vector3 objectPosition; //오브젝트 배치
     float cutTime = 2; //자르는 시간
     float time = 0; //현재 시간
-    public bool isPlayerExit; //플레이어가 존재 하는지
+    public bool isPlayerExist; //플레이어가 존재 하는지
     public GameObject cutGauge; //얼마나 잘렸는지
     public Image cutGaugeImage; //얼마나 잘렸는지 이미지로 표현
 
@@ -28,7 +28,7 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
         {
             if (cutTableObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleCut && !cutTableObject.GetComponent<IngredientDisplay>().isCut)
             {
-                if (isPlayerExit)
+                if (isPlayerExist)
                 {
                     print("존재함");
                     cutGauge.SetActive(true);
@@ -58,6 +58,7 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
     {
         photonView.RPC("RpcSetObject", RpcTarget.All, id);
     }
+
     [PunRPC]
     public void RpcSetObject(int id)
     {
@@ -72,6 +73,17 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
                 cutTableObject.transform.localPosition = objectPosition;
             }
         }
+    }
+
+    public void CheckPlayerExist(bool exist)
+    {
+        photonView.RPC("RpcCheckPlayerExist", RpcTarget.All, exist);
+    }
+
+    [PunRPC]
+    public void RpcCheckPlayerExist(bool exist)
+    {
+        isPlayerExist = exist;
     }
 
     [PunRPC]

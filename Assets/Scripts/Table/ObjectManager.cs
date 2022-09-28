@@ -16,6 +16,7 @@ public class ObjectManager : MonoBehaviourPun
 
     public void SetPhotonObject(GameObject obj)
     {
+        print(obj.GetComponent<PhotonView>().ViewID);
         photonObjectIdList.Add(obj);
     }
 }

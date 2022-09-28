@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class StageManager : MonoBehaviour
+public class StageManager : MonoBehaviourPun
 {
     public GameObject platePrefab;
     public GameObject[] platePositionTable;
@@ -15,6 +16,7 @@ public class StageManager : MonoBehaviour
     public UI_ReadyStart readyStart;
     public GameObject timeOver;
     public GameObject plateTable;
+    public GameObject playerPrefab;
 
     public static StageManager instance;
 
@@ -27,14 +29,17 @@ public class StageManager : MonoBehaviour
 
     void Start()
     {
-        transform.GetChild(0).gameObject.SetActive(false);
-        for (int i = 0; i < platePositionTable.Length; i++)
+        PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(5f, 2f, 6f), Quaternion.identity);
+        if (PhotonNetwork.IsMasterClient)
         {
-            GameObject plate = Instantiate(platePrefab);
-            platePositionTable[i].GetComponent<M_Table>().SetObject(plate);
+            for (int i = 0; i < platePositionTable.Length; i++)
+            {
+                GameObject plate = PhotonNetwork.Instantiate(platePrefab.name, transform.position, Quaternion.identity);
+                platePositionTable[i].GetComponent<M_Table>().SetObject(plate);
+            }
         }
+        transform.GetChild(0).gameObject.SetActive(false);
         timeOver.SetActive(false);
-
     }
 
     void Update()

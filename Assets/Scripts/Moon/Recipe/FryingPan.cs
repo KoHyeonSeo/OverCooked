@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class FryingPan : MonoBehaviour
+public class FryingPan : MonoBehaviourPun
 {
     public GameObject getObject;
     Vector3 objectPosition = new Vector3(0, -0.2f, 0);
@@ -20,6 +21,8 @@ public class FryingPan : MonoBehaviour
 
     void Start()
     {
+        print("FryingPan: " + gameObject.GetComponent<PhotonView>().ViewID);
+        ObjectManager.instance.SetPhotonObject(gameObject);
         bakeGauge.SetActive(false);
     }
 
@@ -61,6 +64,7 @@ public class FryingPan : MonoBehaviour
         
     }
 
+    [PunRPC]
     void ChangeStateBake()
     {
         getObject.GetComponent<IngredientDisplay>().isBake = true;
@@ -68,8 +72,24 @@ public class FryingPan : MonoBehaviour
         bakeGauge.SetActive(false);
     }
 
-    public void SetObject(GameObject obj)
+    public void SetObject(int id)
     {
+        print("셋오브젝");
+        photonView.RPC("RpcSetObject", RpcTarget.All, id);
+    }
+
+    GameObject obj;
+    [PunRPC]
+    public void RpcSetObject(int id)
+    {
+        print("후라이팬에 올림");
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
+        {
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                obj = ObjectManager.instance.photonObjectIdList[i];
+            }
+        }
         //박스 위에 오브젝트가 없으면 받은 오브젝트 셋팅
         if (!getObject && obj.GetComponent<IngredientDisplay>() && 
             obj.GetComponent<IngredientDisplay>().isCut && 

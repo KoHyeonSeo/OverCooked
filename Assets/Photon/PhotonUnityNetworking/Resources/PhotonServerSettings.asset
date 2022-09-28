@@ -54,6 +54,14 @@ MonoBehaviour:
   - RPC_Throw
   - HavingSettingObject
   - RPC_GrabOnTable
+  - ChangeStateCut
+  - GaugeImageActive
+  - InteractiveCuttingTable
+  - RpcSetObject
+  - CheckPlayerExist
+  - RpcCheckPlayerExist
+  - ChangeStateBake
+  - RpcToolSetting
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
