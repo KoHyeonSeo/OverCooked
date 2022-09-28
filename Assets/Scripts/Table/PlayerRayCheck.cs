@@ -106,7 +106,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             //현재 닿은 책상과 마지막에 닿은 책상이 다르면 컷팅테이블 조건 삭제
             if (lastCuttingTable && interactiveObject != lastCuttingTable)
             {
-                lastCuttingTable.GetComponent<CuttingTable>().isPlayerExit = false;
+                lastCuttingTable.GetComponent<CuttingTable>().CheckPlayerExist(false);
                 lastCuttingTable = null;
             }
             if (sink && interactiveObject != sink )
@@ -125,7 +125,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             }
             if (lastCuttingTable && lastCuttingTable.GetComponent<CuttingTable>())
             {
-                lastCuttingTable.GetComponent<CuttingTable>().isPlayerExit = false;
+                lastCuttingTable.GetComponent<CuttingTable>().CheckPlayerExist(false);
                 lastCuttingTable = null;
             }
         }   
@@ -260,16 +260,13 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void InteractiveIngredientBox()
     {
-        print("1111");
         GameObject ingredient = interactiveObject.GetComponent<IngredientBox>().CreateIngredient();
         HavingSettingObject(ingredient);
     }
 
     //자르는 테이블
-    [PunRPC]
     void InteractiveCuttingTable()
     {
-        print("3333");
         CuttingTable cuttingTable = interactiveObject.GetComponent<CuttingTable>();
         if (getObject)
         {
@@ -277,9 +274,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             //자를 수 있는 음식을 들고 있으면 내려 놓음
             if (getObject.GetComponent<IngredientDisplay>() && getObject.GetComponent<IngredientDisplay>().ingredientObject.isPossibleCut)
             {
-                print("4444");
                 cuttingTable.SetObject(getObject.GetComponent<PhotonView>().ViewID);
-                print("5555");
             }
             //접시를 들고있으면서 컷팅테이블에 올라간 재료가 잘린 상태라면
             else if (getObject.tag == "Plate" && cuttingTable.cutTableObject.GetComponent<IngredientDisplay>().isCut)
@@ -297,7 +292,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             //만약 다 잘리지 않은 재료가 테이블에 있다면 썰기 시작
             else
             {
-                cuttingTable.isPlayerExit = true;
+                cuttingTable.GetComponent<CuttingTable>().CheckPlayerExist(true);
             }
                 
         }
@@ -312,12 +307,13 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             //도구가 있으면서 도구 위에 아무것도 없고 가진게 재료일 때
             if (fireBox.cookingTool && !fireBox.cookingTool.GetComponent<FryingPan>().getObject && getObject.GetComponent<IngredientDisplay>())
             {
+                print("22222");
                 //화덕 위 요리 도구 위에 재료 셋팅
-                fireBox.cookingTool.GetComponent<FryingPan>().SetObject(getObject);
+                fireBox.cookingTool.GetComponent<FryingPan>().SetObject(getObject.GetComponent<PhotonView>().ViewID);
             }
             else if (!fireBox.cookingTool && getObject.GetComponent<FryingPan>())
             {
-                fireBox.SetObject(getObject);
+                fireBox.SetObject(getObject.GetComponent<PhotonView>().ViewID);
             }
         }
         else
@@ -334,31 +330,13 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void HavingSettingObject(GameObject obj)
     {
-        print("2222");
         int id = obj.GetComponent<PhotonView>().ViewID;
         GetComponent<PlayerInteract>().CallGrabOnTable_RPC(id);
         obj.GetComponent<PhotonTransformView>().enabled = false;
-        /*if (!getObject)
-        {
-            //obj.GetComponent<Rigidbody>().useGravity = false;
-            obj.transform.parent = transform;
-            obj.transform.localPosition = new Vector3(0, -0.3f, 0.5f);
-        }*/
-        /*if (!getObject)
-            CreateNew.HavingSetting(obj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));*/
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        /*if (stream.IsWriting)
-        {
-            stream.SendNext(getObject);
-            stream.SendNext(interactiveObject);
-        }
-        else
-        {
-            getObject = (GameObject)stream.ReceiveNext();
-            interactiveObject = (GameObject)stream.ReceiveNext();
-        }*/
+
     }
 }

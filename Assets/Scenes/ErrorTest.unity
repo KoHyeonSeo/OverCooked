@@ -5511,6 +5511,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3448628169079811054, guid: 38ec3453da9e7be4d8c505090e922b08, type: 3}
+      propertyPath: sceneViewId
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7164848180032539032, guid: 38ec3453da9e7be4d8c505090e922b08, type: 3}
       propertyPath: m_Name
       value: FryingPan
@@ -8722,7 +8726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutTableObject: {fileID: 0}
   objectPosition: {x: 0, y: 0, z: 0}
-  isPlayerExit: 0
+  isPlayerExist: 0
   cutGauge: {fileID: 261008459}
   cutGaugeImage: {fileID: 1138760039}
 --- !u!114 &628595516
@@ -25793,6 +25797,7 @@ MonoBehaviour:
   readyStart: {fileID: 1115280493}
   timeOver: {fileID: 2027482322}
   plateTable: {fileID: 0}
+  playerPrefab: {fileID: 5240347791975796696, guid: bdaeac11870877647885bbcb705813ab, type: 3}
 --- !u!1 &1675950290
 GameObject:
   m_ObjectHideFlags: 0
@@ -32557,7 +32562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2113487425
 Transform:
   m_ObjectHideFlags: 0
@@ -33806,6 +33811,7 @@ GameObject:
   - component: {fileID: 3424499478797671660}
   - component: {fileID: 3424499478797671664}
   - component: {fileID: 3424499478797671665}
+  - component: {fileID: 3424499478797671666}
   m_Layer: 7
   m_Name: FireTable
   m_TagString: Untagged
@@ -33905,6 +33911,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getObject: {fileID: 0}
+--- !u!114 &3424499478797671666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3424499478797671570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 8
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3459374859598363620
 GameObject:
   m_ObjectHideFlags: 0
@@ -40379,7 +40407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutTableObject: {fileID: 0}
   objectPosition: {x: 0, y: 0, z: 0}
-  isPlayerExit: 0
+  isPlayerExist: 0
   cutGauge: {fileID: 1248744762}
   cutGaugeImage: {fileID: 1012334027}
 --- !u!114 &9217593785029887588
