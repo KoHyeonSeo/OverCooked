@@ -89,6 +89,14 @@ public class BlockEditor : EditorWindow
 [CustomEditor(typeof(Map))]
 public class BlockEditWithEditor : Editor
 {
+    public enum SelectState
+    {
+        Select,
+        NotSelect
+    }
+
+    SelectState selectState = SelectState.NotSelect;
+    GameObject selectedObject = null;
     Map map;
     private void OnEnable()
     {
@@ -121,12 +129,37 @@ public class BlockEditWithEditor : Editor
             if(isCancel)
                 ClearMapObjects();
         }
-
     }
     private void OnSceneGUI()
     {
         int id = GUIUtility.GetControlID(FocusType.Passive);
         HandleUtility.AddDefaultControl(id);
+
+        Event e = Event.current;
+
+        //눌렀다가 뗐을 때 오브젝트 선택 또는 배치
+        if (e.type == EventType.MouseUp && e.button == 0) {
+            if (selectState == SelectState.NotSelect)
+            {
+                //Object 선택 함수
+                SelectObject();
+            }
+            else
+            {
+                //Object 배치 함수
+                CollocatingObject();
+            }
+            Debug.Log("선택");
+        }
+        //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기
+        else if(e.type == EventType.MouseDrag && e.button == 0)
+        {
+            Debug.Log("드래그");
+        }
+        //누르지 않았지만 오브젝트 선택 상태라면 선택된 오브젝트를 움직이게 하자
+        if(selectState == SelectState.Select && selectedObject)
+        {
+        }    
     }
     /// <summary>
     /// 바닥 생성 함수
@@ -149,4 +182,24 @@ public class BlockEditWithEditor : Editor
         GameObject obj = GameObject.Find("Object_Parent");
         DestroyImmediate(obj);
     }
+    /// <summary>
+    /// 오브젝트 선택 함수
+    /// </summary>
+    void SelectObject()
+    {
+        //레이어를 SelectObject로 바꾸자
+
+        //selectedObject에 클릭한 물체를 넣어두자
+
+    }
+
+    /// <summary>
+    /// 오브젝트 배치 시키는 함수
+    /// </summary>
+    void CollocatingObject()
+    {
+        //닿은 격자에 넣어두자 Layer는 SelectObject인데 걸러야한다. 이 레이어는
+    }
+
+
 }
