@@ -9,7 +9,7 @@ public class BlockEditor : EditorWindow
 {
     
     static GameObject map;
-    static List<Object> ObjectList = new List<Object>();
+    public static List<Object> ObjectList = new List<Object>();
     Vector2 scrollPosition;
     
     [MenuItem("EditorWindow/BlockEditor")]
@@ -52,11 +52,7 @@ public class BlockEditor : EditorWindow
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
         {
             GameObject instantiate = Instantiate(ObjectList[0] as GameObject);
-            EditorGUIUtility.PingObject(map);
-            Selection.activeGameObject = map;
-            instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
-            instantiate.transform.position = Vector3.zero;
-            instantiate.transform.parent = objectParent.transform;
+            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
         }
 
 
@@ -67,27 +63,27 @@ public class BlockEditor : EditorWindow
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[1])))
         {
             GameObject instantiate = Instantiate(ObjectList[1] as GameObject);
-            EditorGUIUtility.PingObject(map);
-            Selection.activeGameObject = map;
-            instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
-            instantiate.transform.position = Vector3.zero;
-            instantiate.transform.parent = objectParent.transform;
+            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
         }
 
         GUILayout.Label("Fire Extinguisher");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[2])))
         {
             GameObject instantiate = Instantiate(ObjectList[2] as GameObject);
-            EditorGUIUtility.PingObject(map);
-            Selection.activeGameObject = map;
-            instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
-            instantiate.transform.position = Vector3.zero;
-            instantiate.transform.parent = objectParent.transform;
+            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
         }
 
         GUILayout.FlexibleSpace();
         GUILayout.EndScrollView();
         GUILayout.EndHorizontal();
+    }
+    public static void ObjectSetting(GameObject instantiate, Vector3 pos, Transform parent)
+    {
+        EditorGUIUtility.PingObject(map);
+        Selection.activeGameObject = map;
+        instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
+        instantiate.transform.position = pos;
+        instantiate.transform.parent = parent;
     }
 }
 
@@ -107,13 +103,21 @@ public class BlockEditWithEditor : Editor
         Drag
     }
 
+    //선택한 상태인가?
     SelectState selectState = SelectState.NotSelect;
+    //Drag상태인가 아닌가?
     MouseState mouseState = MouseState.None;
+    //들고 있는 오브젝트
     GameObject selectedObject = null;
+    //Map 변수
     Map map;
     //초기 마우스 위치 저장
     Vector2 firstMousePos = Vector2.one;
+    //부모 오브젝트 변수
     GameObject objectParent;
+    //오브젝트 리스트 중에 현재 인덱스
+    int selectIndex = 0;
+
     private void OnEnable()
     {
         map = (Map)target;
@@ -182,7 +186,7 @@ public class BlockEditWithEditor : Editor
                 //Object 배치 함수
                 CollocatingObject();
             }
-            //Debug.Log("선택");
+            Debug.Log("선택");
         }
         //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기 (Drag시 바로 Drag 상태로)
         else if (e.type == EventType.MouseDrag && e.button == 0
@@ -222,8 +226,10 @@ public class BlockEditWithEditor : Editor
         {
             Debug.Log("오브젝트 움직임");
             MovingObject();
+            ChangeObject();
         }   
     }
+
     /// <summary>
     /// 바닥 생성 함수
     /// </summary>
@@ -263,6 +269,16 @@ public class BlockEditWithEditor : Editor
                 hit.transform.gameObject.layer = LayerMask.NameToLayer("SelectObject");
                 //selectedObject에 클릭한 물체를 넣어두자
                 selectedObject = hit.transform.gameObject;
+                //현재 들고 있는 오브젝트가 리스트 중 몇 번째 인덱스인가
+                for(int i =0; i<BlockEditor.ObjectList.Count; i++)
+                {
+                    if(BlockEditor.ObjectList[i].name == selectedObject.name)
+                    {
+                        selectIndex = i;
+                        break;
+                    }
+                }
+
                 //Debug.Log(selectedObject);
             }
         }
@@ -350,6 +366,38 @@ public class BlockEditWithEditor : Editor
                     instantiate.transform.position = new Vector3((int)hit.point.x, hit.point.y, (int)hit.point.z);
                     instantiate.transform.parent = objectParent.transform;
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 휠을 돌리면 오브젝트가 바뀐다.
+    /// </summary>
+    private void ChangeObject()
+    {
+        Event e = Event.current;
+        if(e.type == EventType.ScrollWheel)
+        {
+            if(e.delta.y > 0)
+            {
+                selectIndex = selectIndex - 1 < 0 ? BlockEditor.ObjectList.Count - 1 : selectIndex - 1;
+                DestroyImmediate(selectedObject);
+                Object resource = Resources.Load<GameObject>("Editor/" + BlockEditor.ObjectList[selectIndex].name);
+                //Debug.Log(resource);
+                BlockEditor.ObjectSetting(resource as GameObject, Vector3.zero, objectParent.transform);
+                selectedObject = resource as GameObject;
+                Debug.Log(selectedObject);
+
+            }
+            else
+            {
+                selectIndex = selectIndex + 1 > BlockEditor.ObjectList.Count - 1 ? 0 : selectIndex + 1;
+                DestroyImmediate(selectedObject);
+                Object resource = Resources.Load<GameObject>("Editor/" + BlockEditor.ObjectList[selectIndex].name);
+                //Debug.Log(resource);
+                //BlockEditor.ObjectSetting(resource as GameObject, Vector3.zero, objectParent.transform);
+                selectedObject = resource as GameObject;
+                Debug.Log(selectedObject);
             }
         }
     }
