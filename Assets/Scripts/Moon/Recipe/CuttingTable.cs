@@ -64,6 +64,8 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
     {
         for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+                continue;
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
                 cutTableObject = ObjectManager.instance.photonObjectIdList[i];

@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 
 //주문서 관리
-public class OrderSheetManager : MonoBehaviour
+public class OrderSheetManager : MonoBehaviourPun
 {
     public RecipeObject[] recipes;
     public GameObject orderSheetPrefab;
@@ -50,7 +50,7 @@ public class OrderSheetManager : MonoBehaviour
         //주문서 개수 증가
         orderCount++;
         //레시피들 중 랜덤으로 주문서 생성, 주문서 리스트에 추가
-        GameObject orderSheet = Instantiate(orderSheetPrefab);
+        GameObject orderSheet = PhotonNetwork.Instantiate(orderSheetPrefab.name, transform.position, Quaternion.identity);
         int random = UnityEngine.Random.Range(0, recipes.Length);
         orderSheet.GetComponent<OrderSheet>().recipe = recipes[random];
         orderSheetList.Add(orderSheet);
@@ -59,12 +59,21 @@ public class OrderSheetManager : MonoBehaviour
         //시작위치는 화면 밖
         orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(1920, 0, 0);
         orderSheet.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        StartCoroutine(IeMoveOrderSheet(orderSheet));
+        StartCoroutine(IeMoveOrderSheet(orderSheet.GetComponent<PhotonView>().ViewID));
     }
 
     //주문서 이동
-    IEnumerator IeMoveOrderSheet(GameObject orderSheet)
+    GameObject orderSheet;
+    [PunRPC]
+    IEnumerator IeMoveOrderSheet(int id)
     {
+        for (int i = 0; i < orderSheetList.Count; i++)
+        {
+            if (orderSheetList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                orderSheet = orderSheetList[i];
+            }
+        }
         float xTargetPos = 0; //여기까지 이동해야 함
         float xPos = orderSheet.GetComponent<RectTransform>().position.x; //현재 주문서의 위치
         for (int i = 0; i < orderSheetList.Count - 1; i++)

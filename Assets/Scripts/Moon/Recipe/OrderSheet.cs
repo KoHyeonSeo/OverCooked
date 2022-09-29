@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 //주문서
-public class OrderSheet : MonoBehaviour
+public class OrderSheet : MonoBehaviourPun
 {
     //재료와 요리법이 담긴 이미지를 보여줌
     //시간이 지나면 게이지가 줄어듬, 색깔 초록에서 빨강으로 바뀜(그라데이션)

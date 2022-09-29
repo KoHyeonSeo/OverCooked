@@ -83,6 +83,11 @@ public class FryingPan : MonoBehaviourPun
         print("후라이팬에 올림");
         for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
                 obj = ObjectManager.instance.photonObjectIdList[i];

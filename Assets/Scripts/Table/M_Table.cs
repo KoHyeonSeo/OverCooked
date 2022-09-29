@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class M_Table : MonoBehaviour
+public class M_Table : MonoBehaviourPun
 {
     //깜빡거림
     Color startColor;
@@ -46,14 +47,31 @@ public class M_Table : MonoBehaviour
         GetComponent<Renderer>().material.color = startColor;
     }
 
-    //테이블 위에 오브젝트 셋팅
-    public void SetObject(GameObject obj)
+    public void SetObject(int id)
     {
+        photonView.RPC("RpcSetObject", RpcTarget.All, id);
+    }
+
+    GameObject obj;
+    [PunRPC]
+    public void RpcSetObject(int id)
+    {
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
+        {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
+            print(id + ", " + ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID);
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                obj = ObjectManager.instance.photonObjectIdList[i];
+            }
+        }
         getObject = obj;
         getObject.transform.parent = transform;
         objectPosition.y = 1;
         getObject.transform.localPosition = objectPosition;
     }
-
- 
 }

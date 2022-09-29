@@ -235,7 +235,8 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             {
                 if (getObject.GetComponent<Plate>() && getObject.GetComponent<Plate>().isdirty)
                     return;
-                interactiveObject.GetComponent<M_Table>().SetObject(getObject);
+                interactiveObject.GetComponent<M_Table>().SetObject(getObject.GetComponent<PhotonView>().ViewID);
+                print("View ID: " + getObject.GetComponent<PhotonView>().ViewID);
             }  
             GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
         }
