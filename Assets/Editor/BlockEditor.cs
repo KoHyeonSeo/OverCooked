@@ -7,24 +7,22 @@ using Unity.VisualScripting;
 
 public class BlockEditor : EditorWindow
 {
+    
+    static GameObject map;
+    
     [MenuItem("EditorWindow/BlockEditor")]
     static void Init()
     {
         var window = GetWindow<BlockEditor>();
         window.maxSize = window.minSize = new Vector2(200, 500);
+        map = GameObject.Find("Map");    
     }
 
     Vector2 scrollPosition;
 
-    //public List<string> objectList = new List<string>();
-
     private void OnGUI()
     {
         Event e = Event.current;
-        //if (e.type == EventType.MouseDown)
-        //{
-        //    Debug.Log(e.button);
-        //}
 
         GUILayout.Label("Interact Object", EditorStyles.boldLabel);
         Object resource_table = Resources.Load<GameObject>("Editor/Table");
@@ -35,22 +33,21 @@ public class BlockEditor : EditorWindow
             GUILayout.MaxWidth(300),
             GUILayout.MinHeight(220),
             GUILayout.MaxHeight(700));
-
-        GameObject map = GameObject.Find("Object_Parent");
-        if (!map)
+        GameObject objectParent = GameObject.Find("Object_Parent");
+        if (!objectParent)
         {
-            map = new GameObject();
-            map.name = "Object_Parent";
+            objectParent = new GameObject();
+            objectParent.name = "Object_Parent";
         }
 
         GUILayout.Label("Table");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_table)))
         {
-            EditorGUIUtility.PingObject(resource_table);
             GameObject instantiate = Instantiate(resource_table as GameObject);
+            EditorGUIUtility.PingObject(map);
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
-            instantiate.transform.parent = map.transform;
+            instantiate.transform.parent = objectParent.transform;
         }
 
 
@@ -61,22 +58,22 @@ public class BlockEditor : EditorWindow
 
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_trash)))
         {
-            EditorGUIUtility.PingObject(resource_trash);
             GameObject instantiate = Instantiate(resource_trash as GameObject);
+            EditorGUIUtility.PingObject(map);
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
-            instantiate.transform.parent = map.transform;
+            instantiate.transform.parent = objectParent.transform;
         }
 
         GUILayout.Label("Fire Extinguisher");
         Object resource_FireExtinguisher = Resources.Load<GameObject>("Editor/FireExtinguisher");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_FireExtinguisher)))
         {
-            EditorGUIUtility.PingObject(resource_FireExtinguisher);
             GameObject instantiate = Instantiate(resource_FireExtinguisher as GameObject);
+            EditorGUIUtility.PingObject(map);
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
-            instantiate.transform.parent = map.transform;
+            instantiate.transform.parent = objectParent.transform;
         }
 
         GUILayout.FlexibleSpace();
@@ -185,17 +182,20 @@ public class BlockEditWithEditor : Editor
                 if (Vector2.Distance(e.mousePosition, firstMousePos) > map.dragDistance)
                 {
                     mouseState = MouseState.Drag;
+                    DragAndCreateObjects();
                     Debug.Log("드래그");
                 }
             }
             else
             {
+                DragAndCreateObjects();
                 Debug.Log("드래그");
             }
         }
-        //마우스 떼면 모든 것이 초기화
+        //드래그 후 마우스 떼면 모든 것이 초기화
         else if (e.type == EventType.MouseUp
-            && e.button == 0)
+            && e.button == 0
+            && mouseState == MouseState.Drag)
         {
             mouseState = MouseState.None;
         }
@@ -279,7 +279,8 @@ public class BlockEditWithEditor : Editor
         //오브젝트 격자형태로 움직이기
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Tile"))
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Tile") 
+                || hit.transform.gameObject.layer == LayerMask.NameToLayer("Default"))
             {
                 //닿은 격자에 넣어두자 Layer는 SelectObject인데 걸러야한다. 이 레이어는
                 Vector3 p = new Vector3((int)hit.point.x, hit.point.y, (int)hit.point.z);
@@ -305,5 +306,12 @@ public class BlockEditWithEditor : Editor
         }
     }
 
+    /// <summary>
+    /// 드래그 하여 여러 오브젝트 생성하는 함수
+    /// </summary>
+    void DragAndCreateObjects()
+    {
+
+    }
 
 }
