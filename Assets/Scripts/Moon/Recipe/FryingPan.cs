@@ -21,7 +21,6 @@ public class FryingPan : MonoBehaviourPun
 
     void Start()
     {
-        print("FryingPan: " + gameObject.GetComponent<PhotonView>().ViewID);
         ObjectManager.instance.SetPhotonObject(gameObject);
         bakeGauge.SetActive(false);
     }
@@ -61,7 +60,6 @@ public class FryingPan : MonoBehaviourPun
             StartCoroutine(BurnWarning());
             ChangeStateBake();
         }
-        
     }
 
     [PunRPC]

@@ -294,7 +294,6 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             {
                 cuttingTable.GetComponent<CuttingTable>().CheckPlayerExist(true);
             }
-                
         }
     }
 
@@ -320,6 +319,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         {
             if (fireBox.cookingTool)
             {
+                print("Fire" + fireBox.cookingTool);
                 HavingSettingObject(fireBox.cookingTool);
                 fireBox.cookingTool = null;
             }
@@ -331,6 +331,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
     void HavingSettingObject(GameObject obj)
     {
         int id = obj.GetComponent<PhotonView>().ViewID;
+        print("iD" + id);
         GetComponent<PlayerInteract>().CallGrabOnTable_RPC(id);
         obj.GetComponent<PhotonTransformView>().enabled = false;
     }

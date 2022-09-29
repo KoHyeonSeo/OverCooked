@@ -22,10 +22,16 @@ public class FireBox : MonoBehaviourPun
         if (PhotonNetwork.IsMasterClient && cookingTool)
         {
             tool = PhotonNetwork.Instantiate(cookingTool.name, transform.position, Quaternion.identity);
-            photonView.RPC("RpcToolSetting", RpcTarget.All, tool.GetComponent<PhotonView>().ViewID);
+            StartCoroutine(IeToolSetting(tool.GetComponent<PhotonView>().ViewID));
         }
         fireGaugeImage.GetComponent<Image>().fillAmount = 0;
         fireGaugeCanvas.SetActive(false);
+    }
+
+    IEnumerator IeToolSetting(int id)
+    {
+        yield return new WaitForSeconds(2f);
+        photonView.RPC("RpcToolSetting", RpcTarget.All, id);
     }
 
     [PunRPC]
@@ -33,8 +39,7 @@ public class FireBox : MonoBehaviourPun
     {
         for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
-            print("ViewId" + ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID);
-            print("ID" + id);
+            print(ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID + ", " + id);
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
                 print(id);
@@ -44,6 +49,7 @@ public class FireBox : MonoBehaviourPun
         tool.transform.parent = transform;
         tool.transform.localPosition = objectPosition;
         cookingTool = tool;
+        print(cookingTool.name);
     }
 
     void Update()
