@@ -10,7 +10,7 @@ public class FryingPan : MonoBehaviourPun
     Vector3 objectPosition = new Vector3(0, -0.2f, 0);
 
     //굽기
-    float bakeTime = 10;
+    float bakeTime = 3; //10
     public float time = 0;
     public GameObject bakeGauge;
     public Image bakeGaugeImage;
@@ -34,6 +34,7 @@ public class FryingPan : MonoBehaviourPun
         //화덕 위에 있고 음식이 있다면
         if (transform.parent && transform.parent.GetComponent<FireBox>() && getObject)
         {
+            //photonView.RPC("Bake", RpcTarget.All);
             Bake();
         }
     }
@@ -72,7 +73,6 @@ public class FryingPan : MonoBehaviourPun
 
     public void SetObject(int id)
     {
-        print("셋오브젝");
         photonView.RPC("RpcSetObject", RpcTarget.All, id);
     }
 
@@ -80,7 +80,6 @@ public class FryingPan : MonoBehaviourPun
     [PunRPC]
     public void RpcSetObject(int id)
     {
-        print("후라이팬에 올림");
         for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
             if (!ObjectManager.instance.photonObjectIdList[i])
@@ -97,12 +96,13 @@ public class FryingPan : MonoBehaviourPun
         if (!getObject && obj.GetComponent<IngredientDisplay>() && 
             obj.GetComponent<IngredientDisplay>().isCut && 
             obj.GetComponent<IngredientDisplay>().ingredientObject.isPossibleBake)
-        {
-            time = 0;
-            getObject = obj;
-            getObject.transform.parent = transform;
-            getObject.transform.localPosition = objectPosition;
-        }
+            {
+                burnWarning.SetActive(false);
+                time = 0;
+                getObject = obj;
+                getObject.transform.parent = transform;
+                getObject.transform.localPosition = objectPosition;
+            }
     }
 
     IEnumerator BurnWarning()

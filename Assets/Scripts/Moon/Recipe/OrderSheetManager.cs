@@ -13,8 +13,6 @@ public class OrderSheetManager : MonoBehaviourPun
     public GameObject orderSheetPanel;
     int orderCount = 0;
     public UI_ReadyStart readyStart;
-    private bool isOnce = false;
-    
 
     public static OrderSheetManager instance;
     
@@ -25,7 +23,11 @@ public class OrderSheetManager : MonoBehaviourPun
 
     void Start()
     {
-        InvokeRepeating("CreateOrderSheet", 0f, 15f);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            InvokeRepeating("CreateOrderSheet", 2f, 5f);
+
+        }
     }
 
     void Update()
@@ -50,8 +52,21 @@ public class OrderSheetManager : MonoBehaviourPun
         //주문서 개수 증가
         orderCount++;
         //레시피들 중 랜덤으로 주문서 생성, 주문서 리스트에 추가
-        GameObject orderSheet = PhotonNetwork.Instantiate(orderSheetPrefab.name, transform.position, Quaternion.identity);
         int random = UnityEngine.Random.Range(0, recipes.Length);
+        photonView.RPC("RpcMoveOrderSheet", RpcTarget.All, random);
+        //StartCoroutine(IeMoveOrderSheet(orderSheet.GetComponent<PhotonView>().ViewID));
+    }
+
+    [PunRPC]
+    void RpcMoveOrderSheet(int random)
+    {
+        StartCoroutine(IeMoveOrderSheet(random));
+    }
+
+    //주문서 이동
+    IEnumerator IeMoveOrderSheet(int random)
+    {
+        GameObject orderSheet = Instantiate(orderSheetPrefab);
         orderSheet.GetComponent<OrderSheet>().recipe = recipes[random];
         orderSheetList.Add(orderSheet);
         //주문서 판넬에 배치
@@ -59,21 +74,13 @@ public class OrderSheetManager : MonoBehaviourPun
         //시작위치는 화면 밖
         orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(1920, 0, 0);
         orderSheet.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        StartCoroutine(IeMoveOrderSheet(orderSheet.GetComponent<PhotonView>().ViewID));
-    }
-
-    //주문서 이동
-    GameObject orderSheet;
-    [PunRPC]
-    IEnumerator IeMoveOrderSheet(int id)
-    {
-        for (int i = 0; i < orderSheetList.Count; i++)
+        /*for (int i = 0; i < orderSheetList.Count; i++)
         {
             if (orderSheetList[i].GetComponent<PhotonView>().ViewID == id)
             {
                 orderSheet = orderSheetList[i];
             }
-        }
+        }*/
         float xTargetPos = 0; //여기까지 이동해야 함
         float xPos = orderSheet.GetComponent<RectTransform>().position.x; //현재 주문서의 위치
         for (int i = 0; i < orderSheetList.Count - 1; i++)
@@ -117,10 +124,28 @@ public class OrderSheetManager : MonoBehaviourPun
         }
     }
 
-    //주문서랑 접시 비교
-    public void CheckOrderSheet(Plate plate)
+    public void CheckOrderSheet(int id)
     {
-        print("orderSheetList.Count: " + orderSheetList.Count);
+        photonView.RPC("RpcCheckOrderSheet", RpcTarget.All, id);
+    }
+
+    //주문서랑 접시 비교
+    Plate plate;
+    [PunRPC]
+    public void RpcCheckOrderSheet(int id)
+    {
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
+        {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                plate = ObjectManager.instance.photonObjectIdList[i].GetComponent<Plate>();
+            }
+        }
         for (int i = 0; i < orderSheetList.Count; i++)
         {
             RecipeObject recipe = orderSheetList[i].GetComponent<OrderSheet>().recipe;
@@ -134,31 +159,23 @@ public class OrderSheetManager : MonoBehaviourPun
                 //접시의 재료와 주문서 레시피의 재료가 같은지 비교
                 if (!plate.ingredientList.Contains(recipe.ingredients[j]))
                 {
-                    StartCoroutine(WrongPlate());
-                    Destroy(plate.transform.gameObject);
+                    StartCoroutine(WrongPlate(plate));
                 }
                 if (j == recipe.ingredients.Length - 1)
                 {
                     orderSheetList[i].GetComponent<OrderSheet>().DestroyOrder();
                     print("리스트에 있는 음식");
                     PlateManager.instance.AddDirtyPlate();
-                    Destroy(plate.transform.gameObject);
                     StageManager.instance.CoinPlus(8);
-                    break;
+                    //Destroy(plate.transform.gameObject);
                 }
             }
-            if (i == orderSheetList.Count - 1)
-            {
-                //StartCoroutine(WrongPlate());
-                
-                //Destroy(plate.transform.gameObject);
-            }
         }
-        StartCoroutine(WrongPlate());
-        Destroy(plate.transform.gameObject);
+        StartCoroutine(WrongPlate(plate));
+        //Destroy(plate.transform.gameObject);
     }
 
-    IEnumerator WrongPlate()
+    IEnumerator WrongPlate(Plate plate)
     {
         for (int i = 0; i < orderSheetList.Count; i++)
         {
@@ -170,5 +187,24 @@ public class OrderSheetManager : MonoBehaviourPun
             orderSheetList[i].GetComponent<OrderSheet>().wrongImage.enabled = false;
         }
         PlateManager.instance.AddDirtyPlate();
+        photonView.RPC("RpcDestroyPlate", RpcTarget.All, plate.GetComponent<PhotonView>().ViewID);
+        //Destroy(plate.transform.gameObject);
+    }
+
+    [PunRPC]
+    void RpcDestroyPlate(int id)
+    {
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
+        {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                Destroy(ObjectManager.instance.photonObjectIdList[i]);
+            }
+        }
     }
 }

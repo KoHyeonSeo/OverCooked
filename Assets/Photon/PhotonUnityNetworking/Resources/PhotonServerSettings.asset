@@ -35,33 +35,37 @@ MonoBehaviour:
   StartInOfflineMode: 0
   RpcList:
   - ChangePosition
+  - ChangeStateBake
+  - ChangeStateCut
   - Checking
   - ClickRpc
   - DestroyRpc
   - DestroySpaceship
   - Fire
   - FireSuppression
+  - GaugeImageActive
+  - HavingSettingObject
   - InteractiveIngredientBox
   - PRC_UseFireExtinguisher
   - RespawnSpaceship
   - RPC_ChangedInfo
   - RPC_ChangeState
+  - RPC_GrabOnTable
   - RPC_OnBirth
   - RPC_PlayerControl
   - RPC_Ray
   - RPC_Save
   - RPC_SelectCount
   - RPC_Throw
-  - HavingSettingObject
-  - RPC_GrabOnTable
-  - ChangeStateCut
-  - GaugeImageActive
-  - InteractiveCuttingTable
-  - RpcSetObject
-  - ChangeStateBake
   - RpcCheckPlayerExist
+  - RpcGetIngredient
+  - RpcMoveOrderSheet
+  - RpcSetObject
+  - RpcSetTableObject
   - RpcToolSetting
-  - IeMoveOrderSheet
+  - RpcCheckOrderSheet
+  - AddDirtyPlate
+  - RpcAddDirtyPlate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
