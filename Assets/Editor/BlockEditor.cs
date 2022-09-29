@@ -9,23 +9,30 @@ public class BlockEditor : EditorWindow
 {
     
     static GameObject map;
+    static List<Object> ObjectList = new List<Object>();
+    Vector2 scrollPosition;
     
     [MenuItem("EditorWindow/BlockEditor")]
     static void Init()
     {
         var window = GetWindow<BlockEditor>();
         window.maxSize = window.minSize = new Vector2(200, 500);
-        map = GameObject.Find("Map");    
-    }
+        map = GameObject.Find("Map");
+        Object resource_table = Resources.Load<GameObject>("Editor/Table");
+        Object resource_trash = Resources.Load<GameObject>("Editor/Trash Can");
+        Object resource_FireExtinguisher = Resources.Load<GameObject>("Editor/FireExtinguisher");
 
-    Vector2 scrollPosition;
+        ObjectList.Add(resource_table);
+        ObjectList.Add(resource_trash);
+        ObjectList.Add(resource_FireExtinguisher);
+
+    }
 
     private void OnGUI()
     {
         Event e = Event.current;
 
         GUILayout.Label("Interact Object", EditorStyles.boldLabel);
-        Object resource_table = Resources.Load<GameObject>("Editor/Table");
         GUILayout.BeginHorizontal();
         GUILayout.BeginScrollView
             (scrollPosition,
@@ -40,10 +47,11 @@ public class BlockEditor : EditorWindow
             objectParent.name = "Object_Parent";
         }
 
+        //오브젝트 생성부
         GUILayout.Label("Table");
-        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_table)))
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
         {
-            GameObject instantiate = Instantiate(resource_table as GameObject);
+            GameObject instantiate = Instantiate(ObjectList[0] as GameObject);
             EditorGUIUtility.PingObject(map);
             Selection.activeGameObject = map;
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
@@ -55,11 +63,10 @@ public class BlockEditor : EditorWindow
         GUILayout.Label("Other", EditorStyles.boldLabel); 
 
         GUILayout.Label("Trash Can");
-        Object resource_trash = Resources.Load<GameObject>("Editor/Trash Can");
 
-        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_trash)))
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[1])))
         {
-            GameObject instantiate = Instantiate(resource_trash as GameObject);
+            GameObject instantiate = Instantiate(ObjectList[1] as GameObject);
             EditorGUIUtility.PingObject(map);
             Selection.activeGameObject = map;
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
@@ -68,10 +75,9 @@ public class BlockEditor : EditorWindow
         }
 
         GUILayout.Label("Fire Extinguisher");
-        Object resource_FireExtinguisher = Resources.Load<GameObject>("Editor/FireExtinguisher");
-        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(resource_FireExtinguisher)))
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[2])))
         {
-            GameObject instantiate = Instantiate(resource_FireExtinguisher as GameObject);
+            GameObject instantiate = Instantiate(ObjectList[2] as GameObject);
             EditorGUIUtility.PingObject(map);
             Selection.activeGameObject = map;
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
