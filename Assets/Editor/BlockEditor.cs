@@ -45,6 +45,7 @@ public class BlockEditor : EditorWindow
         {
             GameObject instantiate = Instantiate(resource_table as GameObject);
             EditorGUIUtility.PingObject(map);
+            Selection.activeGameObject = map;
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
             instantiate.transform.parent = objectParent.transform;
@@ -60,6 +61,7 @@ public class BlockEditor : EditorWindow
         {
             GameObject instantiate = Instantiate(resource_trash as GameObject);
             EditorGUIUtility.PingObject(map);
+            Selection.activeGameObject = map;
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
             instantiate.transform.parent = objectParent.transform;
@@ -71,6 +73,7 @@ public class BlockEditor : EditorWindow
         {
             GameObject instantiate = Instantiate(resource_FireExtinguisher as GameObject);
             EditorGUIUtility.PingObject(map);
+            Selection.activeGameObject = map;
             instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
             instantiate.transform.position = Vector3.zero;
             instantiate.transform.parent = objectParent.transform;
@@ -104,9 +107,11 @@ public class BlockEditWithEditor : Editor
     Map map;
     //초기 마우스 위치 저장
     Vector2 firstMousePos = Vector2.one;
+    GameObject objectParent;
     private void OnEnable()
     {
         map = (Map)target;
+        objectParent = GameObject.Find("Object_Parent");
     }
     //우클릭하면 선택 & 위치 변경 가능
     //좌클릭하고 드래그 -> 여러개 생성
@@ -150,6 +155,7 @@ public class BlockEditWithEditor : Editor
         {
             firstMousePos = e.mousePosition;
         }
+        //오브젝트 삭제하기
         else if(e.type == EventType.MouseDown && e.control)
         {
             DeleteObject();
@@ -170,7 +176,7 @@ public class BlockEditWithEditor : Editor
                 //Object 배치 함수
                 CollocatingObject();
             }
-            Debug.Log("선택");
+            //Debug.Log("선택");
         }
         //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기 (Drag시 바로 Drag 상태로)
         else if (e.type == EventType.MouseDrag && e.button == 0
@@ -183,6 +189,7 @@ public class BlockEditWithEditor : Editor
                 {
                     mouseState = MouseState.Drag;
                     DragAndCreateObjects();
+                    objectParent = GameObject.Find("Object_Parent");
                     Debug.Log("드래그");
                 }
             }
@@ -198,12 +205,13 @@ public class BlockEditWithEditor : Editor
             && mouseState == MouseState.Drag)
         {
             mouseState = MouseState.None;
+            selectedObject = null;
         }
 
         //================오브젝트 갖고 있는 후====================
         //누르지 않았지만 오브젝트 선택 상태라면 선택된 오브젝트를 움직이게 하자
-        Debug.Log(selectedObject);
-        Debug.Log(selectState);
+        //Debug.Log(selectedObject);
+        //Debug.Log(selectState);
         if (selectState == SelectState.Select && selectedObject)
         {
             Debug.Log("오브젝트 움직임");
@@ -228,8 +236,7 @@ public class BlockEditWithEditor : Editor
     /// </summary>
     void ClearMapObjects()
     {
-        GameObject obj = GameObject.Find("Object_Parent");
-        DestroyImmediate(obj);
+        DestroyImmediate(objectParent);
     }
     /// <summary>
     /// 오브젝트 선택 함수 (Left Click)
@@ -250,7 +257,7 @@ public class BlockEditWithEditor : Editor
                 hit.transform.gameObject.layer = LayerMask.NameToLayer("SelectObject");
                 //selectedObject에 클릭한 물체를 넣어두자
                 selectedObject = hit.transform.gameObject;
-                Debug.Log(selectedObject);
+                //Debug.Log(selectedObject);
             }
         }
     }
@@ -311,7 +318,34 @@ public class BlockEditWithEditor : Editor
     /// </summary>
     void DragAndCreateObjects()
     {
+        Event e = Event.current;
+        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+        RaycastHit hit;
+        if (!selectedObject)
+        {
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Tile"))
+                {
+                    selectedObject = hit.transform.gameObject;
+                }
+            }
+        }
+        else
+        {
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Tile"))
+                {
+                    Object resource = Resources.Load<GameObject>("Editor/" + selectedObject.name);
 
+                    GameObject instantiate = Instantiate(resource as GameObject);
+                    instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
+                    instantiate.transform.position = new Vector3((int)hit.point.x, hit.point.y, (int)hit.point.z);
+                    instantiate.transform.parent = objectParent.transform;
+                }
+            }
+        }
     }
 
 }
