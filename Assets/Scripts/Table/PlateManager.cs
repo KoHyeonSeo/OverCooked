@@ -15,9 +15,37 @@ public class PlateManager : MonoBehaviourPun
         instance = this;
     }
 
+    /*    public void AddDirtyPlate()
+        {
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC("RpcAddDirtyPlate", RpcTarget.All);
+        }
+    */
+    //[PunRPC]
+    GameObject plate;
     public void AddDirtyPlate()
     {
-        GameObject plate = Instantiate(platePrefab);
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        plate = PhotonNetwork.Instantiate(platePrefab.name, transform.position, Quaternion.identity);
+        photonView.RPC("RpcDirtyPlateSetting", RpcTarget.All, plate.GetComponent<PhotonView>().ViewID);
+    }
+
+    [PunRPC]
+    void RpcDirtyPlateSetting(int id)
+    {
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
+        {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                plate = ObjectManager.instance.photonObjectIdList[i];
+            }
+        }
         plate.GetComponent<Plate>().isdirty = true;
         //접시 반환 테이블에 접시가 하나도 없으면 하나 추가
         if (plateList.Count == 0)

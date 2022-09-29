@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class M_Box : MonoBehaviour
 {
-    public GameObject getObject;
+    /*public GameObject getObject;
     public Transform objectPosition;
     public PlayerInput playerInput;
 
     void Start()
     {
-        /*if (GameManager.instance.Player)
+        *//*if (GameManager.instance.Player)
         {
             playerInput = GameManager.instance.Player.GetComponent<PlayerInput>();
-        }*/
+        }*//*
         
     }
 
     void Update()
     {
-        /*if(playerInput)
+        *//*if(playerInput)
         {
             if (playerInput.LeftClickDown)
                 print("playerClick");
@@ -27,7 +27,7 @@ public class M_Box : MonoBehaviour
         else
         {
             playerInput = GameManager.instance.Player.GetComponent<PlayerInput>();
-        }*/
+        }*//*
     }
 
     public void SetObject(GameObject obj)
@@ -53,5 +53,5 @@ public class M_Box : MonoBehaviour
             }
         }
         
-    }
+    }*/
 }

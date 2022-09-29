@@ -55,9 +55,25 @@ public class Plate : MonoBehaviourPun
             transform.GetChild(1).GetComponent<Rigidbody>().isKinematic = false;
     }
 
-    //매개변수로 들어온 재료를 리스트에 넣고 텍스트 반영
-    public void GetIngredient(GameObject ingredient)
+    public void GetIngredient(int id)
     {
+        photonView.RPC("RpcGetIngredient", RpcTarget.All, id);
+    }
+
+    //매개변수로 들어온 재료를 리스트에 넣고 텍스트 반영
+    GameObject ingredient;
+    [PunRPC]
+    public void RpcGetIngredient(int id)
+    {
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
+        {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+                continue;
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                ingredient = ObjectManager.instance.photonObjectIdList[i];
+            }
+        }
         if (isdirty || ingredient.GetComponent<IngredientDisplay>().isBurn)
             return;
         if (count > 3)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
+public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
 {
     public GameObject getObject; //현재 플레이어가 들고 있는 물건
     public GameObject interactiveObject; //현재 플레이어와 닿아있는 물건, 테이블
@@ -49,6 +49,18 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         if (interactiveObject && interactiveObject.tag == "Player")
             return;
         if (interactiveObject && interactiveObject.tag == "Food")
+        {
+            ray = new Ray(interactiveObject.transform.position, transform.forward);
+            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
+            RaycastHit hit2;
+            if (Physics.Raycast(ray, out hit2, 1))
+            {
+                interactiveObject = hit2.transform.gameObject;
+            }
+            else
+                interactiveObject = null;
+        }
+        else if (interactiveObject && interactiveObject.GetComponent<FryingPan>() && getObject)
         {
             ray = new Ray(interactiveObject.transform.position, transform.forward);
             Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
@@ -141,10 +153,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
                 if (interactiveObject.GetComponent<IngredientBox>())
                     InteractiveIngredientBox();
                 else if (interactiveObject.GetComponent<CuttingTable>())
-                {
                     InteractiveCuttingTable();
-                    //photonView.RPC("InteractiveCuttingTable", RpcTarget.All);
-                }
                 else if (interactiveObject.GetComponent<FireBox>())
                     InteractiveFireTable();
                 else if (interactiveObject.name == "ServiceDesk")
@@ -158,15 +167,14 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             }
             else if (interactiveObject && !getObject)
             {
-                //물건 드는건 플레이어 쪽에서 처리(나중에 바꿔)
                 HavingSettingObject(interactiveObject);
             }
             else if (!interactiveObject && getObject)
             {
-                GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
+                /*GetComponent<PlayerInteract>().GrabbingObjectInfo.transform.parent = null;
                 getObject.GetComponent<Rigidbody>().useGravity = true;
                 getObject.GetComponent<Rigidbody>().isKinematic = false;
-                GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
+                GetComponent<PlayerInteract>().GrabbingObjectInfo = null;*/
             }
         }
     }
@@ -207,7 +215,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         {
             if (getObject.GetComponent<Plate>())
             {
-                OrderSheetManager.instance.CheckOrderSheet(getObject.GetComponent<Plate>());
+                OrderSheetManager.instance.CheckOrderSheet(getObject.GetComponent<PhotonView>().ViewID);
             }
         }
     }
@@ -218,17 +226,17 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         {
             if (getObject.GetComponent<Plate>() && interactiveObject.GetComponent<M_Table>().getObject)
             {
-                getObject.GetComponent<Plate>().GetIngredient(interactiveObject.GetComponent<M_Table>().getObject);
+                getObject.GetComponent<Plate>().GetIngredient(interactiveObject.GetComponent<M_Table>().getObject.GetComponent<PhotonView>().ViewID);
             }
             else if (interactiveObject.GetComponent<M_Table>().getObject && interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>())
             {
                 if (getObject.GetComponent<IngredientDisplay>())
                 {
-                    interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject);
+                    interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject.GetComponent<PhotonView>().ViewID);
                 }
                 else if (getObject.GetComponent<FryingPan>() && getObject.GetComponent<FryingPan>().getObject)
                 {
-                    interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject.GetComponent<FryingPan>().getObject);
+                    interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject.GetComponent<FryingPan>().getObject.GetComponent<PhotonView>().ViewID);
                 }
             }
             else
@@ -236,7 +244,6 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
                 if (getObject.GetComponent<Plate>() && getObject.GetComponent<Plate>().isdirty)
                     return;
                 interactiveObject.GetComponent<M_Table>().SetObject(getObject.GetComponent<PhotonView>().ViewID);
-                print("View ID: " + getObject.GetComponent<PhotonView>().ViewID);
             }  
             GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
         }
@@ -279,7 +286,7 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             }
             //접시를 들고있으면서 컷팅테이블에 올라간 재료가 잘린 상태라면
             else if (getObject.tag == "Plate" && cuttingTable.cutTableObject.GetComponent<IngredientDisplay>().isCut)
-                getObject.GetComponent<Plate>().GetIngredient(cuttingTable.cutTableObject);    
+                getObject.GetComponent<Plate>().GetIngredient(cuttingTable.cutTableObject.GetComponent<PhotonView>().ViewID);    
         }
         else
         {
@@ -307,7 +314,6 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
             //도구가 있으면서 도구 위에 아무것도 없고 가진게 재료일 때
             if (fireBox.cookingTool && !fireBox.cookingTool.GetComponent<FryingPan>().getObject && getObject.GetComponent<IngredientDisplay>())
             {
-                print("22222");
                 //화덕 위 요리 도구 위에 재료 셋팅
                 fireBox.cookingTool.GetComponent<FryingPan>().SetObject(getObject.GetComponent<PhotonView>().ViewID);
             }
@@ -320,19 +326,46 @@ public class PlayerRayCheck : MonoBehaviourPun, IPunObservable
         {
             if (fireBox.cookingTool)
             {
-                print("Fire" + fireBox.cookingTool);
-                HavingSettingObject(fireBox.cookingTool);
-                fireBox.cookingTool = null;
+                photonView.RPC("RpcSetCookingTool", RpcTarget.All, fireBox.cookingTool.GetComponent<PhotonView>().ViewID);
+                //HavingSettingObject(fireBox.cookingTool);
+                fireBox.CookingToolNull();
             }
                 
         }
     }
 
+    GameObject cookingTool;
+    [PunRPC]
+    void RpcSetCookingTool(int id)
+    {
+        
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
+        {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                cookingTool = ObjectManager.instance.photonObjectIdList[i];
+            }
+        }
+        HavingSettingObject(cookingTool);
+    }
+
     [PunRPC]
     void HavingSettingObject(GameObject obj)
     {
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
+        {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
+        }
         int id = obj.GetComponent<PhotonView>().ViewID;
-        print("iD" + id);
         GetComponent<PlayerInteract>().CallGrabOnTable_RPC(id);
         obj.GetComponent<PhotonTransformView>().enabled = false;
     }

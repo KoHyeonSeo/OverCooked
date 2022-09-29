@@ -54,6 +54,7 @@ MonoBehaviour:
   timeGauge: {fileID: 0}
   gauge: 100
   ingredientTime: 3
+  wrongImage: {fileID: 0}
 --- !u!1 &3669424260789935781
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4721140272424479646}
   - component: {fileID: 4721140272424478817}
+  - component: {fileID: 7267310800099671344}
   m_Layer: 0
   m_Name: OrderSheetManager
   m_TagString: Untagged
@@ -644,6 +646,28 @@ MonoBehaviour:
   orderSheetList: []
   orderSheetPanel: {fileID: 4721140272459540243}
   readyStart: {fileID: 0}
+--- !u!114 &7267310800099671344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4721140272424479647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &4721140272459540243
 GameObject:
   m_ObjectHideFlags: 0

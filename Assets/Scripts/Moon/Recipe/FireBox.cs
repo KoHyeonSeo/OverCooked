@@ -52,7 +52,8 @@ public class FireBox : MonoBehaviourPun
         tool.transform.parent = transform;
         tool.transform.localPosition = objectPosition;
         cookingTool = tool;
-        print(cookingTool.name);
+        if (!cookingTool.GetComponent<FryingPan>().getObject)
+            cookingTool.GetComponent<FryingPan>().time = 0;
     }
 
     void Update()
@@ -97,6 +98,11 @@ public class FireBox : MonoBehaviourPun
     {
         for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
                 obj = ObjectManager.instance.photonObjectIdList[i];
@@ -108,5 +114,16 @@ public class FireBox : MonoBehaviourPun
             cookingTool.transform.parent = transform;
             cookingTool.transform.localPosition = objectPosition;
         }
+    }
+
+    public void CookingToolNull()
+    {
+        photonView.RPC("RpcCookingToolNull", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RpcCookingToolNull()
+    {
+        cookingTool = null;
     }
 }

@@ -49,12 +49,12 @@ public class M_Table : MonoBehaviourPun
 
     public void SetObject(int id)
     {
-        photonView.RPC("RpcSetObject", RpcTarget.All, id);
+        photonView.RPC("RpcSetTableObject", RpcTarget.All, id);
     }
 
     GameObject obj;
     [PunRPC]
-    public void RpcSetObject(int id)
+    public void RpcSetTableObject(int id)
     {
         for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
