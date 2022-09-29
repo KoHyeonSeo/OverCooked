@@ -151,13 +151,14 @@ public class PlayerInteract : MonoBehaviourPun
     {
         curInteractState = InteractState.None;
         //찾고 넣는다.
-        IngredientDisplay[] ingredient = GameObject.FindObjectsOfType<IngredientDisplay>();
         
-        for(int i = 0; i <ingredient.Length; i++)
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
-            if (ingredient[i].GetComponent<PhotonView>().ViewID == id)
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
-                CreateNew.HavingSetting(ingredient[i].gameObject, "Grab", true, transform, new Vector3(0, -0.1f, 0.8f));
+                CreateNew.HavingSetting(
+                    ObjectManager.instance.photonObjectIdList[i].gameObject
+                    , "Grab", true, transform, new Vector3(0, -0.1f, 0.8f));
                 break;
             }
         }
