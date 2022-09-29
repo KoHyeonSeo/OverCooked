@@ -8,7 +8,7 @@ public class Plate : MonoBehaviourPun
 {
     public List<GameObject> ingredientModels = new List<GameObject>();
     public List<IngredientObject> ingredientList = new List<IngredientObject>();
-    public Text ingredientName;
+    //public Text ingredientName;
     int count = 0; //현재 담긴 재료 수
     public RecipeObject[] recipes; //이건 인스펙터에서 넣기
     public bool isdirty;
@@ -23,8 +23,8 @@ public class Plate : MonoBehaviourPun
 
     void Start()
     {
-        ingredientName.text = "";
-        
+        //ingredientName.text = "";
+        ObjectManager.instance.SetPhotonObject(gameObject);
     }
 
     private void Update()

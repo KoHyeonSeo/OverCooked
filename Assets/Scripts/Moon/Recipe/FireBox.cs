@@ -39,10 +39,13 @@ public class FireBox : MonoBehaviourPun
     {
         for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
-            print(ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID + ", " + id);
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                continue;
+            }
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
-                print(id);
                 tool = ObjectManager.instance.photonObjectIdList[i];
             }
         }

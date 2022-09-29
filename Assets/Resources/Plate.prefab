@@ -590,7 +590,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientModels: []
   ingredientList: []
-  ingredientName: {fileID: 9194903286249654122}
   recipes:
   - {fileID: 11400000, guid: 5391d3d01959de3488cb29613049ae27, type: 2}
   - {fileID: 11400000, guid: d9215dd0717ae2244a447b462d81b37e, type: 2}

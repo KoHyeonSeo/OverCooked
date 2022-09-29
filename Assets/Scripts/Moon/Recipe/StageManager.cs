@@ -30,14 +30,15 @@ public class StageManager : MonoBehaviourPun
     void Start()
     {
         PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(5f, 2f, 6f), Quaternion.identity);
-        if (PhotonNetwork.IsMasterClient)
+        //접시생성
+        /*if (PhotonNetwork.IsMasterClient)
         {
             for (int i = 0; i < platePositionTable.Length; i++)
             {
                 GameObject plate = PhotonNetwork.Instantiate(platePrefab.name, transform.position, Quaternion.identity);
-                platePositionTable[i].GetComponent<M_Table>().SetObject(plate);
+                platePositionTable[i].GetComponent<M_Table>().SetObject(plate.GetComponent<PhotonView>().ViewID);
             }
-        }
+        }*/
         transform.GetChild(0).gameObject.SetActive(false);
         timeOver.SetActive(false);
     }
