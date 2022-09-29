@@ -58,9 +58,8 @@ MonoBehaviour:
   - GaugeImageActive
   - InteractiveCuttingTable
   - RpcSetObject
-  - CheckPlayerExist
-  - RpcCheckPlayerExist
   - ChangeStateBake
+  - RpcCheckPlayerExist
   - RpcToolSetting
   DisableAutoOpenWizard: 1
   ShowSettings: 1

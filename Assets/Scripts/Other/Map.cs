@@ -8,4 +8,6 @@ public class Map : MonoBehaviour
     public int tileZ;
 
     public GameObject floorTile;
+
+    public float dragDistance;
 }

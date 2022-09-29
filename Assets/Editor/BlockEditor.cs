@@ -95,9 +95,18 @@ public class BlockEditWithEditor : Editor
         NotSelect
     }
 
+    public enum MouseState
+    {
+        None,
+        Drag
+    }
+
     SelectState selectState = SelectState.NotSelect;
+    MouseState mouseState = MouseState.None;
     GameObject selectedObject = null;
     Map map;
+    //초기 마우스 위치 저장
+    Vector2 firstMousePos = Vector2.one;
     private void OnEnable()
     {
         map = (Map)target;
@@ -116,6 +125,8 @@ public class BlockEditWithEditor : Editor
         map.tileZ = Mathf.Clamp(map.tileZ, 1, 500);
 
         map.floorTile = (GameObject)EditorGUILayout.ObjectField("타일", map.floorTile, typeof(GameObject), false);
+
+        map.dragDistance = EditorGUILayout.FloatField("드래그 활성화 거리", map.dragDistance);
 
         if(GUILayout.Button("바닥 생성"))
         {
@@ -137,8 +148,21 @@ public class BlockEditWithEditor : Editor
 
         Event e = Event.current;
 
-        //눌렀다가 뗐을 때 오브젝트 선택 또는 배치
-        if (e.type == EventType.MouseUp && e.button == 0) {
+        //드래그 거리 계산을 위해 초기 position을 저장
+        if (e.type == EventType.MouseDown && !e.control)
+        {
+            firstMousePos = e.mousePosition;
+        }
+        else if(e.type == EventType.MouseDown && e.control)
+        {
+            DeleteObject();
+        }
+        //================오브젝트 클릭 이벤트====================
+        //눌렀다가 바로 뗐을 때 오브젝트 선택 또는 배치(None State)
+        if (e.type == EventType.MouseUp
+            && e.button == 0
+            && mouseState == MouseState.None)
+        {
             if (selectState == SelectState.NotSelect)
             {
                 //Object 선택 함수
@@ -151,15 +175,40 @@ public class BlockEditWithEditor : Editor
             }
             Debug.Log("선택");
         }
-        //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기
-        else if(e.type == EventType.MouseDrag && e.button == 0)
+        //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기 (Drag시 바로 Drag 상태로)
+        else if (e.type == EventType.MouseDrag && e.button == 0
+            && (mouseState == MouseState.Drag
+            || mouseState == MouseState.None))
         {
-            Debug.Log("드래그");
+            if (mouseState == MouseState.None)
+            {
+                if (Vector2.Distance(e.mousePosition, firstMousePos) > map.dragDistance)
+                {
+                    mouseState = MouseState.Drag;
+                    Debug.Log("드래그");
+                }
+            }
+            else
+            {
+                Debug.Log("드래그");
+            }
         }
-        //누르지 않았지만 오브젝트 선택 상태라면 선택된 오브젝트를 움직이게 하자
-        if(selectState == SelectState.Select && selectedObject)
+        //마우스 떼면 모든 것이 초기화
+        else if (e.type == EventType.MouseUp
+            && e.button == 0)
         {
-        }    
+            mouseState = MouseState.None;
+        }
+
+        //================오브젝트 갖고 있는 후====================
+        //누르지 않았지만 오브젝트 선택 상태라면 선택된 오브젝트를 움직이게 하자
+        Debug.Log(selectedObject);
+        Debug.Log(selectState);
+        if (selectState == SelectState.Select && selectedObject)
+        {
+            Debug.Log("오브젝트 움직임");
+            MovingObject();
+        }   
     }
     /// <summary>
     /// 바닥 생성 함수
@@ -183,22 +232,77 @@ public class BlockEditWithEditor : Editor
         DestroyImmediate(obj);
     }
     /// <summary>
-    /// 오브젝트 선택 함수
+    /// 오브젝트 선택 함수 (Left Click)
     /// </summary>
     void SelectObject()
     {
-        //레이어를 SelectObject로 바꾸자
+        //Select 상태
+        selectState = SelectState.Select;
 
-        //selectedObject에 클릭한 물체를 넣어두자
-
+        Event e = Event.current;
+        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Tile"))
+            {
+                //레이어를 SelectObject로 바꾸자
+                hit.transform.gameObject.layer = LayerMask.NameToLayer("SelectObject");
+                //selectedObject에 클릭한 물체를 넣어두자
+                selectedObject = hit.transform.gameObject;
+                Debug.Log(selectedObject);
+            }
+        }
     }
 
     /// <summary>
-    /// 오브젝트 배치 시키는 함수
+    /// 오브젝트 배치 시키는 함수 (잡은 오브젝트가 있는 상태로 Left Click)
     /// </summary>
     void CollocatingObject()
     {
-        //닿은 격자에 넣어두자 Layer는 SelectObject인데 걸러야한다. 이 레이어는
+        //Not Select상태로 변경
+        if (selectedObject)
+        {
+            selectState = SelectState.NotSelect;
+            selectedObject.layer = LayerMask.NameToLayer("Default");
+            selectedObject = null;
+        }
+    }
+    /// <summary>
+    /// 오브젝트 움직이게 하는 함수 (잡은 오브젝트가 있는 상태로 마우스 움직이기)
+    /// </summary>
+    void MovingObject()
+    {
+        Event e = Event.current;
+        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+        RaycastHit hit;
+        //오브젝트 격자형태로 움직이기
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Tile"))
+            {
+                //닿은 격자에 넣어두자 Layer는 SelectObject인데 걸러야한다. 이 레이어는
+                Vector3 p = new Vector3((int)hit.point.x, hit.point.y, (int)hit.point.z);
+                selectedObject.transform.position = p;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 오브젝트 삭제하는 함수 (Left Control + Left Click)
+    /// </summary>
+    void DeleteObject()
+    {
+        Event e = Event.current;
+        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Tile"))
+            {
+                DestroyImmediate(hit.transform.gameObject);
+            }
+        }
     }
 
 

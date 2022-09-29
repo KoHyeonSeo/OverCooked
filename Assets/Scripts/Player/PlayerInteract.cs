@@ -259,12 +259,12 @@ public class PlayerInteract : MonoBehaviourPun
         if (isUse)
         {
             if (transform.childCount > 1)
-                transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(true);
+                transform.GetChild(1).GetChild(0).GetChild(0).transform.gameObject.SetActive(true);
         }
         else
         {
             if (transform.childCount > 1)
-                transform.GetChild(1).GetChild(0).transform.gameObject.SetActive(false);
+                transform.GetChild(1).GetChild(0).GetChild(0).transform.gameObject.SetActive(false);
         }
     }
     [PunRPC]
@@ -283,20 +283,4 @@ public class PlayerInteract : MonoBehaviourPun
 
 
     #endregion
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if(stream.IsWriting)
-    //    {
-    //        stream.SendNext(grabbedObj);
-    //    }
-    //    else
-    //    {
-    //        grabbedObj = (GameObject)stream.ReceiveNext();
-    //        if(grabbedObj && grabbedObj.transform.parent == null)
-    //        {
-    //            CreateNew.HavingSetting(grabbedObj, "Grab", true, transform, new Vector3(0, -0.3f, 0.5f));
-    //            //grabbedObj.transform.parent = transform;
-    //        }
-    //    }
-    //}
 }
