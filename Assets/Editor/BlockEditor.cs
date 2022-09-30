@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using Codice.Client.BaseCommands;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class BlockEditor : EditorWindow
 {
@@ -51,7 +52,7 @@ public class BlockEditor : EditorWindow
         GUILayout.Label("Table");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
         {
-            GameObject instantiate = Instantiate(ObjectList[0] as GameObject);
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[0]);
             ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
         }
 
@@ -88,39 +89,11 @@ public class BlockEditor : EditorWindow
 }
 
 
-[CustomEditor(typeof(Map))]
-public class BlockEditWithEditor : Editor
+public class BlockEditWithEditor : BlockEdit
 {
-    public enum SelectState
-    {
-        Select,
-        NotSelect
-    }
-
-    public enum MouseState
-    {
-        None,
-        Drag
-    }
-
-    //선택한 상태인가?
-    SelectState selectState = SelectState.NotSelect;
-    //Drag상태인가 아닌가?
-    MouseState mouseState = MouseState.None;
-    //들고 있는 오브젝트
-    GameObject selectedObject = null;
-    //Map 변수
-    Map map;
-    //초기 마우스 위치 저장
-    Vector2 firstMousePos = Vector2.one;
-    //부모 오브젝트 변수
-    GameObject objectParent;
-    //오브젝트 리스트 중에 현재 인덱스
-    int selectIndex = 0;
-
     private void OnEnable()
     {
-        map = (Map)target;
+        map = (MapTool)target;
         objectParent = GameObject.Find("Object_Parent");
     }
     //우클릭하면 선택 & 위치 변경 가능
@@ -155,10 +128,12 @@ public class BlockEditWithEditor : Editor
     }
     private void OnSceneGUI()
     {
+        //다른 오브젝트 선택 안되도록 설정
         int id = GUIUtility.GetControlID(FocusType.Passive);
         HandleUtility.AddDefaultControl(id);
 
         Event e = Event.current;
+
 
         //드래그 거리 계산을 위해 초기 position을 저장
         if (e.type == EventType.MouseDown && !e.control)
@@ -220,186 +195,26 @@ public class BlockEditWithEditor : Editor
 
         //================오브젝트 갖고 있는 후====================
         //누르지 않았지만 오브젝트 선택 상태라면 선택된 오브젝트를 움직이게 하자
-        //Debug.Log(selectedObject);
-        //Debug.Log(selectState);
         if (selectState == SelectState.Select && selectedObject)
         {
             Debug.Log("오브젝트 움직임");
+            //오브젝트 움직임
             MovingObject();
-            ChangeObject();
-        }   
-    }
-
-    /// <summary>
-    /// 바닥 생성 함수
-    /// </summary>
-    void CreateFloor()
-    {
-        GameObject floor = GameObject.Find("Tile");
-        if (floor)
-        {
-            DestroyImmediate(floor);
-        }
-        floor = (GameObject)PrefabUtility.InstantiatePrefab(map.floorTile);
-        floor.transform.localScale = new Vector3(map.tileX, 1, map.tileZ);
-    }
-    /// <summary>
-    /// 맵에 배치한 오브젝트 모두 삭제하는 함수
-    /// </summary>
-    void ClearMapObjects()
-    {
-        DestroyImmediate(objectParent);
-    }
-    /// <summary>
-    /// 오브젝트 선택 함수 (Left Click)
-    /// </summary>
-    void SelectObject()
-    {
-        //Select 상태
-        selectState = SelectState.Select;
-
-        Event e = Event.current;
-        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Tile"))
+            if (wheelMode == WheelMode.Change)
             {
-                //레이어를 SelectObject로 바꾸자
-                hit.transform.gameObject.layer = LayerMask.NameToLayer("SelectObject");
-                //selectedObject에 클릭한 물체를 넣어두자
-                selectedObject = hit.transform.gameObject;
-                //현재 들고 있는 오브젝트가 리스트 중 몇 번째 인덱스인가
-                for(int i =0; i<BlockEditor.ObjectList.Count; i++)
-                {
-                    if(BlockEditor.ObjectList[i].name == selectedObject.name)
-                    {
-                        selectIndex = i;
-                        break;
-                    }
-                }
-
-                //Debug.Log(selectedObject);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 오브젝트 배치 시키는 함수 (잡은 오브젝트가 있는 상태로 Left Click)
-    /// </summary>
-    void CollocatingObject()
-    {
-        //Not Select상태로 변경
-        if (selectedObject)
-        {
-            selectState = SelectState.NotSelect;
-            selectedObject.layer = LayerMask.NameToLayer("Default");
-            selectedObject = null;
-        }
-    }
-    /// <summary>
-    /// 오브젝트 움직이게 하는 함수 (잡은 오브젝트가 있는 상태로 마우스 움직이기)
-    /// </summary>
-    void MovingObject()
-    {
-        Event e = Event.current;
-        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        RaycastHit hit;
-        //오브젝트 격자형태로 움직이기
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Tile") 
-                || hit.transform.gameObject.layer == LayerMask.NameToLayer("Default"))
-            {
-                //닿은 격자에 넣어두자 Layer는 SelectObject인데 걸러야한다. 이 레이어는
-                Vector3 p = new Vector3((int)hit.point.x, hit.point.y, (int)hit.point.z);
-                selectedObject.transform.position = p;
-            }
-        }
-    }
-
-    /// <summary>
-    /// 오브젝트 삭제하는 함수 (Left Control + Left Click)
-    /// </summary>
-    void DeleteObject()
-    {
-        Event e = Event.current;
-        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Tile"))
-            {
-                DestroyImmediate(hit.transform.gameObject);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 드래그 하여 여러 오브젝트 생성하는 함수
-    /// </summary>
-    void DragAndCreateObjects()
-    {
-        Event e = Event.current;
-        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-        RaycastHit hit;
-        if (!selectedObject)
-        {
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Tile"))
-                {
-                    selectedObject = hit.transform.gameObject;
-                }
-            }
-        }
-        else
-        {
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Tile"))
-                {
-                    Object resource = Resources.Load<GameObject>("Editor/" + selectedObject.name);
-
-                    GameObject instantiate = Instantiate(resource as GameObject);
-                    instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
-                    instantiate.transform.position = new Vector3((int)hit.point.x, hit.point.y, (int)hit.point.z);
-                    instantiate.transform.parent = objectParent.transform;
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// 휠을 돌리면 오브젝트가 바뀐다.
-    /// </summary>
-    private void ChangeObject()
-    {
-        Event e = Event.current;
-        if(e.type == EventType.ScrollWheel)
-        {
-            if(e.delta.y > 0)
-            {
-                selectIndex = selectIndex - 1 < 0 ? BlockEditor.ObjectList.Count - 1 : selectIndex - 1;
-                DestroyImmediate(selectedObject);
-                Object resource = Resources.Load<GameObject>("Editor/" + BlockEditor.ObjectList[selectIndex].name);
-                //Debug.Log(resource);
-                BlockEditor.ObjectSetting(resource as GameObject, Vector3.zero, objectParent.transform);
-                selectedObject = resource as GameObject;
-                Debug.Log(selectedObject);
-
+                //휠 돌려 오브젝트 변경
+                ChangeObject();
             }
             else
             {
-                selectIndex = selectIndex + 1 > BlockEditor.ObjectList.Count - 1 ? 0 : selectIndex + 1;
-                DestroyImmediate(selectedObject);
-                Object resource = Resources.Load<GameObject>("Editor/" + BlockEditor.ObjectList[selectIndex].name);
-                //Debug.Log(resource);
-                //BlockEditor.ObjectSetting(resource as GameObject, Vector3.zero, objectParent.transform);
-                selectedObject = resource as GameObject;
-                Debug.Log(selectedObject);
+                //ZoomMode
             }
+        }   
+        //휠 모드 변경 (Tab)
+        if(e.type == EventType.KeyDown && e.keyCode == KeyCode.Tab)
+        {
+            wheelMode = wheelMode == WheelMode.None ? WheelMode.Change : WheelMode.None;
+            Debug.Log("휠 모드 변경: " + wheelMode);
         }
     }
-
 }
