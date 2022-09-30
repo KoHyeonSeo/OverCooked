@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class Sink : MonoBehaviour
+public class Sink : MonoBehaviourPun
 {
     public int cleanPlate = 0;
     public int dirtyPlate = 0;
     public GameObject washGauge;
     public Image washGaugeImage;
-    public bool isPlayerExit;
+    public bool isPlayerExist;
     float time;
     float washTime = 3;
     public GameObject sinkPlateTable;
@@ -36,14 +37,32 @@ public class Sink : MonoBehaviour
         }
     }
 
+    
     public void SetPlate(int i)
+    {
+        photonView.RPC("RpcPlate", RpcTarget.All, i);
+    }
+
+    [PunRPC]
+    void RpcPlate(int i)
     {
         dirtyPlate = i;
     }
 
+    public void CheckPlayerExist(bool exist)
+    {
+        photonView.RPC("RpcCheckPlayerExist", RpcTarget.All, exist);
+    }
+
+    [PunRPC]
+    public void RpcCheckPlayerExist(bool exist)
+    {
+        isPlayerExist = exist;
+    }
+
     public void WashPlate()
     {
-        if (isPlayerExit && dirtyPlate > 0)
+        if (isPlayerExist && dirtyPlate > 0)
         {
             washGauge.SetActive(true);
             time += Time.deltaTime;
