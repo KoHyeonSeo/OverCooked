@@ -133,7 +133,7 @@ public class MapToolEditor : BlockEdit
             //오브젝트 움직임
             MovingObject();
             /// In select State and Change Mode -> Change Object
-            if (wheelMode == ChangeMode.Change)
+            if (changeMode == ChangeMode.Change)
             {
                 //부모 찾기
                 objectParent = GameObject.Find("Object_Parent");
@@ -144,7 +144,7 @@ public class MapToolEditor : BlockEdit
         ///Change the ChangeMode (Tab)
         if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Tab)
         {
-            wheelMode = wheelMode == ChangeMode.None ? ChangeMode.Change : ChangeMode.None;
+            changeMode = changeMode == ChangeMode.None ? ChangeMode.Change : ChangeMode.None;
         }
     }
 }

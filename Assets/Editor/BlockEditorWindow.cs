@@ -32,7 +32,7 @@ public class BlockEditorWindow : EditorWindow
     private void OnGUI()
     {
         Event e = Event.current;
-
+        EditorStyles.boldLabel.normal.textColor = Color.cyan;
         GUILayout.Label("Interact Object", EditorStyles.boldLabel);
         GUILayout.BeginHorizontal();
         GUILayout.BeginScrollView
@@ -53,7 +53,7 @@ public class BlockEditorWindow : EditorWindow
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
         {
             GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[0]);
-            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
+            EditUtility.ObjectSetting(map, instantiate, Vector3.zero, objectParent.transform);
         }
 
 
@@ -64,27 +64,19 @@ public class BlockEditorWindow : EditorWindow
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[1])))
         {
             GameObject instantiate = Instantiate(ObjectList[1] as GameObject);
-            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
+            EditUtility.ObjectSetting(map, instantiate, Vector3.zero, objectParent.transform);
         }
 
         GUILayout.Label("Fire Extinguisher");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[2])))
         {
             GameObject instantiate = Instantiate(ObjectList[2] as GameObject);
-            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
+            EditUtility.ObjectSetting(map, instantiate, Vector3.zero, objectParent.transform);
         }
 
         GUILayout.FlexibleSpace();
         GUILayout.EndScrollView();
         GUILayout.EndHorizontal();
-    }
-    public static void ObjectSetting(GameObject instantiate, Vector3 pos, Transform parent)
-    {
-        EditorGUIUtility.PingObject(map);
-        Selection.activeGameObject = map;
-        instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
-        instantiate.transform.position = pos;
-        instantiate.transform.parent = parent;
     }
 }
 
