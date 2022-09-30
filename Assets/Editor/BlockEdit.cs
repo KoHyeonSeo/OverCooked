@@ -206,7 +206,7 @@ public class BlockEdit : Editor
     protected private void ChangeObject()
     {
         Event e = Event.current;
-        #region Scroll(Regacy)
+        #region Scroll(Legacy)
         //if(e.type == EventType.ScrollWheel)
         //{
         //    if(e.delta.y > 0)
