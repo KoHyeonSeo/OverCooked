@@ -23,7 +23,6 @@ public class Plate : MonoBehaviourPun
 
     void Start()
     {
-        //ingredientName.text = "";
         ObjectManager.instance.SetPhotonObject(gameObject);
     }
 
@@ -132,15 +131,12 @@ public class Plate : MonoBehaviourPun
         //잘라야 하는데 안자른거면 return;
         if (ingredient.ingredientObject.isPossibleCut && !ingredient.isCut)
         {
-            print("false: " + ingredient.ingredientObject.isPossibleCut + ", " + !ingredient.isCut);
             return false;
         }
         if (ingredient.ingredientObject.isPossibleBake && !ingredient.isBake)
         {
-            print("false: " + ingredient.ingredientObject.isPossibleBake + ", " + !ingredient.isBake);
             return false;
         }
-        print("Chack: ready");
         return true;
     }
 }

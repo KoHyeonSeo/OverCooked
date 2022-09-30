@@ -43,7 +43,6 @@ public class M_Table : MonoBehaviourPun
     //Å×ÀÌºí ±ôºý°Å¸² ÁßÁö
     public void StopBlink()
     {
-        print("¸ØÃã");
         GetComponent<Renderer>().material.color = startColor;
     }
 
@@ -63,15 +62,17 @@ public class M_Table : MonoBehaviourPun
                 ObjectManager.instance.photonObjectIdList.RemoveAt(i);
                 continue;
             }
-            print(id + ", " + ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID);
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
                 obj = ObjectManager.instance.photonObjectIdList[i];
             }
         }
-        getObject = obj;
-        getObject.transform.parent = transform;
-        objectPosition.y = 1;
-        getObject.transform.localPosition = objectPosition;
+        if (obj)
+        {
+            getObject = obj;
+            getObject.transform.parent = transform;
+            objectPosition.y = 1;
+            getObject.transform.localPosition = objectPosition;
+        }
     }
 }

@@ -101,12 +101,10 @@ public class OrderSheetManager : MonoBehaviourPun
                 orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(xPos, 0, 0);
             yield return new WaitForSeconds(0.01f);
         }
-        print("주문서 생성 끝");
     }
 
     public IEnumerator IeDeleteOrderSheet(GameObject orderSheet)
     {
-        print("삭제");
         int orderSheetNum = orderSheetList.IndexOf(orderSheet);
         orderSheetList.Remove(orderSheet);
         for (int i = orderSheetNum; i < orderSheetList.Count; i++)
@@ -120,13 +118,13 @@ public class OrderSheetManager : MonoBehaviourPun
             }
             orderSheetList[i].GetComponent<RectTransform>().localPosition = new Vector3(xTargetPos, 0, 0);
             yield return null;
-            print("줄이기 끝");
         }
     }
 
     public void CheckOrderSheet(int id)
     {
         photonView.RPC("RpcCheckOrderSheet", RpcTarget.All, id);
+        //RpcCheckOrderSheet(id);
     }
 
     //주문서랑 접시 비교
@@ -159,7 +157,9 @@ public class OrderSheetManager : MonoBehaviourPun
                 //접시의 재료와 주문서 레시피의 재료가 같은지 비교
                 if (!plate.ingredientList.Contains(recipe.ingredients[j]))
                 {
+                    print("다른 재료가 들어감: " + recipe.ingredients[j]);
                     StartCoroutine(WrongPlate(plate));
+                    return;
                 }
                 if (j == recipe.ingredients.Length - 1)
                 {
@@ -167,12 +167,13 @@ public class OrderSheetManager : MonoBehaviourPun
                     print("리스트에 있는 음식");
                     PlateManager.instance.AddDirtyPlate();
                     StageManager.instance.CoinPlus(8);
-                    //Destroy(plate.transform.gameObject);
+                    photonView.RPC("RpcDestroyPlate", RpcTarget.All, plate.GetComponent<PhotonView>().ViewID);
+                    return;
                 }
             }
         }
+        print("주문서에 없음");
         StartCoroutine(WrongPlate(plate));
-        //Destroy(plate.transform.gameObject);
     }
 
     IEnumerator WrongPlate(Plate plate)
@@ -186,8 +187,9 @@ public class OrderSheetManager : MonoBehaviourPun
         {
             orderSheetList[i].GetComponent<OrderSheet>().wrongImage.enabled = false;
         }
+        RpcDestroyPlate(plate.GetComponent<PhotonView>().ViewID);
+        //photonView.RPC("RpcDestroyPlate", RpcTarget.All, plate.GetComponent<PhotonView>().ViewID);
         PlateManager.instance.AddDirtyPlate();
-        photonView.RPC("RpcDestroyPlate", RpcTarget.All, plate.GetComponent<PhotonView>().ViewID);
         //Destroy(plate.transform.gameObject);
     }
 

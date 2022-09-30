@@ -30,7 +30,6 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
             {
                 if (isPlayerExist)
                 {
-                    print("존재함");
                     cutGauge.SetActive(true);
                     time += Time.deltaTime;
                     cutGaugeImage.GetComponent<Image>().fillAmount = time / cutTime;
@@ -47,7 +46,6 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void ChangeStateCut()
     {
-        print("잘림: " + cutTableObject.GetComponent<IngredientDisplay>().ingredientObject.name);
         cutTableObject.GetComponent<IngredientDisplay>().isCut = true;
         cutTableObject.GetComponent<IngredientDisplay>().CookLevelUp(); 
         time = 0;
