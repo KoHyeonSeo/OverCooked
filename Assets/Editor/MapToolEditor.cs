@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[CustomEditor(typeof(MapTool))]
 public class MapToolEditor : BlockEdit
 {
     private void OnEnable()
@@ -75,7 +76,6 @@ public class MapToolEditor : BlockEdit
                 //Object 배치 함수
                 CollocatingObject();
             }
-            Debug.Log("선택");
         }
         //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기 (Drag시 바로 Drag 상태로)
         else if (e.type == EventType.MouseDrag && e.button == 0
@@ -89,13 +89,11 @@ public class MapToolEditor : BlockEdit
                     mouseState = MouseState.Drag;
                     DragAndCreateObjects();
                     objectParent = GameObject.Find("Object_Parent");
-                    Debug.Log("드래그");
                 }
             }
             else
             {
                 DragAndCreateObjects();
-                Debug.Log("드래그");
             }
         }
         //드래그 후 마우스 떼면 모든 것이 초기화
@@ -111,24 +109,20 @@ public class MapToolEditor : BlockEdit
         //누르지 않았지만 오브젝트 선택 상태라면 선택된 오브젝트를 움직이게 하자
         if (selectState == SelectState.Select && selectedObject)
         {
-            Debug.Log("오브젝트 움직임");
             //오브젝트 움직임
             MovingObject();
             if (wheelMode == WheelMode.Change)
             {
+                //부모 찾기
+                objectParent = GameObject.Find("Object_Parent");
                 //휠 돌려 오브젝트 변경
                 ChangeObject();
-            }
-            else
-            {
-                //ZoomMode
             }
         }
         //휠 모드 변경 (Tab)
         if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Tab)
         {
             wheelMode = wheelMode == WheelMode.None ? WheelMode.Change : WheelMode.None;
-            Debug.Log("휠 모드 변경: " + wheelMode);
         }
     }
 }

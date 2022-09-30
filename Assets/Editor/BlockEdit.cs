@@ -7,7 +7,6 @@ using UnityEngine;
 /// <summary>
 /// MapTool의 BlockEdit 관련 함수와 변수
 /// </summary>
-[CustomEditor(typeof(MapTool))]
 public class BlockEdit : Editor
 {
     public enum SelectState
@@ -204,14 +203,14 @@ public class BlockEdit : Editor
         //}
         #endregion
 
-        #region KeyBoardArrow
-        if (e.type == EventType.KeyDown && e.keyCode == KeyCode.RightArrow)
+        #region KeyBoard(Z | C)
+        if (e.type == EventType.KeyDown && e.keyCode == KeyCode.C)
         {
             //인덱스 증가
             selectIndex = selectIndex + 1 > BlockEditorWindow.ObjectList.Count - 1 ? 0 : selectIndex + 1;
             ChaingSelectObject(selectIndex);
         }
-        else if (e.type == EventType.KeyDown && e.keyCode == KeyCode.LeftArrow)
+        else if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Z)
         {
             //인덱스 감소
             selectIndex = selectIndex - 1 < 0 ? BlockEditorWindow.ObjectList.Count - 1 : selectIndex - 1;
