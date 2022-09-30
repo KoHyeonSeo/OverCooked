@@ -70,6 +70,12 @@ MonoBehaviour:
   - RpcDestroyPlate
   - RpcDirtyPlateSetting
   - RpcSetCookingTool
+  - RpcCreateCleanPlates
+  - RpcCreatePlate
+  - RpcDestroyThisPlate
+  - RpcPlate
+  - RpcSetCleanPlate
+  - RpsResetDirtyPlateCount
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

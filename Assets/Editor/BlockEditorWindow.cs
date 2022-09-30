@@ -8,16 +8,22 @@ using UnityEngine.UIElements;
 
 public class BlockEditorWindow : EditorWindow
 {
-    
+    //Creating window setting
     static GameObject map;
     public static List<Object> ObjectList = new List<Object>();
     Vector2 scrollPosition;
-    
+
+    //ToolBar Setting
+    string[] toolList = { "Create", "Manual" };
+    int toolBarIdx = 0;
+
+
     [MenuItem("EditorWindow/BlockEditor")]
     static void Init()
     {
         var window = GetWindow<BlockEditorWindow>();
-        window.maxSize = window.minSize = new Vector2(200, 500);
+        window.maxSize = window.minSize = new Vector2(400, 500);
+
         map = GameObject.Find("Map");
         Object resource_table = Resources.Load<GameObject>("Editor/Table");
         Object resource_trash = Resources.Load<GameObject>("Editor/Trash Can");
@@ -28,19 +34,55 @@ public class BlockEditorWindow : EditorWindow
         ObjectList.Add(resource_FireExtinguisher);
 
     }
-
     private void OnGUI()
     {
+        toolBarIdx = GUILayout.Toolbar(toolBarIdx, toolList);
+
+        switch (toolBarIdx)
+        {
+            case 0:
+                OnGUI_Create();
+                break;
+            case 1:
+                OnGUI_ControlWindow();
+                break;
+        }
+    }
+    /// <summary>
+    /// Control Manual
+    /// </summary>
+    private void OnGUI_ControlWindow()
+    {
+        GUILayout.BeginVertical();
+        GUILayout.Label("Left Click -> Place Object");
+        GUILayout.Label("Left Ctrl + Left Click -> Object Delete");
+        GUILayout.Label("Left Click the Object -> Object Select");
+        GUILayout.Label("\t - Select object and Move mouse -> Object Move");
+        GUILayout.Label("\t - In select State and Change Mode -> Change Object");
+        GUILayout.Label("\t\t - Z -> Change Pre Object");
+        GUILayout.Label("\t\t - C -> Change Next Object");
+        GUILayout.Label("\t\t - Tab -> Change the ChangeMode");
+        GUILayout.Label("Left Click and Drag -> Place multiple objects");
+        GUILayout.Label("\t - Mouse Up in Drag State -> initialization");
+        GUILayout.EndVertical();
+    }
+    /// <summary>
+    /// Object creating window
+    /// </summary>
+    private void OnGUI_Create() {
+
+        GUILayout.BeginVertical();
+
+        GUILayout.BeginScrollView
+            (scrollPosition,
+            GUILayout.MinWidth(0),
+            GUILayout.MaxWidth(400),
+            GUILayout.MinHeight(0),
+            GUILayout.MaxHeight(1000));
+
         Event e = Event.current;
         EditorStyles.boldLabel.normal.textColor = Color.cyan;
         GUILayout.Label("Interact Object", EditorStyles.boldLabel);
-        GUILayout.BeginHorizontal();
-        GUILayout.BeginScrollView
-            (scrollPosition,
-            GUILayout.MinWidth(100),
-            GUILayout.MaxWidth(300),
-            GUILayout.MinHeight(220),
-            GUILayout.MaxHeight(700));
         GameObject objectParent = GameObject.Find("Object_Parent");
         if (!objectParent)
         {
@@ -48,7 +90,7 @@ public class BlockEditorWindow : EditorWindow
             objectParent.name = "Object_Parent";
         }
 
-        //오브젝트 생성부
+        
         GUILayout.Label("Table");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
         {
@@ -57,7 +99,7 @@ public class BlockEditorWindow : EditorWindow
         }
 
 
-        GUILayout.Label("Other", EditorStyles.boldLabel); 
+        GUILayout.Label("Other", EditorStyles.boldLabel);
 
         GUILayout.Label("Trash Can");
 
@@ -74,10 +116,7 @@ public class BlockEditorWindow : EditorWindow
             EditUtility.ObjectSetting(map, instantiate, Vector3.zero, objectParent.transform);
         }
 
-        GUILayout.FlexibleSpace();
         GUILayout.EndScrollView();
-        GUILayout.EndHorizontal();
+        GUILayout.EndVertical();
     }
 }
-
-
