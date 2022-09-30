@@ -15,19 +15,18 @@ public class PlateManager : MonoBehaviourPun
         instance = this;
     }
 
-    /*    public void AddDirtyPlate()
-        {
-            if (PhotonNetwork.IsMasterClient)
-                photonView.RPC("RpcAddDirtyPlate", RpcTarget.All);
-        }
-    */
-    //[PunRPC]
     GameObject plate;
     public void AddDirtyPlate()
     {
         if (!PhotonNetwork.IsMasterClient)
             return;
         plate = PhotonNetwork.Instantiate(platePrefab.name, transform.position, Quaternion.identity);
+        StartCoroutine(DirtyPlateSetting(plate));
+    }
+
+    IEnumerator DirtyPlateSetting(GameObject plate)
+    {
+        yield return new WaitForSeconds(0.1f);
         photonView.RPC("RpcDirtyPlateSetting", RpcTarget.All, plate.GetComponent<PhotonView>().ViewID);
     }
 
@@ -47,6 +46,7 @@ public class PlateManager : MonoBehaviourPun
             }
         }
         plate.GetComponent<Plate>().isdirty = true;
+        //plate.SetActive(true);
         //접시 반환 테이블에 접시가 하나도 없으면 하나 추가
         if (plateList.Count == 0)
         {
