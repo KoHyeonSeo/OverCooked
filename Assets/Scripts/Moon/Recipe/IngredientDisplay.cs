@@ -51,7 +51,6 @@ public class IngredientDisplay : MonoBehaviourPun
 
     void MeshChange()
     {
-        print("¹Ù²Þ: " + modelLevel);
         modelTransform = ingredientObject.model[modelLevel].GetComponent<Transform>();
         GetComponent<Transform>().localScale = modelTransform.localScale;
         GetComponent<Transform>().localRotation = modelTransform.localRotation;
