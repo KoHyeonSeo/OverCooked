@@ -57,6 +57,7 @@ public class PlateManager : MonoBehaviourPun
         }
         else
         {
+            plate.GetComponent<BoxCollider>().enabled = false;
             //이전 접시위에 올리기
             plateList[plateList.Count - 1].GetComponent<Plate>().AddPlate(plate);
             plateList.Add(plate);

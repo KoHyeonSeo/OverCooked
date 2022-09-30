@@ -13,6 +13,7 @@ public class OrderSheetManager : MonoBehaviourPun
     public GameObject orderSheetPanel;
     int orderCount = 0;
     public UI_ReadyStart readyStart;
+    bool isDeleteTime;
 
     public static OrderSheetManager instance;
     
@@ -25,8 +26,7 @@ public class OrderSheetManager : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            InvokeRepeating("CreateOrderSheet", 2f, 5f);
-
+            InvokeRepeating("CreateOrderSheet", 2f, 2f);
         }
     }
 
@@ -49,8 +49,6 @@ public class OrderSheetManager : MonoBehaviourPun
         //주문 5개 까지만 받음
         if (orderCount >= 5)
             return;
-        //주문서 개수 증가
-        orderCount++;
         //레시피들 중 랜덤으로 주문서 생성, 주문서 리스트에 추가
         int random = UnityEngine.Random.Range(0, recipes.Length);
         photonView.RPC("RpcMoveOrderSheet", RpcTarget.All, random);
@@ -60,12 +58,15 @@ public class OrderSheetManager : MonoBehaviourPun
     [PunRPC]
     void RpcMoveOrderSheet(int random)
     {
-        StartCoroutine(IeMoveOrderSheet(random));
+        if (!isDeleteTime)
+            StartCoroutine(IeMoveOrderSheet(random));
     }
 
     //주문서 이동
     IEnumerator IeMoveOrderSheet(int random)
     {
+        //주문서 개수 증가
+        orderCount++;
         GameObject orderSheet = Instantiate(orderSheetPrefab);
         orderSheet.GetComponent<OrderSheet>().recipe = recipes[random];
         orderSheetList.Add(orderSheet);
@@ -74,13 +75,6 @@ public class OrderSheetManager : MonoBehaviourPun
         //시작위치는 화면 밖
         orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(1920, 0, 0);
         orderSheet.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        /*for (int i = 0; i < orderSheetList.Count; i++)
-        {
-            if (orderSheetList[i].GetComponent<PhotonView>().ViewID == id)
-            {
-                orderSheet = orderSheetList[i];
-            }
-        }*/
         float xTargetPos = 0; //여기까지 이동해야 함
         float xPos = orderSheet.GetComponent<RectTransform>().position.x; //현재 주문서의 위치
         for (int i = 0; i < orderSheetList.Count - 1; i++)
@@ -101,6 +95,25 @@ public class OrderSheetManager : MonoBehaviourPun
                 orderSheet.GetComponent<RectTransform>().localPosition = new Vector3(xPos, 0, 0);
             yield return new WaitForSeconds(0.01f);
         }
+    }
+
+    public void DeleteOrderSheet(GameObject orderSheet)
+    {
+        isDeleteTime = true;
+        int orderSheetNum = orderSheetList.IndexOf(orderSheet);
+        orderSheetList.Remove(orderSheet);
+        for (int i = orderSheetNum; i < orderSheetList.Count; i++)
+        {
+            float xTargetPos = 0; //여기까지 이동해야 함
+            float xPos = orderSheetList[i].GetComponent<RectTransform>().position.x; //현재 주문서의 위치
+            for (int j = 0; j < i; j++)
+            {
+                //현재 리스트에 담긴 주문서 넓이만큼 간격 두고 이동하기 위해 계산
+                xTargetPos += 10 + orderSheetList[j].GetComponent<RectTransform>().rect.width * 0.5f;
+            }
+            orderSheetList[i].GetComponent<RectTransform>().localPosition = new Vector3(xTargetPos, 0, 0);
+        }
+        isDeleteTime = false;
     }
 
     public IEnumerator IeDeleteOrderSheet(GameObject orderSheet)

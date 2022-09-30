@@ -265,7 +265,9 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
                 if (getObject.GetComponent<Plate>() && getObject.GetComponent<Plate>().isdirty)
                     return;
                 interactiveObject.GetComponent<M_Table>().SetObject(getObject.GetComponent<PhotonView>().ViewID);
-            }  
+            }
+            /*getObject.GetComponent<Rigidbody>().useGravity = true;
+            getObject.GetComponent<Rigidbody>().isKinematic = false;*/
             GetComponent<PlayerInteract>().GrabbingObjectInfo = null;
         }
         else

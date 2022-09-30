@@ -48,7 +48,7 @@ public class Plate : MonoBehaviourPun
         plate.GetComponent<Rigidbody>().isKinematic = true;
     }
 
-    public void PlateKinematicOff()
+    void PlateKinematicOff()
     {
         if (transform.childCount > 1)
             transform.GetChild(1).GetComponent<Rigidbody>().isKinematic = false;
