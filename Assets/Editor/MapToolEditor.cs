@@ -13,6 +13,11 @@ public class MapToolEditor : BlockEdit
     /// Left Click the Object -> Object Select
     ///     - Select object and Move mouse -> Object Move
     /// Left Click and Drag -> Place multiple objects
+    ///     - Mouse Up in Drag State -> initialization
+    /// In select State and Change Mode -> Change Object
+    /// Tab -> Change the ChangeMode 
+    /// Z -> Change Pre Object
+    /// C -> Change Next Object
     /// </summary>
     private void OnEnable()
     {
@@ -107,7 +112,7 @@ public class MapToolEditor : BlockEdit
             }
         }
         //드래그 후 마우스 떼면 모든 것이 초기화
-        //Mouse Up in Drag State -> initialization
+        ///Mouse Up in Drag State -> initialization
         else if (e.type == EventType.MouseUp
             && e.button == 0
             && mouseState == MouseState.Drag)
@@ -123,8 +128,8 @@ public class MapToolEditor : BlockEdit
         {
             //오브젝트 움직임
             MovingObject();
-            /// In select State and Wheel Mode ->
-            if (wheelMode == WheelMode.Change)
+            /// In select State and Change Mode -> Change Object
+            if (wheelMode == ChangeMode.Change)
             {
                 //부모 찾기
                 objectParent = GameObject.Find("Object_Parent");
@@ -132,10 +137,10 @@ public class MapToolEditor : BlockEdit
                 ChangeObject();
             }
         }
-        //휠 모드 변경 (Tab)
+        ///Change the ChangeMode (Tab)
         if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Tab)
         {
-            wheelMode = wheelMode == WheelMode.None ? WheelMode.Change : WheelMode.None;
+            wheelMode = wheelMode == ChangeMode.None ? ChangeMode.Change : ChangeMode.None;
         }
     }
 }

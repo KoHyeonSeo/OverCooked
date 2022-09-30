@@ -21,7 +21,7 @@ public class BlockEdit : Editor
         Drag
     }
 
-    public enum WheelMode
+    public enum ChangeMode
     {
         None,
         Change
@@ -31,7 +31,7 @@ public class BlockEdit : Editor
     //Drag상태인가 아닌가?
     protected MouseState mouseState = MouseState.None;
     //휠 모드 설정
-    protected WheelMode wheelMode = WheelMode.None;
+    protected ChangeMode wheelMode = ChangeMode.None;
     //들고 있는 오브젝트
     protected GameObject selectedObject = null;
     //초기 마우스 위치 저장
