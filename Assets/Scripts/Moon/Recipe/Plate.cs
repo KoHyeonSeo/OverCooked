@@ -139,4 +139,15 @@ public class Plate : MonoBehaviourPun
         }
         return true;
     }
+
+    public void DestroyThisPlate()
+    {
+        photonView.RPC("RpcDestroyThisPlate", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RpcDestroyThisPlate()
+    {
+        Destroy(gameObject);
+    }
 }
