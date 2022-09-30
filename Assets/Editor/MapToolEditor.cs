@@ -6,37 +6,42 @@ using UnityEngine;
 [CustomEditor(typeof(MapTool))]
 public class MapToolEditor : BlockEdit
 {
+    /// <summary>
+    /// [Function List]
+    /// Left Click -> Place Object
+    /// Left Ctrl + Left Click -> Object Delete
+    /// Left Click the Object -> Object Select
+    ///     - Select object and Move mouse -> Object Move
+    /// Left Click and Drag -> Place multiple objects
+    /// </summary>
     private void OnEnable()
     {
         map = (MapTool)target;
         objectParent = GameObject.Find("Object_Parent");
     }
-    //우클릭하면 선택 & 위치 변경 가능
-    //좌클릭하고 드래그 -> 여러개 생성
-    //우클릭해서 선택 상태일때, 마우스 휠 -> 물체 변경
 
     public override void OnInspectorGUI()
     {
         //base.OnInspectorGUI();
-        map.tileX = EditorGUILayout.IntField("타일 가로", map.tileX);
-        map.tileZ = EditorGUILayout.IntField("타일 세로", map.tileZ);
+        map.tileX = EditorGUILayout.IntField("Tile Width", map.tileX);
+        map.tileZ = EditorGUILayout.IntField("Tile Height", map.tileZ);
 
         map.tileX = Mathf.Clamp(map.tileX, 1, 500);
         map.tileZ = Mathf.Clamp(map.tileZ, 1, 500);
 
-        map.floorTile = (GameObject)EditorGUILayout.ObjectField("타일", map.floorTile, typeof(GameObject), false);
+        map.floorTile = (GameObject)EditorGUILayout.ObjectField("Tile Object", map.floorTile, typeof(GameObject), false);
 
-        map.dragDistance = EditorGUILayout.FloatField("드래그 활성화 거리", map.dragDistance);
+        map.dragDistance = EditorGUILayout.FloatField("Drag Activation Distance", map.dragDistance);
 
-        if (GUILayout.Button("바닥 생성"))
+        if (GUILayout.Button("Create Floor"))
         {
             CreateFloor();
         }
         EditorGUILayout.Space();
 
-        if (GUILayout.Button("블록 모두 삭제"))
+        if (GUILayout.Button("Delete All Objects"))
         {
-            bool isCancel = EditorUtility.DisplayDialog(" 주의 ", "\n정말로 모두 삭제하시겠습니까?", "OK", "CANCEL");
+            bool isCancel = EditorUtility.DisplayDialog(" Caution ", "\nAre you sure you want to delete all?", "OK", "CANCEL");
             if (isCancel)
                 ClearMapObjects();
         }
@@ -56,12 +61,14 @@ public class MapToolEditor : BlockEdit
             firstMousePos = e.mousePosition;
         }
         //오브젝트 삭제하기
+        /// Left Ctrl + Left Click -> Object Delete
         else if (e.type == EventType.MouseDown && e.control)
         {
             DeleteObject();
         }
-        //================오브젝트 클릭 이벤트====================
+        //================Object Click Event====================
         //눌렀다가 바로 뗐을 때 오브젝트 선택 또는 배치(None State)
+        // Left Click -> Place Object (None State)
         if (e.type == EventType.MouseUp
             && e.button == 0
             && mouseState == MouseState.None)
@@ -69,15 +76,18 @@ public class MapToolEditor : BlockEdit
             if (selectState == SelectState.NotSelect)
             {
                 //Object 선택 함수
+                /// Left Click the Object -> Object Select (in NotSelect State) => Change to Select State
                 SelectObject();
             }
             else
             {
                 //Object 배치 함수
+                ///Left Click the Object -> CollocatingObject (in Select State) => Change to NotSelect State
                 CollocatingObject();
             }
         }
         //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기 (Drag시 바로 Drag 상태로)
+        // Left Click and Drag -> Place multiple objects (Drag State)
         else if (e.type == EventType.MouseDrag && e.button == 0
             && (mouseState == MouseState.Drag
             || mouseState == MouseState.None))
@@ -97,6 +107,7 @@ public class MapToolEditor : BlockEdit
             }
         }
         //드래그 후 마우스 떼면 모든 것이 초기화
+        //Mouse Up in Drag State -> initialization
         else if (e.type == EventType.MouseUp
             && e.button == 0
             && mouseState == MouseState.Drag)
@@ -105,17 +116,19 @@ public class MapToolEditor : BlockEdit
             selectedObject = null;
         }
 
-        //================오브젝트 갖고 있는 후====================
+        //================After Selecting Object====================
         //누르지 않았지만 오브젝트 선택 상태라면 선택된 오브젝트를 움직이게 하자
+        ///     - Select object and Move mouse -> Object Move
         if (selectState == SelectState.Select && selectedObject)
         {
             //오브젝트 움직임
             MovingObject();
+            /// In select State and Wheel Mode ->
             if (wheelMode == WheelMode.Change)
             {
                 //부모 찾기
                 objectParent = GameObject.Find("Object_Parent");
-                //휠 돌려 오브젝트 변경
+                //오브젝트 변경
                 ChangeObject();
             }
         }
