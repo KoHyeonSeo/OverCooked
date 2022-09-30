@@ -12,12 +12,12 @@ public class MapToolEditor : BlockEdit
     /// Left Ctrl + Left Click -> Object Delete
     /// Left Click the Object -> Object Select
     ///     - Select object and Move mouse -> Object Move
+    ///     - In select State and Change Mode -> Change Object
+    ///         - Z -> Change Pre Object
+    ///         - C -> Change Next Object
+    ///         - Tab -> Change the ChangeMode 
     /// Left Click and Drag -> Place multiple objects
     ///     - Mouse Up in Drag State -> initialization
-    /// In select State and Change Mode -> Change Object
-    /// Tab -> Change the ChangeMode 
-    /// Z -> Change Pre Object
-    /// C -> Change Next Object
     /// </summary>
     private void OnEnable()
     {
@@ -28,22 +28,25 @@ public class MapToolEditor : BlockEdit
     public override void OnInspectorGUI()
     {
         //base.OnInspectorGUI();
+
+        //tile infomation value of map
         map.tileX = EditorGUILayout.IntField("Tile Width", map.tileX);
         map.tileZ = EditorGUILayout.IntField("Tile Height", map.tileZ);
 
         map.tileX = Mathf.Clamp(map.tileX, 1, 500);
         map.tileZ = Mathf.Clamp(map.tileZ, 1, 500);
-
+        //floorTile Object value of map
         map.floorTile = (GameObject)EditorGUILayout.ObjectField("Tile Object", map.floorTile, typeof(GameObject), false);
-
+        //dragDistance value of map
         map.dragDistance = EditorGUILayout.FloatField("Drag Activation Distance", map.dragDistance);
 
+        //Create Floor Button
         if (GUILayout.Button("Create Floor"))
         {
             CreateFloor();
         }
         EditorGUILayout.Space();
-
+        //Delete Button
         if (GUILayout.Button("Delete All Objects"))
         {
             bool isCancel = EditorUtility.DisplayDialog(" Caution ", "\nAre you sure you want to delete all?", "OK", "CANCEL");
@@ -61,6 +64,7 @@ public class MapToolEditor : BlockEdit
 
 
         //드래그 거리 계산을 위해 초기 position을 저장
+        //Save initialize position for calculating Drag Activation Distance
         if (e.type == EventType.MouseDown && !e.control)
         {
             firstMousePos = e.mousePosition;
@@ -73,7 +77,7 @@ public class MapToolEditor : BlockEdit
         }
         //================Object Click Event====================
         //눌렀다가 바로 뗐을 때 오브젝트 선택 또는 배치(None State)
-        // Left Click -> Place Object (None State)
+        /// Left Click -> Place Object (None State)
         if (e.type == EventType.MouseUp
             && e.button == 0
             && mouseState == MouseState.None)
@@ -92,7 +96,7 @@ public class MapToolEditor : BlockEdit
             }
         }
         //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기 (Drag시 바로 Drag 상태로)
-        // Left Click and Drag -> Place multiple objects (Drag State)
+        /// Left Click and Drag -> Place multiple objects (Drag State)
         else if (e.type == EventType.MouseDrag && e.button == 0
             && (mouseState == MouseState.Drag
             || mouseState == MouseState.None))
