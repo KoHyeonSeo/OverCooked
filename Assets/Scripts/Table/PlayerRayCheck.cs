@@ -123,7 +123,7 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
             }
             if (sink && interactiveObject != sink )
             {
-                sink.GetComponent<Sink>().isPlayerExit = false;
+                sink.GetComponent<Sink>().CheckPlayerExist(false);
                 sink = null;
             }
             lastTable = interactiveObject;
@@ -186,15 +186,21 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
             if (getObject.GetComponent<Plate>().isdirty)
             {
                 interactiveObject.GetComponent<Sink>().SetPlate(dirtyPlate);
-                dirtyPlate = 0;
-                Destroy(getObject);
+                photonView.RPC("RpsResetDirtyPlateCount", RpcTarget.All);
+                getObject.GetComponent<Plate>().DestroyThisPlate();
             }
         }
         else if (!getObject)
         {
             sink = interactiveObject;
-            interactiveObject.GetComponent<Sink>().isPlayerExit = true;
+            interactiveObject.GetComponent<Sink>().CheckPlayerExist(true);
         }
+    }
+
+    [PunRPC]
+    void RpsResetDirtyPlateCount()
+    {
+        dirtyPlate = 0;
     }
 
     void InteractiveSinkPlateTable()
@@ -204,7 +210,7 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
             if (interactiveObject.GetComponent<SinkPlateTable>().cleanPlate > 0)
             {
                 //HavingSettingObject(ObjectManager.instance.photonObjectIdList.FindIndex()
-                //HavingSettingObject(interactiveObject.GetComponent<SinkPlateTable>().CreatePlate());
+                HavingSettingObject(interactiveObject.GetComponent<SinkPlateTable>().CreatePlate());
             }
         }
     }
