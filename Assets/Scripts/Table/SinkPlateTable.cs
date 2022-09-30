@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class SinkPlateTable : MonoBehaviour
+public class SinkPlateTable : MonoBehaviourPun
 {
     public int cleanPlate;
     public GameObject PlatePrefab;
     public List<GameObject> plateList = new List<GameObject>();
 
     public void CreateCleanPlates()
+    {
+        photonView.RPC("RpcCreateCleanPlates", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcCreateCleanPlates()
     {
         for (int i = 0; i < plateList.Count; i++)
         {
@@ -25,11 +31,28 @@ public class SinkPlateTable : MonoBehaviour
         }
     }
 
-    public GameObject CreatePlate()
+    public GameObject plate;
+    public void CreatePlate(int id)
     {
+        photonView.RPC("RpcCreatePlate", RpcTarget.All, id);
+    }
+
+    GameObject player;
+    [PunRPC]
+    public void RpcCreatePlate(int id)
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                player = players[i];
+            }
+        }
         cleanPlate--;
-        GameObject plate = PhotonNetwork.Instantiate(PlatePrefab.name, transform.position, Quaternion.identity);
+        plate = Instantiate(PlatePrefab);
+        player.GetComponent<PlayerRayCheck>().HavingSettingObject(plate);
+        //plate = PhotonNetwork.Instantiate(PlatePrefab.name, transform.position, Quaternion.identity);
         CreateCleanPlates();
-        return plate;
     }
 }

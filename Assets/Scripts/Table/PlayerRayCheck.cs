@@ -210,9 +210,24 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
             if (interactiveObject.GetComponent<SinkPlateTable>().cleanPlate > 0)
             {
                 //HavingSettingObject(ObjectManager.instance.photonObjectIdList.FindIndex()
-                HavingSettingObject(interactiveObject.GetComponent<SinkPlateTable>().CreatePlate());
+                interactiveObject.GetComponent<SinkPlateTable>().CreatePlate(photonView.ViewID);
+                //StartCoroutine(SetCleanPlate());
+                //SetCleanPlate();
             }
         }
+    }
+
+   IEnumerator SetCleanPlate()
+    {
+        yield return new WaitForSeconds(0.3f);
+        photonView.RPC("RpcSetCleanPlate", RpcTarget.All);
+        
+    }
+
+    [PunRPC]
+    void RpcSetCleanPlate()
+    {
+        HavingSettingObject(interactiveObject.GetComponent<SinkPlateTable>().plate);
     }
 
     void InteractiveServiceDesk()
@@ -361,7 +376,7 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    void HavingSettingObject(GameObject obj)
+    public void HavingSettingObject(GameObject obj)
     {
         for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
