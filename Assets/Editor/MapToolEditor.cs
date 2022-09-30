@@ -1,95 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using Codice.Client.BaseCommands;
-using Unity.VisualScripting;
-using UnityEngine.UIElements;
+using UnityEngine;
 
-public class BlockEditor : EditorWindow
-{
-    
-    static GameObject map;
-    public static List<Object> ObjectList = new List<Object>();
-    Vector2 scrollPosition;
-    
-    [MenuItem("EditorWindow/BlockEditor")]
-    static void Init()
-    {
-        var window = GetWindow<BlockEditor>();
-        window.maxSize = window.minSize = new Vector2(200, 500);
-        map = GameObject.Find("Map");
-        Object resource_table = Resources.Load<GameObject>("Editor/Table");
-        Object resource_trash = Resources.Load<GameObject>("Editor/Trash Can");
-        Object resource_FireExtinguisher = Resources.Load<GameObject>("Editor/FireExtinguisher");
-
-        ObjectList.Add(resource_table);
-        ObjectList.Add(resource_trash);
-        ObjectList.Add(resource_FireExtinguisher);
-
-    }
-
-    private void OnGUI()
-    {
-        Event e = Event.current;
-
-        GUILayout.Label("Interact Object", EditorStyles.boldLabel);
-        GUILayout.BeginHorizontal();
-        GUILayout.BeginScrollView
-            (scrollPosition,
-            GUILayout.MinWidth(100),
-            GUILayout.MaxWidth(300),
-            GUILayout.MinHeight(220),
-            GUILayout.MaxHeight(700));
-        GameObject objectParent = GameObject.Find("Object_Parent");
-        if (!objectParent)
-        {
-            objectParent = new GameObject();
-            objectParent.name = "Object_Parent";
-        }
-
-        //오브젝트 생성부
-        GUILayout.Label("Table");
-        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
-        {
-            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[0]);
-            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
-        }
-
-
-        GUILayout.Label("Other", EditorStyles.boldLabel); 
-
-        GUILayout.Label("Trash Can");
-
-        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[1])))
-        {
-            GameObject instantiate = Instantiate(ObjectList[1] as GameObject);
-            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
-        }
-
-        GUILayout.Label("Fire Extinguisher");
-        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[2])))
-        {
-            GameObject instantiate = Instantiate(ObjectList[2] as GameObject);
-            ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
-        }
-
-        GUILayout.FlexibleSpace();
-        GUILayout.EndScrollView();
-        GUILayout.EndHorizontal();
-    }
-    public static void ObjectSetting(GameObject instantiate, Vector3 pos, Transform parent)
-    {
-        EditorGUIUtility.PingObject(map);
-        Selection.activeGameObject = map;
-        instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
-        instantiate.transform.position = pos;
-        instantiate.transform.parent = parent;
-    }
-}
-
-
-public class BlockEditWithEditor : BlockEdit
+public class MapToolEditor : BlockEdit
 {
     private void OnEnable()
     {
@@ -113,16 +27,16 @@ public class BlockEditWithEditor : BlockEdit
 
         map.dragDistance = EditorGUILayout.FloatField("드래그 활성화 거리", map.dragDistance);
 
-        if(GUILayout.Button("바닥 생성"))
+        if (GUILayout.Button("바닥 생성"))
         {
             CreateFloor();
         }
         EditorGUILayout.Space();
 
-        if(GUILayout.Button("블록 모두 삭제"))
+        if (GUILayout.Button("블록 모두 삭제"))
         {
             bool isCancel = EditorUtility.DisplayDialog(" 주의 ", "\n정말로 모두 삭제하시겠습니까?", "OK", "CANCEL");
-            if(isCancel)
+            if (isCancel)
                 ClearMapObjects();
         }
     }
@@ -141,7 +55,7 @@ public class BlockEditWithEditor : BlockEdit
             firstMousePos = e.mousePosition;
         }
         //오브젝트 삭제하기
-        else if(e.type == EventType.MouseDown && e.control)
+        else if (e.type == EventType.MouseDown && e.control)
         {
             DeleteObject();
         }
@@ -209,9 +123,9 @@ public class BlockEditWithEditor : BlockEdit
             {
                 //ZoomMode
             }
-        }   
+        }
         //휠 모드 변경 (Tab)
-        if(e.type == EventType.KeyDown && e.keyCode == KeyCode.Tab)
+        if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Tab)
         {
             wheelMode = wheelMode == WheelMode.None ? WheelMode.Change : WheelMode.None;
             Debug.Log("휠 모드 변경: " + wheelMode);

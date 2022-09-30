@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static BlockEditWithEditor;
 
 /// <summary>
 /// MapTool의 BlockEdit 관련 함수와 변수
@@ -84,9 +83,9 @@ public class BlockEdit : Editor
                 //selectedObject에 클릭한 물체를 넣어두자
                 selectedObject = hit.transform.gameObject;
                 //현재 들고 있는 오브젝트가 리스트 중 몇 번째 인덱스인가
-                for (int i = 0; i < BlockEditor.ObjectList.Count; i++)
+                for (int i = 0; i < BlockEditorWindow.ObjectList.Count; i++)
                 {
-                    if (BlockEditor.ObjectList[i].name == selectedObject.name)
+                    if (BlockEditorWindow.ObjectList[i].name == selectedObject.name)
                     {
                         selectIndex = i;
                         break;
@@ -209,13 +208,13 @@ public class BlockEdit : Editor
         if (e.type == EventType.KeyDown && e.keyCode == KeyCode.RightArrow)
         {
             //인덱스 증가
-            selectIndex = selectIndex + 1 > BlockEditor.ObjectList.Count - 1 ? 0 : selectIndex + 1;
+            selectIndex = selectIndex + 1 > BlockEditorWindow.ObjectList.Count - 1 ? 0 : selectIndex + 1;
             ChaingSelectObject(selectIndex);
         }
         else if (e.type == EventType.KeyDown && e.keyCode == KeyCode.LeftArrow)
         {
             //인덱스 감소
-            selectIndex = selectIndex - 1 < 0 ? BlockEditor.ObjectList.Count - 1 : selectIndex - 1;
+            selectIndex = selectIndex - 1 < 0 ? BlockEditorWindow.ObjectList.Count - 1 : selectIndex - 1;
             ChaingSelectObject(selectIndex);
         }
         #endregion
@@ -229,12 +228,12 @@ public class BlockEdit : Editor
         //기존의 잡고 있는 오브젝트는 삭제
         DestroyImmediate(selectedObject);
         //선택한 오브젝트의 인덱스 변경하여 생성
-        Object resource = Resources.Load<GameObject>("Editor/" + BlockEditor.ObjectList[index].name);
+        Object resource = Resources.Load<GameObject>("Editor/" + BlockEditorWindow.ObjectList[index].name);
         //프리팹 생성
         GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(resource);
         //선택한 오브젝트 변경
         selectedObject = instantiate;
         //오브젝트 셋팅
-        BlockEditor.ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
+        BlockEditorWindow.ObjectSetting(instantiate, Vector3.zero, objectParent.transform);
     }
 }
