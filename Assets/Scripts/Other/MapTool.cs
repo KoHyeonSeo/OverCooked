@@ -10,4 +10,12 @@ public class MapTool : MonoBehaviour
     public GameObject floorTile;
 
     public float dragDistance;
+
+    public Texture moveTexture;
+    public Texture dragTexture;
+    public Texture deleteTexture;
+    public Texture selectTexture;
+    public Texture swapTexture;
+    public Texture changeTexture;
+    public Texture arrangeMentTexture;
 }

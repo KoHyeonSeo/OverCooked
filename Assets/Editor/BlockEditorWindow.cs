@@ -9,12 +9,12 @@ using UnityEngine.UIElements;
 public class BlockEditorWindow : EditorWindow
 {
     //Creating window setting
-    static GameObject map;
+    static MapTool map;
     public static List<Object> ObjectList = new List<Object>();
     Vector2 scrollPosition;
 
     //ToolBar Setting
-    string[] toolList = { "Create", "Manual" };
+    string[] toolList = { "Create", "View" , "Manual"};
     int toolBarIdx = 0;
 
 
@@ -24,7 +24,7 @@ public class BlockEditorWindow : EditorWindow
         var window = GetWindow<BlockEditorWindow>();
         window.maxSize = window.minSize = new Vector2(400, 500);
 
-        map = GameObject.Find("Map");
+        map = GameObject.Find("Map").GetComponent<MapTool>();
         Object resource_table = Resources.Load<GameObject>("Editor/Table");
         Object resource_trash = Resources.Load<GameObject>("Editor/Trash Can");
         Object resource_FireExtinguisher = Resources.Load<GameObject>("Editor/FireExtinguisher");
@@ -44,28 +44,104 @@ public class BlockEditorWindow : EditorWindow
                 OnGUI_Create();
                 break;
             case 1:
+                OnGUI_View();
+                break;
+            case 2:
                 OnGUI_ControlWindow();
                 break;
         }
     }
+
+    private void OnGUI_View()
+    {
+        GUILayout.Label("Select State: " + BlockEdit.selectState);
+        GUILayout.Label("Mouse State: " + BlockEdit.mouseState);
+        GUILayout.Label("Change Object Mode: " + BlockEdit.changeMode);
+    }
+
     /// <summary>
     /// Control Manual
     /// </summary>
     private void OnGUI_ControlWindow()
     {
         GUILayout.BeginVertical();
-        GUILayout.Label("Left Click -> Place Object");
-        GUILayout.Label("Left Ctrl + Left Click -> Object Delete");
-        GUILayout.Label("Left Click the Object -> Object Select");
-        GUILayout.Label("\t - Select object and Move mouse -> Object Move");
-        GUILayout.Label("\t - In select State and Change Mode -> Change Object");
+        GUILayout.BeginScrollView
+            (scrollPosition,
+            GUILayout.MinWidth(0),
+            GUILayout.MaxWidth(400),
+            GUILayout.MinHeight(500),
+            GUILayout.MaxHeight(1000));
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("\n\nLeft Click -> Place Object");
+        GUI.DrawTexture(new Rect(330, 5, 60, 60), map.arrangeMentTexture);
+        GUILayout.EndHorizontal();
+
+        DrawHorizontalLine(1, new Vector2(20, 5));
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("\nLeft Ctrl + Left Click -> Object Delete");
+        GUI.DrawTexture(new Rect(330, 75, 60, 60), map.deleteTexture);
+        GUILayout.EndHorizontal();
+
+        DrawHorizontalLine(1, new Vector2(28, 5));
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("\nLeft Click the Object -> Object Select");
+        GUI.DrawTexture(new Rect(330, 145, 60, 60), map.selectTexture);
+        GUILayout.EndHorizontal();
+
+        DrawHorizontalLine(1, new Vector2(31, 5));
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("\n\t - Select object and Move mouse \n\t\t -> Object Move");
+        GUI.DrawTexture(new Rect(330, 215, 60, 60), map.moveTexture);
+        GUILayout.EndHorizontal();
+
+        DrawHorizontalLine(1, new Vector2(13, 5));
+
+        GUILayout.Label("\t - In select State and Change Mode");
+
         GUILayout.Label("\t\t - Z -> Change Pre Object");
         GUILayout.Label("\t\t - C -> Change Next Object");
-        GUILayout.Label("\t\t - Tab -> Change the ChangeMode");
-        GUILayout.Label("Left Click and Drag -> Place multiple objects");
+        GUILayout.BeginHorizontal();
+        GUI.DrawTexture(new Rect(330, 285, 60, 60), map.changeTexture);
+        GUILayout.EndHorizontal();
+
+        DrawHorizontalLine(1, new Vector2(3, 5));
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("\n\t\t - Tab -> Change the ChangeMode");
+        GUI.DrawTexture(new Rect(330, 355, 60, 60), map.swapTexture);
+        GUILayout.EndHorizontal();
+
+        DrawHorizontalLine(1, new Vector2(28, 5));
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Left Click and Drag  -> Place multiple objects");
+        GUI.DrawTexture(new Rect(330, 425, 60, 60), map.dragTexture);
+        GUILayout.EndHorizontal();
+
         GUILayout.Label("\t - Mouse Up in Drag State -> initialization");
+
+        GUILayout.EndScrollView();
         GUILayout.EndVertical();
+        
     }
+    /// <summary>
+    /// Draw HorizontalLine
+    /// </summary>
+    /// <param name="height"></param>
+    /// <param name="margin"></param>
+    public void DrawHorizontalLine(float height, Vector2 margin)
+    {
+        GUILayout.Space(margin.x);
+
+        EditorGUI.DrawRect(EditorGUILayout.GetControlRect(false, height), Color.black);
+
+        GUILayout.Space(margin.y);
+    }
+
     /// <summary>
     /// Object creating window
     /// </summary>
@@ -95,7 +171,7 @@ public class BlockEditorWindow : EditorWindow
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
         {
             GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[0]);
-            EditUtility.ObjectSetting(map, instantiate, Vector3.zero, objectParent.transform);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
         }
 
 
@@ -106,14 +182,14 @@ public class BlockEditorWindow : EditorWindow
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[1])))
         {
             GameObject instantiate = Instantiate(ObjectList[1] as GameObject);
-            EditUtility.ObjectSetting(map, instantiate, Vector3.zero, objectParent.transform);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
         }
 
         GUILayout.Label("Fire Extinguisher");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[2])))
         {
             GameObject instantiate = Instantiate(ObjectList[2] as GameObject);
-            EditUtility.ObjectSetting(map, instantiate, Vector3.zero, objectParent.transform);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
         }
 
         GUILayout.EndScrollView();

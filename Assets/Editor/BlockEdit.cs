@@ -28,13 +28,13 @@ public class BlockEdit : Editor
     }
     //특정 오브젝트를 선택한 상태인가 아닌가? (잡고 잇는 상태인가 아닌가?)
     /// Is a specific object selected?
-    protected SelectState selectState = SelectState.NotSelect;
+    public static SelectState selectState = SelectState.NotSelect;
     //Drag상태인가 아닌가?
     /// Is it a Drag State?
-    protected MouseState mouseState = MouseState.None;
+    public static MouseState mouseState = MouseState.None;
     //Change 모드 설정
     /// Setting Change Mode
-    protected ChangeMode changeMode = ChangeMode.None;
+    public static ChangeMode changeMode = ChangeMode.None;
     //들고 있는 오브젝트
     /// Holding object
     protected GameObject selectedObject = null;
@@ -261,6 +261,6 @@ public class BlockEdit : Editor
         selectedObject = instantiate;
         //오브젝트 셋팅
         ///Setting Object
-        EditUtility.ObjectSetting(map, instantiate, Vector3.zero, objectParent.transform);
+        EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
     }
 }

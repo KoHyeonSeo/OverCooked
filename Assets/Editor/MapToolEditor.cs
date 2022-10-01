@@ -24,7 +24,6 @@ public class MapToolEditor : BlockEdit
         map = (MapTool)target;
         objectParent = GameObject.Find("Object_Parent");
     }
-
     public override void OnInspectorGUI()
     {
         //base.OnInspectorGUI();
@@ -39,6 +38,15 @@ public class MapToolEditor : BlockEdit
         map.floorTile = (GameObject)EditorGUILayout.ObjectField("Tile Object", map.floorTile, typeof(GameObject), false);
         //dragDistance value of map
         map.dragDistance = EditorGUILayout.FloatField("Drag Activation Distance", map.dragDistance);
+        
+        //Texture Value of map
+        map.changeTexture = (Texture)EditorGUILayout.ObjectField("Chagne Texture", map.changeTexture, typeof(Texture), false);
+        map.deleteTexture = (Texture)EditorGUILayout.ObjectField("Delete Texture", map.deleteTexture, typeof(Texture), false);
+        map.dragTexture = (Texture)EditorGUILayout.ObjectField("Drag Texture", map.dragTexture, typeof(Texture), false);
+        map.moveTexture = (Texture)EditorGUILayout.ObjectField("Move Texture", map.moveTexture, typeof(Texture), false);
+        map.swapTexture = (Texture)EditorGUILayout.ObjectField("Swap Texture", map.swapTexture, typeof(Texture), false);
+        map.selectTexture = (Texture)EditorGUILayout.ObjectField("Select Texture", map.selectTexture, typeof(Texture), false);
+        map.arrangeMentTexture = (Texture)EditorGUILayout.ObjectField("Arrangement Texture", map.arrangeMentTexture, typeof(Texture), false);
 
         //Create Floor Button
         if (GUILayout.Button("Create Floor"))
