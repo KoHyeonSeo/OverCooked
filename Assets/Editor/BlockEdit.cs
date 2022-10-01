@@ -78,9 +78,6 @@ public class BlockEdit : Editor
     /// </summary>
     protected void SelectObject()
     {
-        //Select 상태
-        //Select State
-        selectState = SelectState.Select;
 
         Event e = Event.current;
         Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
@@ -89,6 +86,10 @@ public class BlockEdit : Editor
         {
             if (hit.transform.gameObject.layer != LayerMask.NameToLayer("Tile"))
             {
+                //Select 상태
+                //Select State
+                selectState = SelectState.Select;
+
                 //레이어를 SelectObject로 바꾸자
                 /// Let's change the layer to SelectObject
                 hit.transform.gameObject.layer = LayerMask.NameToLayer("SelectObject");
@@ -105,10 +106,6 @@ public class BlockEdit : Editor
                         break;
                     }
                 }
-            }
-            else
-            {
-                selectState = SelectState.NotSelect;
             }
         }
     }
