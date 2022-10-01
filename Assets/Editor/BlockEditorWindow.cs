@@ -52,11 +52,18 @@ public class BlockEditorWindow : EditorWindow
         }
     }
 
+
     private void OnGUI_View()
     {
         GUILayout.Label("Select State: " + BlockEdit.selectState);
+        GUILayout.Space(10);
         GUILayout.Label("Mouse State: " + BlockEdit.mouseState);
+        GUILayout.Space(10);
         GUILayout.Label("Change Object Mode: " + BlockEdit.changeMode);
+        GUILayout.Space(10);
+        GUILayout.Label("Selected Object: " + BlockEdit.selectedObject);
+        
+        this.Repaint();
     }
 
     /// <summary>

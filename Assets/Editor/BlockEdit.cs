@@ -37,7 +37,7 @@ public class BlockEdit : Editor
     public static ChangeMode changeMode = ChangeMode.None;
     //들고 있는 오브젝트
     /// Holding object
-    protected GameObject selectedObject = null;
+    public static GameObject selectedObject = null;
     //초기 마우스 위치 저장
     /// Save initializable mouse position 
     protected Vector2 firstMousePos = Vector2.one;
