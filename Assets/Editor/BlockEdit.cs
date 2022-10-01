@@ -230,14 +230,14 @@ public class BlockEdit : Editor
             //인덱스 증가
             ///Increase Index
             selectIndex = selectIndex + 1 > BlockEditorWindow.ObjectList.Count - 1 ? 0 : selectIndex + 1;
-            ChaingSelectObject(selectIndex);
+            ChangingSelectObject(selectIndex);
         }
         else if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Z)
         {
             //인덱스 감소
             ///Decrease Index
             selectIndex = selectIndex - 1 < 0 ? BlockEditorWindow.ObjectList.Count - 1 : selectIndex - 1;
-            ChaingSelectObject(selectIndex);
+            ChangingSelectObject(selectIndex);
         }
         #endregion
     }
@@ -245,7 +245,7 @@ public class BlockEdit : Editor
     /// 오브젝트 변경 시 선택한 오브젝트 넣기
     /// Insert selected object when changing object
     /// </summary>
-    protected void ChaingSelectObject(int index)
+    protected void ChangingSelectObject(int index)
     {
 
         //기존의 잡고 있는 오브젝트는 삭제
