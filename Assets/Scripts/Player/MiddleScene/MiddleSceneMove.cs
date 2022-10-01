@@ -10,48 +10,67 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
     [SerializeField] private float dashSpeed = 20;
     [SerializeField] private float lerpSpeed = 5;
     [SerializeField] private float turnSpeed = 5;
+    [SerializeField] private GameObject nextUI;
     Vector3 recievePos;
     Quaternion recieveRot;
+    private bool isStartUI = false;
     private void Start()
     {
         
     }
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (isStartUI)
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
-
-            Vector3 dir = Vector3.right * h + Vector3.forward * v;
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, dir, turnSpeed * Time.deltaTime, 0);
-            transform.rotation = Quaternion.LookRotation(newDir);
-
-            if (Input.GetKey(KeyCode.LeftShift))
+            nextUI.SetActive(true);
+            nextUI.transform.localScale = Vector3.Lerp(nextUI.transform.localScale, new Vector3(40, 40, 40), Time.deltaTime * 0.5f);
+            if (Vector3.Distance(nextUI.transform.localScale, new Vector3(40, 40, 40)) < 35f)
             {
-                transform.position += dir.normalized * dashSpeed * Time.deltaTime;
-            }
-            else
-            {
-                transform.position += dir.normalized * moveSpeed * Time.deltaTime;
-            }
-
-
-            if (isPortal && Input.GetKeyDown(KeyCode.Space))
-            {
-                //PhotonNetwork.LoadLevel(4);
-                if (other.gameObject.name.Contains("Portal"))
+                isStartUI = false;
+                if (PhotonNetwork.IsMasterClient)
                 {
+
                     string[] names = other.gameObject.name.Split('/');
                     PhotonNetwork.LoadLevel(names[1]);
                 }
             }
-
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, recievePos, Time.deltaTime * lerpSpeed);
-            transform.rotation = Quaternion.Lerp(transform.rotation, recieveRot, Time.deltaTime * lerpSpeed);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                float h = Input.GetAxisRaw("Horizontal");
+                float v = Input.GetAxisRaw("Vertical");
+
+                Vector3 dir = Vector3.right * h + Vector3.forward * v;
+                Vector3 newDir = Vector3.RotateTowards(transform.forward, dir, turnSpeed * Time.deltaTime, 0);
+                transform.rotation = Quaternion.LookRotation(newDir);
+
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    transform.position += dir.normalized * dashSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+                }
+
+
+                if (isPortal && Input.GetKeyDown(KeyCode.Space))
+                {
+                    //PhotonNetwork.LoadLevel(4);
+                    if (other.gameObject.name.Contains("Portal"))
+                    {
+                        photonView.RPC("RPC_StartUI", RpcTarget.All);
+                    }
+                }
+
+            }
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, recievePos, Time.deltaTime * lerpSpeed);
+                transform.rotation = Quaternion.Lerp(transform.rotation, recieveRot, Time.deltaTime * lerpSpeed);
+            }
         }
 
     }
@@ -86,32 +105,11 @@ public class MiddleSceneMove : MonoBehaviourPun, IPunObservable
             isPortal = false;
         }
     }
-    private void OnTriggerStay(Collider other)
+
+    [PunRPC]
+    public void RPC_StartUI()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    if (PhotonNetwork.IsMasterClient)
-        //    {
-        //        //PhotonNetwork.LoadLevel(4);
-        //        if (other.gameObject.name.Contains("Portal"))
-        //        {
-        //            string[] names = other.gameObject.name.Split('/');
-        //            PhotonNetwork.LoadLevel(names[1]);
-        //        }
-        //    }
-        //}
+        isStartUI = true;
     }
-    //[PunRPC]
-    //public void RPC_PlayerMove()
-    //{
-    //    print("1");
-    //    float h = Input.GetAxisRaw("Horizontal");
-    //    float v = Input.GetAxisRaw("Vertical");
-
-    //    Vector3 dir = Vector3.right * h + Vector3.forward * v;
-
-    //    Vector3 newDir = Vector3.RotateTowards(transform.forward, dir, turnSpeed * Time.deltaTime, 0);
-    //    transform.rotation = Quaternion.LookRotation(newDir);
-    //    transform.position += dir.normalized * moveSpeed * Time.deltaTime;
-    //}
+   
 }
