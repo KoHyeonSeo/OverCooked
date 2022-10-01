@@ -81,12 +81,14 @@ public class MapToolEditor : BlockEdit
         /// Left Ctrl + Left Click -> Object Delete
         else if (e.type == EventType.MouseDown && e.control)
         {
+            selectState = SelectState.NotSelect;
             DeleteObject();
         }
         //================Object Click Event====================
         //눌렀다가 바로 뗐을 때 오브젝트 선택 또는 배치(None State)
         /// Left Click -> Place Object (None State)
-        if (e.type == EventType.MouseUp
+        if (Vector2.Distance(e.mousePosition, firstMousePos) < map.dragDistance 
+            && e.type == EventType.MouseUp
             && e.button == 0
             && mouseState == MouseState.None)
         {
@@ -123,9 +125,11 @@ public class MapToolEditor : BlockEdit
                 DragAndCreateObjects();
             }
         }
+
+
         //드래그 후 마우스 떼면 모든 것이 초기화
         ///Mouse Up in Drag State -> initialization
-        else if (e.type == EventType.MouseUp
+        if (e.type == EventType.MouseUp
             && e.button == 0
             && mouseState == MouseState.Drag)
         {

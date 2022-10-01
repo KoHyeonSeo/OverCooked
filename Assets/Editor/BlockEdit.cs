@@ -106,6 +106,10 @@ public class BlockEdit : Editor
                     }
                 }
             }
+            else
+            {
+                selectState = SelectState.NotSelect;
+            }
         }
     }
 
