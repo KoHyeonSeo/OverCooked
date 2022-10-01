@@ -192,10 +192,10 @@ public class BlockEdit : Editor
                 {
                     Object resource = Resources.Load<GameObject>("Editor/" + selectedObject.name);
 
-                    GameObject instantiate = Instantiate(resource as GameObject);
-                    instantiate.gameObject.name = instantiate.gameObject.name.Split('(')[0];
-                    instantiate.transform.position = new Vector3((int)hit.point.x, hit.point.y, (int)hit.point.z);
-                    instantiate.transform.parent = objectParent.transform;
+                    GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(resource);
+                    EditUtility.ObjectSetting(map.gameObject, 
+                        instantiate, new Vector3((int)hit.point.x, hit.point.y,
+                        (int)hit.point.z), objectParent.transform);
                 }
             }
         }

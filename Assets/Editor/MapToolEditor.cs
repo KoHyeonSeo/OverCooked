@@ -107,17 +107,15 @@ public class MapToolEditor : BlockEdit
         }
         //길게 누른 상태로 좌우로 움직인다면 물체 여러개로 늘리기 (Drag시 바로 Drag 상태로)
         /// Left Click and Drag -> Place multiple objects (Drag State)
-        else if (e.type == EventType.MouseDrag && e.button == 0
-            && (mouseState == MouseState.Drag
-            || mouseState == MouseState.None))
+        else if (e.type == EventType.MouseDrag && e.button == 0)
         {
             if (mouseState == MouseState.None)
             {
                 if (Vector2.Distance(e.mousePosition, firstMousePos) > map.dragDistance)
                 {
                     mouseState = MouseState.Drag;
-                    DragAndCreateObjects();
                     objectParent = GameObject.Find("Object_Parent");
+                    DragAndCreateObjects();
                 }
             }
             else
