@@ -13,8 +13,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private Transform startPos;
     [SerializeField] private Transform endPos;
     [SerializeField] private GameObject startUI;
+    [SerializeField] private GameObject nextUI;
 
     private Vector3[] spawnPos;
+    private bool isStartUI = false;
 
     private void Awake()
     {
@@ -69,6 +71,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         int idx = PhotonNetwork.CurrentRoom.PlayerCount - 1;
         PhotonNetwork.Instantiate("Player", spawnPos[idx], Quaternion.identity);
     }
+    private void Update()
+    {
+        if (isStartUI)
+        {
+            nextUI.SetActive(true);
+            nextUI.transform.localScale = Vector3.Lerp(nextUI.transform.localScale, new Vector3(40, 40, 40), Time.deltaTime * 0.5f);
+            if(Vector3.Distance(nextUI.transform.localScale, new Vector3(40, 40, 40)) < 35f)
+            {
+                isStartUI = false;
+                OnNextStage();
+            }
+        }
+    }
     public void Info(int key, string value)
     {
         photonView.RPC("RPC_ChangedInfo", RpcTarget.AllBuffered, key, value);
@@ -100,6 +115,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             players[i].transform.position = spawnPos[i];
         }
     }
+    [PunRPC]
+    public void RPC_StartUI()
+    {
+        isStartUI = true;
+    }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
@@ -109,6 +129,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
+    }
+    public void OnNextStage()
+    {
+        photonView.RPC("RPC_Save", RpcTarget.All);
+        //PhotonNetwork.LoadLevel("MiddleScene");
+        PhotonNetwork.LoadLevel("Stage1");
     }
     public void OnClickMiddleMap()
     {
@@ -126,9 +152,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
             if (isChecking)
             {
-                photonView.RPC("RPC_Save", RpcTarget.All);
-                //PhotonNetwork.LoadLevel("MiddleScene");
-                PhotonNetwork.LoadLevel("Stage1");
+                photonView.RPC("RPC_StartUI", RpcTarget.All);
             }
         }
     }

@@ -76,6 +76,7 @@ MonoBehaviour:
   - RpcPlate
   - RpcSetCleanPlate
   - RpsResetDirtyPlateCount
+  - RPC_StartUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
