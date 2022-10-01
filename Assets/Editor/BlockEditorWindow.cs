@@ -188,14 +188,14 @@ public class BlockEditorWindow : EditorWindow
 
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[1])))
         {
-            GameObject instantiate = Instantiate(ObjectList[1] as GameObject);
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[1]);
             EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
         }
 
         GUILayout.Label("Fire Extinguisher");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[2])))
         {
-            GameObject instantiate = Instantiate(ObjectList[2] as GameObject);
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[2]);
             EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
         }
 

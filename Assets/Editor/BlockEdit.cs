@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// MapTool의 BlockEdit 관련 함수와 변수
+/// MapToolEditor의 BlockEdit 관련 함수와 변수
 /// </summary>
 public class BlockEdit : Editor
 {
