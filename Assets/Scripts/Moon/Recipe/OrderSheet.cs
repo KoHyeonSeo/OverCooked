@@ -38,7 +38,9 @@ public class OrderSheet : MonoBehaviourPun
             yield return new WaitForSecondsRealtime(1f);
             gauge--;
             timeGauge.GetComponent<Image>().fillAmount = gauge / (recipe.ingredients.Length * ingredientTime);
-        }
+            Color c = Color.Lerp(Color.red, Color.green, gauge / (recipe.ingredients.Length * ingredientTime));
+            timeGauge.color = c;
+       }
         DestroyOrder();
         Destroy(gameObject);
     }
