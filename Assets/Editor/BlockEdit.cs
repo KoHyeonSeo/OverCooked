@@ -92,7 +92,7 @@ public class BlockEdit : Editor
 
                 //레이어를 SelectObject로 바꾸자
                 /// Let's change the layer to SelectObject
-                hit.transform.gameObject.layer = LayerMask.NameToLayer("SelectObject");
+                //hit.transform.gameObject.layer = LayerMask.NameToLayer("SelectObject");
                 //selectedObject에 클릭한 물체를 넣어두자
                 ///Put the object you clicked on in the selectedObject
                 selectedObject = hit.transform.gameObject;
@@ -137,8 +137,7 @@ public class BlockEdit : Editor
         /// Moving objects in grid form
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Tile")
-                || hit.transform.gameObject.layer == LayerMask.NameToLayer("Default"))
+            if (hit.transform.gameObject.GetInstanceID() != selectedObject.GetInstanceID())
             {
                 //닿은 격자에 넣어두자
                 Vector3 p = new Vector3((int)hit.point.x, hit.point.y, (int)hit.point.z);

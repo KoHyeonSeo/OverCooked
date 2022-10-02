@@ -25,13 +25,35 @@ public class BlockEditorWindow : EditorWindow
         window.maxSize = window.minSize = new Vector2(400, 500);
 
         map = GameObject.Find("Map").GetComponent<MapTool>();
-        Object resource_table = Resources.Load<GameObject>("Editor/Table");
+        Object resource_table = Resources.Load<GameObject>("Editor/TableTest");
         Object resource_trash = Resources.Load<GameObject>("Editor/Trash Can");
         Object resource_FireExtinguisher = Resources.Load<GameObject>("Editor/FireExtinguisher");
+        Object resource_BunBox = Resources.Load<GameObject>("Editor/BunBox");
+        Object resource_CutTable = Resources.Load<GameObject>("Editor/CutTable");
+        Object resource_FireTable = Resources.Load<GameObject>("Editor/FireTable");
+        Object resource_LettuceBox = Resources.Load<GameObject>("Editor/LettuceBox");
+        Object resource_MeatBox = Resources.Load<GameObject>("Editor/MeatBox");
+        Object resource_PlateTable = Resources.Load<GameObject>("Editor/PlateTable");
+        Object resource_ServiceDesk = Resources.Load<GameObject>("Editor/ServiceDesk");
+        Object resource_Sink = Resources.Load<GameObject>("Editor/Sink");
+        Object resource_Table = Resources.Load<GameObject>("Editor/Table");
+        Object resource_TomatoBox = Resources.Load<GameObject>("Editor/TomatoBox");
 
         ObjectList.Add(resource_table);
         ObjectList.Add(resource_trash);
         ObjectList.Add(resource_FireExtinguisher);
+        
+        ObjectList.Add(resource_BunBox);
+        ObjectList.Add(resource_LettuceBox);
+        ObjectList.Add(resource_TomatoBox);
+        ObjectList.Add(resource_MeatBox);
+
+        ObjectList.Add(resource_CutTable);
+        ObjectList.Add(resource_FireTable);
+        ObjectList.Add(resource_PlateTable);
+        ObjectList.Add(resource_ServiceDesk);
+        ObjectList.Add(resource_Sink);
+        ObjectList.Add(resource_Table);
 
     }
     private void OnGUI()
@@ -156,7 +178,7 @@ public class BlockEditorWindow : EditorWindow
 
         GUILayout.BeginVertical();
 
-        GUILayout.BeginScrollView
+        scrollPosition = GUILayout.BeginScrollView
             (scrollPosition,
             GUILayout.MinWidth(0),
             GUILayout.MaxWidth(400),
@@ -164,8 +186,6 @@ public class BlockEditorWindow : EditorWindow
             GUILayout.MaxHeight(1000));
 
         Event e = Event.current;
-        EditorStyles.boldLabel.normal.textColor = Color.cyan;
-        GUILayout.Label("Interact Object", EditorStyles.boldLabel);
         GameObject objectParent = GameObject.Find("Object_Parent");
         if (!objectParent)
         {
@@ -173,14 +193,84 @@ public class BlockEditorWindow : EditorWindow
             objectParent.name = "Object_Parent";
         }
 
-        
-        GUILayout.Label("Table");
-        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
+        EditorStyles.boldLabel.normal.textColor = Color.cyan;
+        GUILayout.Label("Ingredient Box", EditorStyles.boldLabel);
+
+        GUILayout.Label("Bun Box");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[3])))
         {
-            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[0]);
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[3]);
             EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
         }
 
+        GUILayout.Label("Lettuce Box");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[4])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[4]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+
+        GUILayout.Label("Tomato Box");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[5])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[5]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+
+        GUILayout.Label("Meat Box");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[6])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[6]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+
+
+
+        GUILayout.Label("Interact Object", EditorStyles.boldLabel);
+
+        //GUILayout.Label("Table");
+        //if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[0])))
+        //{
+        //    GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[0]);
+        //    EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        //}
+
+        GUILayout.Label("CutTable");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[7])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[7]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+        GUILayout.Label("FireTable");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[8])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[8]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+        GUILayout.Label("PlateTable");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[9])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[9]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+        GUILayout.Label("ServiceDesk");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[10])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[10]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+        GUILayout.Label("Sink");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[11])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[11]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+        GUILayout.Label("Table");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[12])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[12]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
 
         GUILayout.Label("Other", EditorStyles.boldLabel);
 
