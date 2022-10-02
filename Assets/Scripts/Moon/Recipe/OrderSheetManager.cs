@@ -13,8 +13,8 @@ public class OrderSheetManager : MonoBehaviourPun
     public GameObject orderSheetPanel;
     int orderCount = 0;
     public UI_ReadyStart readyStart;
-    bool isDeleteTime;
-
+    public bool isDeleteTime;
+    float time;
     public static OrderSheetManager instance;
     
     private void Awake()
@@ -24,14 +24,20 @@ public class OrderSheetManager : MonoBehaviourPun
 
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
+        /*if (PhotonNetwork.IsMasterClient)
         {
             InvokeRepeating("CreateOrderSheet", 2f, 2f);
-        }
+        }*/
     }
 
     void Update()
     {
+        time += Time.deltaTime;
+        if (time > 2.1f && !isDeleteTime && PhotonNetwork.IsMasterClient)
+        {
+            CreateOrderSheet();
+            time = 0;
+        }
         /*if (readyStart.IsReady && !isOnce)
         {
             isOnce = true;
@@ -58,8 +64,7 @@ public class OrderSheetManager : MonoBehaviourPun
     [PunRPC]
     void RpcMoveOrderSheet(int random)
     {
-        if (!isDeleteTime)
-            StartCoroutine(IeMoveOrderSheet(random));
+        StartCoroutine(IeMoveOrderSheet(random));
     }
 
     //주문서 이동
@@ -99,9 +104,15 @@ public class OrderSheetManager : MonoBehaviourPun
 
     public void DeleteOrderSheet(GameObject orderSheet)
     {
-        isDeleteTime = true;
         int orderSheetNum = orderSheetList.IndexOf(orderSheet);
-        orderSheetList.Remove(orderSheet);
+        Destroy(orderSheet);
+        orderSheetList.RemoveAt(orderSheetNum);
+        photonView.RPC("RpcDeleteOrderSheet", RpcTarget.All, orderSheetNum);
+    }
+
+    [PunRPC]
+    void RpcDeleteOrderSheet(int orderSheetNum)
+    {
         for (int i = orderSheetNum; i < orderSheetList.Count; i++)
         {
             float xTargetPos = 0; //여기까지 이동해야 함
@@ -113,9 +124,7 @@ public class OrderSheetManager : MonoBehaviourPun
             }
             orderSheetList[i].GetComponent<RectTransform>().localPosition = new Vector3(xTargetPos, 0, 0);
         }
-        isDeleteTime = false;
     }
-
     public IEnumerator IeDeleteOrderSheet(GameObject orderSheet)
     {
         int orderSheetNum = orderSheetList.IndexOf(orderSheet);

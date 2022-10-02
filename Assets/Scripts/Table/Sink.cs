@@ -46,7 +46,7 @@ public class Sink : MonoBehaviourPun
     [PunRPC]
     void RpcPlate(int i)
     {
-        dirtyPlate = i;
+        dirtyPlate += i;
     }
 
     public void CheckPlayerExist(bool exist)

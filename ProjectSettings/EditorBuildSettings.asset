@@ -15,12 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MiddleScene.unity
     guid: b154a3ca9edb97049b33bc43ca416670
   - enabled: 1
+    path: Assets/Scenes/ErrorTest.unity
+    guid: 78eeb9bf6a947f94daa23ed6f6c14eb3
+  - enabled: 1
     path: Assets/Scenes/Stage1.unity
     guid: 9e9bc962a51e21d4084eb2708cc6df05
   - enabled: 1
     path: Assets/Scenes/H_TestScene.unity
     guid: 3a6c013032d4f93459e8e6b80e505442
-  - enabled: 1
-    path: Assets/Scenes/ErrorTest.unity
-    guid: 78eeb9bf6a947f94daa23ed6f6c14eb3
   m_configObjects: {}

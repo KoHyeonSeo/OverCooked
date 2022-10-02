@@ -19,7 +19,7 @@ public class OrderSheet : MonoBehaviourPun
     public GameObject recipeContentGroup; //재료 이미지 그룹
     public Image timeGauge;
     public float gauge = 100;
-    int ingredientTime = 2;
+    int ingredientTime = 6;
     public Image wrongImage;
 
     void Start()
@@ -61,6 +61,5 @@ public class OrderSheet : MonoBehaviourPun
     public void DestroyOrder()
     {
         OrderSheetManager.instance.DeleteOrderSheet(gameObject);
-        //OrderSheetManager.instance.StartCoroutine("IeDeleteOrderSheet", gameObject);
     }
 }

@@ -6,44 +6,66 @@ using Photon.Pun;
 public class SinkPlateTable : MonoBehaviourPun
 {
     public int cleanPlate;
+    public GameObject plate;
     public GameObject PlatePrefab;
     public List<GameObject> plateList = new List<GameObject>();
 
     public void CreateCleanPlates()
     {
-        photonView.RPC("RpcCreateCleanPlates", RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            plate = PhotonNetwork.Instantiate(PlatePrefab.name, transform.position, Quaternion.identity);
+            StartCoroutine(IeCreateCleanPlates(plate.GetComponent<PhotonView>().ViewID));
+        }
+
+    }
+
+    IEnumerator IeCreateCleanPlates(int id)
+    {
+        yield return new WaitForSeconds(0.1f);
+        photonView.RPC("RpcCreateCleanPlates", RpcTarget.All, id);
     }
 
     [PunRPC]
-    public void RpcCreateCleanPlates()
+    public void RpcCreateCleanPlates(int id)
     {
-        for (int i = 0; i < plateList.Count; i++)
+        for (int i = 0; i < ObjectManager.instance.photonObjectIdList.Count; i++)
         {
-            Destroy(plateList[i]);
-            plateList.RemoveAt(i);
-        }
-        for (int i = 0; i < cleanPlate; i++)
-        {
-            GameObject plate = Instantiate(PlatePrefab);
-            
-            plate.transform.parent = transform;
-            plate.transform.localPosition = new Vector3(0, 0.2f * (i + 1), 0);
-            plateList.Add(plate);
+            if (!ObjectManager.instance.photonObjectIdList[i])
+            {
+                ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                i--;
+                continue;
+            }
+            if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
+            {
+                plate = ObjectManager.instance.photonObjectIdList[i];
+                GetComponent<M_Table>().getObject = plate;
+                plate.transform.parent = transform;
+                plate.transform.localPosition = new Vector3(0, 0.2f * (plateList.Count + 1), 0);
+                plateList.Add(plate);
+            }
         }
     }
 
-    public GameObject plate;
-    public void CreatePlate(int id)
+    public void RemovePlate()
     {
-        photonView.RPC("RpcCreatePlate", RpcTarget.All, id);
+        //plate = null;
+        photonView.RPC("RpcRemovePlate", RpcTarget.All);
     }
 
     [PunRPC]
-    public void RpcCreatePlate(int id)
+    void RpcRemovePlate()
     {
         cleanPlate--;
-        plate = Instantiate(PlatePrefab);
-        //plate = PhotonNetwork.Instantiate(PlatePrefab.name, transform.position, Quaternion.identity);
-        CreateCleanPlates();
+        plateList.RemoveAt(cleanPlate);
+        if (cleanPlate > 0)
+        {
+            GetComponent<M_Table>().getObject = plateList[cleanPlate - 1];
+        }
+        else
+        {
+            GetComponent<M_Table>().getObject = null;
+        }
     }
 }

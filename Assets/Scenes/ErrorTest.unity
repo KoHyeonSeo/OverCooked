@@ -39801,9 +39801,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cleanPlate: 0
+  plate: {fileID: 0}
   PlatePrefab: {fileID: 9194903285352644884, guid: b6cc4115e01e53f40bab9b229c88cec4, type: 3}
   plateList: []
-  plate: {fileID: 0}
 --- !u!114 &9217593784884340847
 MonoBehaviour:
   m_ObjectHideFlags: 0

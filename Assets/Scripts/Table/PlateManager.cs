@@ -38,6 +38,7 @@ public class PlateManager : MonoBehaviourPun
             if (!ObjectManager.instance.photonObjectIdList[i])
             {
                 ObjectManager.instance.photonObjectIdList.RemoveAt(i);
+                i--;
                 continue;
             }
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
@@ -67,6 +68,12 @@ public class PlateManager : MonoBehaviourPun
     }
 
     public void RemovePlateList()
+    {
+        photonView.RPC("RpcRemovePlateList", RpcTarget.All);
+    }    
+
+    [PunRPC]
+    public void RpcRemovePlateList()
     {
         plateList.Clear();
         plateCount = 0;

@@ -57,25 +57,25 @@ MonoBehaviour:
   - RPC_Save
   - RPC_SelectCount
   - RPC_Throw
+  - RpcCheckOrderSheet
   - RpcCheckPlayerExist
+  - RpcCookingToolNull
+  - RpcCreateCleanPlates
+  - RpcDeleteOrderSheet
+  - RpcDeleteSetObject
+  - RpcDestroyPlate
+  - RpcDestroyThisPlate
+  - RpcDirtyPlateSetting
   - RpcGetIngredient
   - RpcMoveOrderSheet
+  - RpcPlate
+  - RpcRemovePlate
+  - RpcRemovePlateList
+  - RpcSetCookingTool
   - RpcSetObject
   - RpcSetTableObject
   - RpcToolSetting
-  - RpcCheckOrderSheet
-  - AddDirtyPlate
-  - RpcAddDirtyPlate
-  - RpcCookingToolNull
-  - RpcDestroyPlate
-  - RpcDirtyPlateSetting
-  - RpcSetCookingTool
-  - RpcPlate
   - RpsResetDirtyPlateCount
-  - RpcDestroyThisPlate
-  - RpcCreateCleanPlates
-  - RpcSetCleanPlate
-  - RpcCreatePlate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

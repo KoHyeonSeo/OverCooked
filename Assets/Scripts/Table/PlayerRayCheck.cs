@@ -37,7 +37,6 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
         Vector3 playerPos = transform.position;
         playerPos.y = playerPos.y * 2 / 3 ;
         ray = new Ray(playerPos, transform.forward);
-        Debug.DrawRay(playerPos, transform.forward, Color.red, 1);
         if (Physics.Raycast(ray, out hit, 1))
         {
            interactiveObject = hit.transform.gameObject;
@@ -51,7 +50,6 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
         if (interactiveObject && interactiveObject.tag == "Food")
         {
             ray = new Ray(interactiveObject.transform.position, transform.forward);
-            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
             RaycastHit hit2;
             if (Physics.Raycast(ray, out hit2, 1))
             {
@@ -63,7 +61,6 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
         else if (interactiveObject && interactiveObject.GetComponent<FryingPan>() && getObject)
         {
             ray = new Ray(interactiveObject.transform.position, transform.forward);
-            Debug.DrawRay(interactiveObject.transform.position, transform.forward, Color.red, 1);
             RaycastHit hit2;
             if (Physics.Raycast(ray, out hit2, 1))
             {
@@ -209,25 +206,17 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (interactiveObject.GetComponent<SinkPlateTable>().cleanPlate > 0)
             {
-                //HavingSettingObject(ObjectManager.instance.photonObjectIdList.FindIndex()
-                interactiveObject.GetComponent<SinkPlateTable>().CreatePlate(photonView.ViewID);
-                //StartCoroutine(SetCleanPlate());
-                //SetCleanPlate();
+                HavingSettingObject(interactiveObject.GetComponent<M_Table>().getObject);
+                interactiveObject.GetComponent<SinkPlateTable>().RemovePlate();
             }
         }
     }
 
    IEnumerator SetCleanPlate()
     {
-        yield return new WaitForSeconds(0.3f);
-        photonView.RPC("RpcSetCleanPlate", RpcTarget.All);
-        
-    }
-
-    [PunRPC]
-    void RpcSetCleanPlate()
-    {
+        yield return new WaitForSeconds(0.1f);
         HavingSettingObject(interactiveObject.GetComponent<SinkPlateTable>().plate);
+        interactiveObject.GetComponent<SinkPlateTable>().RemovePlate();
     }
 
     void InteractiveServiceDesk()
@@ -275,17 +264,24 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
             if (interactiveObject.GetComponent<M_Table>().getObject)
             {
                 HavingSettingObject(interactiveObject.GetComponent<M_Table>().getObject);
-                interactiveObject.GetComponent<M_Table>().getObject = null;
+                interactiveObject.GetComponent<M_Table>().DeleteSetObject();
+                //interactiveObject.GetComponent<M_Table>().getObject = null;
                 //더러워진 접시들기
                 if (interactiveObject.GetComponent<PlateManager>())
                 {
                     dirtyPlate = PlateManager.instance.plateCount;
-                    PlateManager.instance.plateList.Clear();
+                    PlateManager.instance.RemovePlateList();
                 }
                     
             }
         }
     }
+
+   /* [PunRPC]
+    void RpcTableNull()
+    {
+        interactiveObject.GetComponent<M_Table>().getObject = null;
+    }*/
 
     //재료 상자
     [PunRPC]
@@ -385,7 +381,7 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
             if (!ObjectManager.instance.photonObjectIdList[i])
             {
                 ObjectManager.instance.photonObjectIdList.RemoveAt(i);
-                continue;
+                i--;
             }
         }
         int id = obj.GetComponent<PhotonView>().ViewID;
