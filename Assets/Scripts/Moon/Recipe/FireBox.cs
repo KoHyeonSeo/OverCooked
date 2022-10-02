@@ -18,7 +18,7 @@ public class FireBox : MonoBehaviourPun
 
     void Start()
     {
-        objectPosition = new Vector3(0, 1, 0);
+        objectPosition = new Vector3(0, 0.5f, 0);
         if (PhotonNetwork.IsMasterClient && cookingTool)
         {
             tool = PhotonNetwork.Instantiate(cookingTool.name, transform.position, Quaternion.identity);
