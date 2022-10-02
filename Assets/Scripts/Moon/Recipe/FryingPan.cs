@@ -10,7 +10,7 @@ public class FryingPan : MonoBehaviourPun
     Vector3 objectPosition = new Vector3(0, -0.2f, 0);
 
     //±Á±â
-    float bakeTime = 3; //10
+    float bakeTime = 10; //10
     public float time = 0;
     public GameObject bakeGauge;
     public Image bakeGaugeImage;
@@ -37,6 +37,10 @@ public class FryingPan : MonoBehaviourPun
             //photonView.RPC("Bake", RpcTarget.All);
             Bake();
         }
+        else
+            bakeGauge.SetActive(false);
+        if (!getObject)
+            bakeGauge.SetActive(false);
     }
 
     void Bake()
@@ -54,6 +58,7 @@ public class FryingPan : MonoBehaviourPun
             getObject.GetComponent<IngredientDisplay>().isBurn = true;
             bakeGauge.SetActive(false);
             burnWarning.SetActive(false);
+            time = 0;
         }
         else if (time > bakeTime && !getObject.GetComponent<IngredientDisplay>().isBake)
         {

@@ -33,7 +33,7 @@ public class OrderSheetManager : MonoBehaviourPun
     void Update()
     {
         time += Time.deltaTime;
-        if (readyStart.IsReady && time > 2.1f && !isDeleteTime && PhotonNetwork.IsMasterClient)
+        if (readyStart.IsReady && time > 10.1f && !isDeleteTime && PhotonNetwork.IsMasterClient)
         {
             CreateOrderSheet();
             time = 0;
@@ -128,7 +128,7 @@ public class OrderSheetManager : MonoBehaviourPun
     public IEnumerator IeDeleteOrderSheet(GameObject orderSheet)
     {
         int orderSheetNum = orderSheetList.IndexOf(orderSheet);
-        orderSheetList.Remove(orderSheet);
+        orderSheetList.RemoveAt(orderSheetNum);
         for (int i = orderSheetNum; i < orderSheetList.Count; i++)
         {
             float xTargetPos = 0; //여기까지 이동해야 함

@@ -14,6 +14,7 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
 
     private void Start()
     {
+        ObjectManager.instance.SetPhotonObject(gameObject);
         if (GameManager.instance.Player)
             player = GameManager.instance.Player;
     }

@@ -19,7 +19,7 @@ public class OrderSheet : MonoBehaviourPun
     public GameObject recipeContentGroup; //재료 이미지 그룹
     public Image timeGauge;
     public float gauge = 100;
-    int ingredientTime = 6;
+    int ingredientTime = 30;
     public Image wrongImage;
 
     void Start()

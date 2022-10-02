@@ -20,7 +20,7 @@ public class M_Table : MonoBehaviourPun
     {
         startColor = GetComponent<Renderer>().material.color;
         endColor = new Color(startColor.r + 0.4f, startColor.g + 0.4f, startColor.b + 0.4f);
-        objectPosition = new Vector3(0, 1, 0);
+        objectPosition = new Vector3(0.5f, 1, 0.5f);
     }
 
     void Update()

@@ -53,7 +53,7 @@ public class PlateManager : MonoBehaviourPun
         {
             GetComponent<M_Table>().SetObject(plate.GetComponent<PhotonView>().ViewID);
             plate.transform.parent = transform;
-            plate.transform.localPosition = new Vector3(0, 0.2f, 0);
+            plate.transform.localPosition = new Vector3(0.5f, 0.7f, 0.5f);
             plateList.Add(plate);
         }
         else
