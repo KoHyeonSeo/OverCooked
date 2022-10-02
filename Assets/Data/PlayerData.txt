@@ -6,7 +6,7 @@
         },
         {
             "myViewId": 2001,
-            "name": "Mora_Player "
+            "name": "Shark_Player"
         }
     ]
 }

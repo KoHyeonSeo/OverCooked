@@ -29,7 +29,7 @@ public class StageManager : MonoBehaviourPun
 
     void Start()
     {
-        PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(5f, 2f, 6f), Quaternion.identity);
+        //PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(5f, 2f, 6f), Quaternion.identity);
         transform.GetChild(0).gameObject.SetActive(false);
         timeOver.SetActive(false);
     }
