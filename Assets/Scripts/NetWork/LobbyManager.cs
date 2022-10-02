@@ -80,7 +80,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if(Vector3.Distance(nextUI.transform.localScale, new Vector3(40, 40, 40)) < 35f)
             {
                 isStartUI = false;
-                OnNextStage();
+                if(PhotonNetwork.IsMasterClient)
+                    OnNextStage();
             }
         }
     }
