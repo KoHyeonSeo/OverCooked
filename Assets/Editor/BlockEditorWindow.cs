@@ -38,6 +38,7 @@ public class BlockEditorWindow : EditorWindow
         Object resource_Sink = Resources.Load<GameObject>("Editor/Sink");
         Object resource_Table = Resources.Load<GameObject>("Editor/Table");
         Object resource_TomatoBox = Resources.Load<GameObject>("Editor/TomatoBox");
+        Object resource_Table2 = Resources.Load<GameObject>("Editor/Table2");
 
         ObjectList.Add(resource_table);
         ObjectList.Add(resource_trash);
@@ -54,6 +55,7 @@ public class BlockEditorWindow : EditorWindow
         ObjectList.Add(resource_ServiceDesk);
         ObjectList.Add(resource_Sink);
         ObjectList.Add(resource_Table);
+        ObjectList.Add(resource_Table2);
 
     }
     private void OnGUI()
@@ -267,6 +269,13 @@ public class BlockEditorWindow : EditorWindow
         }
         GUILayout.Label("Table");
         if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[12])))
+        {
+            GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[12]);
+            EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
+        }
+
+        GUILayout.Label("Table2");
+        if (GUILayout.Button(AssetPreview.GetMiniThumbnail(ObjectList[13])))
         {
             GameObject instantiate = (GameObject)PrefabUtility.InstantiatePrefab(ObjectList[12]);
             EditUtility.ObjectSetting(map.gameObject, instantiate, Vector3.zero, objectParent.transform);
