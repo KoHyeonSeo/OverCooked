@@ -75,4 +75,15 @@ public class M_Table : MonoBehaviourPun
             getObject.transform.localPosition = objectPosition;
         }
     }
+
+    public void DeleteSetObject()
+    {
+        photonView.RPC("RpcDeleteSetObject", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RpcDeleteSetObject()
+    {
+        getObject = null;
+    }
 }
