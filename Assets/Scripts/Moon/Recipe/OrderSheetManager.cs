@@ -33,7 +33,7 @@ public class OrderSheetManager : MonoBehaviourPun
     void Update()
     {
         time += Time.deltaTime;
-        if (time > 2.1f && !isDeleteTime && PhotonNetwork.IsMasterClient)
+        if (readyStart.IsReady && time > 2.1f && !isDeleteTime && PhotonNetwork.IsMasterClient)
         {
             CreateOrderSheet();
             time = 0;

@@ -133,8 +133,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnNextStage()
     {
         photonView.RPC("RPC_Save", RpcTarget.All);
-        PhotonNetwork.LoadLevel("MiddleScene");
-        //PhotonNetwork.LoadLevel("Stage1");
+        //PhotonNetwork.LoadLevel("MiddleScene");
+        PhotonNetwork.LoadLevel("Stage1");
     }
     public void OnClickMiddleMap()
     {
