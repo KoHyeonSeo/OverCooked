@@ -16,7 +16,7 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
 
     void Start()
     {
-        objectPosition = new Vector3(0, 1, 0);
+        objectPosition = new Vector3(0.5f, 1, 0.5f);
         cutGaugeImage.GetComponent<Image>().fillAmount = time / cutTime;
         cutGauge.SetActive(false);
     }
