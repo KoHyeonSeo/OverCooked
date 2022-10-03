@@ -14931,6 +14931,7 @@ GameObject:
   - component: {fileID: 862639023}
   - component: {fileID: 862639025}
   - component: {fileID: 862639024}
+  - component: {fileID: 862639026}
   m_Layer: 5
   m_Name: CoinText
   m_TagString: Untagged
@@ -14979,7 +14980,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 5dd229c456e8e4e48a62ce150120834e, type: 3}
     m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
@@ -15000,6 +15001,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862639022}
   m_CullTransparentMesh: 1
+--- !u!114 &862639026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862639022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
+  m_EffectDistance: {x: 3, y: 3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &863381000
 GameObject:
   m_ObjectHideFlags: 0
@@ -15537,6 +15553,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 667006d4b93d19940b0bc6964d988311, type: 3}
+--- !u!1 &871134109 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4721140272809953921, guid: 667006d4b93d19940b0bc6964d988311, type: 3}
+  m_PrefabInstance: {fileID: 871134108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &877038228
 GameObject:
   m_ObjectHideFlags: 0
@@ -16526,7 +16547,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.7
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -37535,6 +37556,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 281172037}
     m_Modifications:
+    - target: {fileID: 996470712, guid: 10b73e2cd7c445c439dc039352aa4640, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7241950184770918550, guid: 10b73e2cd7c445c439dc039352aa4640, type: 3}
       propertyPath: m_Name
       value: Canvas_TimeOver
@@ -37623,6 +37648,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7241950185078158377, guid: 10b73e2cd7c445c439dc039352aa4640, type: 3}
+      propertyPath: removeUI.Array.data[0]
+      value: 
+      objectReference: {fileID: 871134109}
+    - target: {fileID: 7241950185078158377, guid: 10b73e2cd7c445c439dc039352aa4640, type: 3}
+      propertyPath: removeUI.Array.data[1]
+      value: 
+      objectReference: {fileID: 400069323}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10b73e2cd7c445c439dc039352aa4640, type: 3}
 --- !u!224 &2027482321 stripped
@@ -37635,6 +37668,28 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7241950185078158375, guid: 10b73e2cd7c445c439dc039352aa4640, type: 3}
   m_PrefabInstance: {fileID: 2027482320}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2027482323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027482322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 55
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &2038791091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38658,7 +38713,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 5dd229c456e8e4e48a62ce150120834e, type: 3}
     m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0

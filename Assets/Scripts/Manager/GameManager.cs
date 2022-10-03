@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviourPun
 
         //씬 전환 후 동기화 
         PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.SerializationRate = 10;
+        PhotonNetwork.SendRate = 10;
 
         DataLoad();
         StartPlayer[] FindObjects = GameObject.FindObjectsOfType<StartPlayer>();

@@ -2,11 +2,11 @@
     "data": [
         {
             "myViewId": 1001,
-            "name": "Shark_Player"
+            "name": "Box_Player"
         },
         {
             "myViewId": 2001,
-            "name": "Mora_Player "
+            "name": "Shark_Player"
         }
     ]
 }
