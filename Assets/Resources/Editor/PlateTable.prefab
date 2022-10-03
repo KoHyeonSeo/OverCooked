@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2276755423303534731}
   - component: {fileID: 2276755423303534839}
   - component: {fileID: 2276755423303534834}
-  - component: {fileID: 2276755423303534835}
   - component: {fileID: 2276755423303534832}
   m_Layer: 7
   m_Name: PlateTable
@@ -131,21 +130,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getObject: {fileID: 0}
---- !u!114 &2276755423303534835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2276755423303534730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48c4bbc5b3995344d8427764b34878e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plateList: []
-  platePrefab: {fileID: 9194903285352644884, guid: b6cc4115e01e53f40bab9b229c88cec4, type: 3}
-  plateCount: 0
 --- !u!114 &2276755423303534832
 MonoBehaviour:
   m_ObjectHideFlags: 0
