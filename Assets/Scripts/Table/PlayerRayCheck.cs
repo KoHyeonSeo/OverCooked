@@ -267,6 +267,7 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
                 else if (getObject.GetComponent<FryingPan>() && getObject.GetComponent<FryingPan>().getObject)
                 {
                     interactiveObject.GetComponent<M_Table>().getObject.GetComponent<Plate>().GetIngredient(getObject.GetComponent<FryingPan>().getObject.GetComponent<PhotonView>().ViewID);
+                    getObject.GetComponent<FryingPan>().GetObjectNull();
                 }
             }
             else
