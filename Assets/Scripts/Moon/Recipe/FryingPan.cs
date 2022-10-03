@@ -40,7 +40,12 @@ public class FryingPan : MonoBehaviourPun
         else
             bakeGauge.SetActive(false);
         if (!getObject)
-            bakeGauge.SetActive(false);
+        {
+            burnWarning.SetActive(false);
+            time = 0;
+        }
+        if (transform.parent && !transform.parent.GetComponent<FireBox>())
+            burnWarning.SetActive(false);
     }
 
     void Bake()
@@ -49,7 +54,7 @@ public class FryingPan : MonoBehaviourPun
         if (getObject.GetComponent<IngredientDisplay>().isBurn)
             return;
         time += Time.deltaTime;
-        if (!bakeGauge.activeSelf && !getObject.GetComponent<IngredientDisplay>().isBake)
+        if (!bakeGauge.activeSelf && !getObject.GetComponent<IngredientDisplay>().isBake && getObject)
             bakeGauge.SetActive(true);
         bakeGaugeImage.GetComponent<Image>().fillAmount = time / bakeTime;
         if (time > fireTime)
@@ -117,11 +122,24 @@ public class FryingPan : MonoBehaviourPun
         {
             for (int j = 0; j < 2; j++)
             {
+                if (!getObject)
+                    break;
                 burnWarning.SetActive(false);
                 yield return new WaitForSeconds(Mathf.Lerp(0.4f, 0f, i / 10f));
                 burnWarning.SetActive(true);
                 yield return new WaitForSeconds(Mathf.Lerp(0.4f, 0f, i / 10f));
             }
         }
+    }
+
+    public void GetObjectNull()
+    {
+        photonView.RPC("RpcGetObjectNull", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RpcGetObjectNull()
+    {
+        getObject = null;
     }
 }
