@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5271623944109213524}
   - component: {fileID: -4056660076396689837}
   - component: {fileID: 6191807381039574208}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Meat_Ingredient
   m_TagString: Food
   m_Icon: {fileID: 0}

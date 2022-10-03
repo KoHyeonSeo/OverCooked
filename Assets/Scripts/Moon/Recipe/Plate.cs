@@ -71,6 +71,7 @@ public class Plate : MonoBehaviourPun
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
                 ingredient = ObjectManager.instance.photonObjectIdList[i];
+                ingredient.GetComponent<Rigidbody>().isKinematic = true;
             }
         }
         if (isdirty || ingredient.GetComponent<IngredientDisplay>().isBurn)

@@ -20,7 +20,7 @@ public class PlateManager : MonoBehaviourPun
     {
         if (!PhotonNetwork.IsMasterClient)
             return;
-        plate = PhotonNetwork.Instantiate(platePrefab.name, transform.position, Quaternion.identity);
+        plate = PhotonNetwork.Instantiate(platePrefab.name, new Vector3(0, 20, 0), Quaternion.identity);
         StartCoroutine(DirtyPlateSetting(plate));
     }
 
