@@ -30,27 +30,27 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
 
         if (photonView.IsMine)
         {
-            if (player.transform.childCount> 1
-                && player.transform.GetChild(1).name==transform.name
+            if (player.transform.childCount > 1
+                && player.transform.GetChild(1).name == transform.name
                 )
             {
                 if (player.GetComponent<PlayerInput>().FireExtinguisher)
                 {
                     photonView.RPC("FireParticle", RpcTarget.All, true);
-                    photonView.RPC("FireSuppression", RpcTarget.All, 
-                        new Vector3(transform.position.x, transform.position.y, transform.position.z), 
+                    photonView.RPC("FireSuppression", RpcTarget.All,
+                        new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z),
                         transform.forward, true);
                 }
                 else
                 {
                     photonView.RPC("FireSuppression", RpcTarget.All,
-                        new Vector3(transform.position.x, transform.position.y, transform.position.z),
+                        new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z),
                         transform.forward, false);
                     photonView.RPC("FireParticle", RpcTarget.All, false);
                 }
             }
         }
-        else if(transform.parent == null)
+        else if (transform.parent == null)
         {
             transform.position = Vector3.Lerp(transform.position, recievePos, Time.deltaTime * 7);
             transform.rotation = Quaternion.Lerp(transform.rotation, recieveRot, Time.deltaTime * 7);
@@ -64,10 +64,11 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
         {
             Ray ray = new Ray(origin, dir);
             Debug.DrawRay(ray.origin, ray.direction * 5, Color.magenta);
-
+            LayerMask layer = 1 << LayerMask.NameToLayer("FireExtinguisher") & LayerMask.NameToLayer("grab");
             //소화기 쏘는 부분이 닿았니
-            if (Physics.Raycast(ray, out hit, 5))
+            if (Physics.Raycast(ray, out hit, 5, ~layer))
             {
+                Debug.Log(hit.transform);
                 if (hit.transform.name.Contains("FireTable"))
                 {
                     if (hit.transform.GetComponent<FireBox>().isFire)
