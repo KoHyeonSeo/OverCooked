@@ -8020,6 +8020,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2078354533}
     - target: {fileID: 7241950185078158377, guid: 10b73e2cd7c445c439dc039352aa4640, type: 3}
+      propertyPath: currentMap
+      value: Stage2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7241950185078158377, guid: 10b73e2cd7c445c439dc039352aa4640, type: 3}
       propertyPath: removeUI.Array.data[0]
       value: 
       objectReference: {fileID: 1522137786}
