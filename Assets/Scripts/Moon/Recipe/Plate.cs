@@ -75,7 +75,7 @@ public class Plate : MonoBehaviourPun
         }
         if (isdirty || ingredient.GetComponent<IngredientDisplay>().isBurn)
             return;
-        if (count > 3)
+        if (count > 4)
             return;
         if (CheckIngredientReady(ingredient.GetComponent<IngredientDisplay>()))
         {
@@ -149,5 +149,23 @@ public class Plate : MonoBehaviourPun
     void RpcDestroyThisPlate()
     {
         Destroy(gameObject);
+    }
+
+    public void DestroyIngredient()
+    {
+        ingredientList.RemoveAll(x => true);
+        for (int i = 0; i < ingredientModels.Count; i++)
+        {
+            Destroy(ingredientModels[i]);
+            ingredientModels.RemoveAt(i);
+        }
+        if (transform.childCount > 3)
+        {
+            Destroy(transform.GetChild(3).gameObject);
+        }
+        for (int i = 0; i < ingredientImages.Length; i++)
+        {
+            ingredientImages[i].SetActive(false);
+        }
     }
 }
