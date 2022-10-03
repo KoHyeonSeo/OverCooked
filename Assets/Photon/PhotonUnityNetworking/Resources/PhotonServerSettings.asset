@@ -82,6 +82,7 @@ MonoBehaviour:
   - RpcRemovePlate
   - RpcRemovePlateList
   - RpcCheckOrder
+  - FireParticle
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
