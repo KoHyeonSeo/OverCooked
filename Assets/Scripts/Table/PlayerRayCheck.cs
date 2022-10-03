@@ -177,6 +177,29 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (interactiveObject.GetComponent<Door>())
                     InteractiveDoor();
+                else if (interactiveObject.GetComponent<M_Trashcan>())
+                    InteractiveTrashcan();
+            }
+        }
+    }
+
+    void InteractiveTrashcan()
+    {
+        if (getObject)
+        {
+            if (getObject.GetComponent<Plate>())
+            {
+                print("재료삭제");
+                for(int i = 0; i < 5; i++)
+                    getObject.GetComponent<Plate>().DestroyIngredient();
+            }
+            else if (getObject.GetComponent<IngredientDisplay>())
+            {
+                PhotonNetwork.Destroy(getObject);
+            }
+            else if (getObject.GetComponent<FryingPan>())
+            {
+                PhotonNetwork.Destroy(getObject.GetComponent<FryingPan>().getObject);
             }
         }
     }
