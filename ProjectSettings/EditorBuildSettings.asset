@@ -21,8 +21,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage1.unity
     guid: 9e9bc962a51e21d4084eb2708cc6df05
   - enabled: 1
-    path: Assets/Scenes/H_TestScene.unity
-    guid: 3a6c013032d4f93459e8e6b80e505442
+    path: Assets/Scenes/Stage2.unity
+    guid: ddc3ac0fdab942240b0db712f332a746
   - enabled: 1
     path: Assets/Scenes/Defence.unity
     guid: 767923db4492d7e40808007b93e568f2
