@@ -147,7 +147,7 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
             if (interactiveObject && interactiveObject.GetComponent<M_Table>())
             {
                 interactiveObject.GetComponent<M_Table>().StopBlink();
-                if (interactiveObject.GetComponent<IngredientBox>())
+                if(interactiveObject.GetComponent<IngredientBox>())
                     InteractiveIngredientBox();
                 else if (interactiveObject.GetComponent<CuttingTable>())
                     InteractiveCuttingTable();
@@ -173,7 +173,27 @@ public class PlayerRayCheck : MonoBehaviourPunCallbacks, IPunObservable
                 getObject.GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<PlayerInteract>().GrabbingObjectInfo = null;*/
             }
+            else if (interactiveObject)
+            {
+                if (interactiveObject.GetComponent<Door>())
+                    InteractiveDoor();
+            }
         }
+    }
+
+    void InteractiveDoor()
+    {
+        if (getObject)
+        {
+            print("들어옴");
+            if (getObject.GetComponent<Plate>())
+            {
+                print("들어오오오오오");
+                interactiveObject.GetComponent<Door>().CheckOrder(getObject.GetComponent<PhotonView>().ViewID);
+            }
+
+        }
+
     }
 
     void InteractiveSink()

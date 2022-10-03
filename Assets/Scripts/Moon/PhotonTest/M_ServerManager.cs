@@ -42,6 +42,6 @@ public class M_ServerManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         serverPanel.SetActive(false);
-            PhotonNetwork.LoadLevel("ErrorTest");
+            PhotonNetwork.LoadLevel("Defence");
     }
 }
