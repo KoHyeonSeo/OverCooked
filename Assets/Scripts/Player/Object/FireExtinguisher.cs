@@ -10,6 +10,7 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
     private RaycastHit hit;
     private Vector3 recievePos;
     private Quaternion recieveRot;
+    private bool isFire = false;
 
     private void Start()
     {
@@ -21,6 +22,12 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
     {
         if (!player)
             player = GameManager.instance.Player;
+
+        if (isFire)
+        {
+            hit.transform.GetComponent<FireBox>().FireSuppression(extinguisher * Time.deltaTime);
+        }
+
         if (photonView.IsMine)
         {
             if (player.transform.childCount> 1
@@ -29,26 +36,16 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
             {
                 if (player.GetComponent<PlayerInput>().FireExtinguisher)
                 {
-                    Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.forward);
-                    Debug.DrawRay(ray.origin, ray.direction * 5, Color.magenta);
-
                     photonView.RPC("FireParticle", RpcTarget.All, true);
-
-                    //소화기 쏘는 부분이 닿았니
-                    if (Physics.Raycast(ray, out hit, 5))
-                    {
-                        if (hit.transform.name.Contains("FireTable"))
-                        {
-                            if (hit.transform.GetComponent<FireBox>().isFire)
-                            {
-                                //hit.transform.GetComponent<FireBox>().FireSuppression(extinguisher * Time.deltaTime);
-                                photonView.RPC("FireSuppression", RpcTarget.All, (extinguisher * Time.deltaTime));
-                            }
-                        }
-                    }
+                    photonView.RPC("FireSuppression", RpcTarget.All, 
+                        new Vector3(transform.position.x, transform.position.y, transform.position.z), 
+                        transform.forward, true);
                 }
                 else
                 {
+                    photonView.RPC("FireSuppression", RpcTarget.All,
+                        new Vector3(transform.position.x, transform.position.y, transform.position.z),
+                        transform.forward, false);
                     photonView.RPC("FireParticle", RpcTarget.All, false);
                 }
             }
@@ -61,9 +58,29 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
 
     }
     [PunRPC]
-    public void FireSuppression(float ex)
+    public void FireSuppression(Vector3 origin, Vector3 dir, bool push)
     {
-        hit.transform.GetComponent<FireBox>().FireSuppression(ex);
+        if (push)
+        {
+            Ray ray = new Ray(origin, dir);
+            Debug.DrawRay(ray.origin, ray.direction * 5, Color.magenta);
+
+            //소화기 쏘는 부분이 닿았니
+            if (Physics.Raycast(ray, out hit, 5))
+            {
+                if (hit.transform.name.Contains("FireTable"))
+                {
+                    if (hit.transform.GetComponent<FireBox>().isFire)
+                    {
+                        isFire = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            isFire = false;
+        }
     }
     [PunRPC]
     public void FireParticle(bool isFire)
