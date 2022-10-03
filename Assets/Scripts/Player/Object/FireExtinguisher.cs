@@ -11,8 +11,6 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
     private Vector3 recievePos;
     private Quaternion recieveRot;
 
-    private bool isFireParticle = false;
-
     private void Start()
     {
         ObjectManager.instance.SetPhotonObject(gameObject);
@@ -32,11 +30,11 @@ public class FireExtinguisher : MonoBehaviourPun, IPunObservable
                 if (player.GetComponent<PlayerInput>().FireExtinguisher)
                 {
                     Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.forward);
+                    Debug.DrawRay(ray.origin, ray.direction * 5, Color.magenta);
 
                     photonView.RPC("FireParticle", RpcTarget.All, true);
 
                     //소화기 쏘는 부분이 닿았니
-                    Debug.DrawRay(ray.origin, ray.direction * 5, Color.magenta);
                     if (Physics.Raycast(ray, out hit, 5))
                     {
                         if (hit.transform.name.Contains("FireTable"))
