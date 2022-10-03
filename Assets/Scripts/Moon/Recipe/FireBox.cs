@@ -15,9 +15,11 @@ public class FireBox : MonoBehaviourPun
     public GameObject fireGaugeCanvas;
     public Image fireGaugeImage;
     GameObject tool;
+    AudioSource audioSoure;
 
     void Start()
     {
+        audioSoure = GetComponent<AudioSource>();
         objectPosition = new Vector3(0.5f, 1f, 0.5f);
         if (PhotonNetwork.IsMasterClient && cookingTool)
         {
@@ -69,6 +71,14 @@ public class FireBox : MonoBehaviourPun
         {
             fireGaugeImage.GetComponent<Image>().fillAmount = fireGauge / 100;
             return;
+        }
+        if (!audioSoure.isPlaying && cookingTool && cookingTool.GetComponent<FryingPan>().getObject)
+        {
+            audioSoure.Play();
+        }
+        else if (audioSoure.isPlaying && !cookingTool)
+        {
+            audioSoure.Stop();
         }
     }
 

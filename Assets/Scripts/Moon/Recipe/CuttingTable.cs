@@ -13,9 +13,10 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
     public bool isPlayerExist; //플레이어가 존재 하는지
     public GameObject cutGauge; //얼마나 잘렸는지
     public Image cutGaugeImage; //얼마나 잘렸는지 이미지로 표현
-
+    AudioSource audioSource;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         objectPosition = new Vector3(0.5f, 1, 0.5f);
         cutGaugeImage.GetComponent<Image>().fillAmount = time / cutTime;
         cutGauge.SetActive(false);
@@ -23,6 +24,8 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
 
     void Update()
     {
+        if (!isPlayerExist && audioSource.isPlaying)
+            audioSource.Stop();
         //도마위에 올라온 오브젝트가 음식이면서 자르지 않은 상태라면 시간이 흐름
         if (cutTableObject && cutTableObject.GetComponent<IngredientDisplay>())
         {
@@ -30,6 +33,8 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
             {
                 if (isPlayerExist)
                 {
+                    if (!audioSource.isPlaying)
+                        audioSource.Play();
                     cutGauge.SetActive(true);
                     time += Time.deltaTime;
                     cutGaugeImage.GetComponent<Image>().fillAmount = time / cutTime;
@@ -46,6 +51,7 @@ public class CuttingTable : MonoBehaviourPun, IPunObservable
     [PunRPC]
     void ChangeStateCut()
     {
+        audioSource.Stop();
         cutTableObject.GetComponent<IngredientDisplay>().isCut = true;
         cutTableObject.GetComponent<IngredientDisplay>().CookLevelUp(); 
         time = 0;
