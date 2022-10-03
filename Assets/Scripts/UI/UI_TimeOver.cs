@@ -66,34 +66,32 @@ public class UI_TimeOver : MonoBehaviourPunCallbacks
             }
             if (curCoin < 20)
             {
-                myScore.text = "Score: " + curCoin.ToString();
+                myScore.text = "Score: " + curCoin.ToString() + " \n평가: 0별 에반데";
             }
             else if(curCoin >= 20 && curCoin < 40)
             {
-                ScoreBoard.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-                myScore.text = "Score: " + curCoin.ToString();
+                myScore.text = "Score: " + curCoin.ToString() + "\n평가: (2별을 받은 현서가 비웃고 있다)";
+                if (curCoin > 1f)
+                    ScoreBoard.transform.GetChild(2).GetChild(0).GetChild(1).gameObject.SetActive(true);
             }
             else if( curCoin >= 40 && curCoin < 60)
             {
-                ScoreBoard.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-                if (curTime2 > 1.5f)
-                {
-                    ScoreBoard.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
-                    myScore.text = "Score: " + curCoin.ToString();
-                }
+                myScore.text = "Score: " + curCoin.ToString() + "\n평가: 너무 아쉽고";
+                if (curTime2 > 1f)
+                    ScoreBoard.transform.GetChild(2).GetChild(0).GetChild(1).gameObject.SetActive(true);
+                if (curTime2 > 2f)
+                    ScoreBoard.transform.GetChild(2).GetChild(1).GetChild(1).gameObject.SetActive(true);
             }
             else if (curCoin >= 60)
             {
-                ScoreBoard.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-                if (curTime2 > 1.5f)
-                {
-                    ScoreBoard.transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
-                }
-                if (curTime2 > 3)
-                {
-                    ScoreBoard.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
-                    myScore.text = "Score: " + curCoin.ToString();
-                }
+                myScore.text = "Score: " + curCoin.ToString() + "\n평가: 오 너무 잘하고~";
+                if (curTime2 > 1f )
+                    ScoreBoard.transform.GetChild(2).GetChild(0).GetChild(1).gameObject.SetActive(true);
+                if (curTime2 > 2f)
+                    ScoreBoard.transform.GetChild(2).GetChild(1).GetChild(1).gameObject.SetActive(true);
+                if (curTime2 > 3f)
+                    ScoreBoard.transform.GetChild(2).GetChild(2).GetChild(1).gameObject.SetActive(true);
+                
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ChangePlayer : MonoBehaviourPun
 {
@@ -20,6 +21,7 @@ public class ChangePlayer : MonoBehaviourPun
     }
     private void Update()
     {
+        if (SceneManager.GetActiveScene().buildIndex != 1) return;
         Show();
 
         if (!photonView.IsMine) return;
