@@ -43,6 +43,7 @@ public class SinkPlateTable : MonoBehaviourPun
                 GetComponent<M_Table>().getObject = plate;
                 plate.transform.parent = transform;
                 plate.transform.localPosition = new Vector3(0, 0.2f * (plateList.Count + 1), 0);
+                plate.layer = LayerMask.NameToLayer("Plate");
                 plateList.Add(plate);
             }
         }
