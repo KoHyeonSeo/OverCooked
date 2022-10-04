@@ -2635,11 +2635,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3009721348714866474, guid: a168ee93c5bee7048ac64ebf3a61d085, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3009721348714866478, guid: a168ee93c5bee7048ac64ebf3a61d085, type: 3}
       propertyPath: sceneViewId
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009721348714866519, guid: a168ee93c5bee7048ac64ebf3a61d085, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.57813
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009721348714866519, guid: a168ee93c5bee7048ac64ebf3a61d085, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.235
       objectReference: {fileID: 0}
     - target: {fileID: 6210416791971486105, guid: a168ee93c5bee7048ac64ebf3a61d085, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11126,8 +11134,24 @@ PrefabInstance:
       value: PlateTable
       objectReference: {fileID: 0}
     - target: {fileID: 2276755423303534731, guid: 5e5e8f4ea70e8c849b92be4007a00d07, type: 3}
+      propertyPath: m_Size.y
+      value: 0.62111765
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276755423303534731, guid: 5e5e8f4ea70e8c849b92be4007a00d07, type: 3}
+      propertyPath: m_Size.z
+      value: 0.78349304
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276755423303534731, guid: 5e5e8f4ea70e8c849b92be4007a00d07, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276755423303534731, guid: 5e5e8f4ea70e8c849b92be4007a00d07, type: 3}
+      propertyPath: m_Center.y
+      value: 0.6894412
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276755423303534731, guid: 5e5e8f4ea70e8c849b92be4007a00d07, type: 3}
+      propertyPath: m_Center.z
+      value: 0.5165372
       objectReference: {fileID: 0}
     - target: {fileID: 2276755423303534832, guid: 5e5e8f4ea70e8c849b92be4007a00d07, type: 3}
       propertyPath: sceneViewId
