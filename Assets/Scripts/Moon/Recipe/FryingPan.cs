@@ -19,8 +19,10 @@ public class FryingPan : MonoBehaviourPun
     float fireTime = 18;
     public GameObject burnWarning;
 
+    AudioSource audioSource;
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         ObjectManager.instance.SetPhotonObject(gameObject);
         bakeGauge.SetActive(false);
     }
@@ -41,11 +43,16 @@ public class FryingPan : MonoBehaviourPun
             bakeGauge.SetActive(false);
         if (!getObject)
         {
+            audioSource.Stop();
             burnWarning.SetActive(false);
             time = 0;
         }
         if (transform.parent && !transform.parent.GetComponent<FireBox>())
+        {
+            audioSource.Stop();
             burnWarning.SetActive(false);
+        }
+           
     }
 
     void Bake()
@@ -59,7 +66,7 @@ public class FryingPan : MonoBehaviourPun
         bakeGaugeImage.GetComponent<Image>().fillAmount = time / bakeTime;
         if (time > fireTime)
         {
-            transform.parent.GetComponent<FireBox>().Fire();
+                        transform.parent.GetComponent<FireBox>().Fire();
             getObject.GetComponent<IngredientDisplay>().isBurn = true;
             bakeGauge.SetActive(false);
             burnWarning.SetActive(false);
