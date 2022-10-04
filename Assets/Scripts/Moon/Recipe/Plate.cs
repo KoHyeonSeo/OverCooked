@@ -71,7 +71,7 @@ public class Plate : MonoBehaviourPun
             if (ObjectManager.instance.photonObjectIdList[i].GetComponent<PhotonView>().ViewID == id)
             {
                 ingredient = ObjectManager.instance.photonObjectIdList[i];
-                ingredient.GetComponent<Rigidbody>().isKinematic = true;
+                
             }
         }
         if (isdirty || ingredient.GetComponent<IngredientDisplay>().isBurn)
@@ -110,6 +110,13 @@ public class Plate : MonoBehaviourPun
             GameObject ingredientModel = Instantiate(ingredientList[i].model[ingredientList[i].model.Length - 1]);
             ingredientModel.transform.parent = transform;
             ingredientModel.transform.localPosition = new Vector3 (0, 0.2f * (i + 1), 0);
+            if (ingredientModel.GetComponent<Rigidbody>())
+            {
+                ingredientModel.GetComponent<Rigidbody>().isKinematic = true;
+                ingredientModel.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                ingredientModel.GetComponent<Rigidbody>().detectCollisions = false;
+            }
+
             ingredientModels.Add(ingredientModel);
         }
         CheckBread();
